@@ -1,0 +1,628 @@
+nshot_prompt,noshot_prompt,context,answer,completion_0,completion_intervention_0,correct_0,correct_intervention_0,completion_1,completion_intervention_1,correct_1,correct_intervention_1,completion_2,completion_intervention_2,correct_2,correct_intervention_2,completion_3,completion_intervention_3,correct_3,correct_intervention_3,completion_4,completion_intervention_4,correct_4,correct_intervention_4,completion_5,completion_intervention_5,correct_5,correct_intervention_5,completion_6,completion_intervention_6,correct_6,correct_intervention_6,completion_7,completion_intervention_7,correct_7,correct_intervention_7,completion_8,completion_intervention_8,correct_8,correct_intervention_8,completion_9,completion_intervention_9,correct_9,correct_intervention_9,completion_10,completion_intervention_10,correct_10,correct_intervention_10,completion_11,completion_intervention_11,correct_11,correct_intervention_11,completion_12,completion_intervention_12,correct_12,correct_intervention_12,completion_13,completion_intervention_13,correct_13,correct_intervention_13,completion_14,completion_intervention_14,correct_14,correct_intervention_14,completion_15,completion_intervention_15,correct_15,correct_intervention_15,completion_16,completion_intervention_16,correct_16,correct_intervention_16,completion_17,completion_intervention_17,correct_17,correct_intervention_17,completion_18,completion_intervention_18,correct_18,correct_intervention_18,completion_19,completion_intervention_19,correct_19,correct_intervention_19,completion_20,completion_intervention_20,correct_20,correct_intervention_20,completion_21,completion_intervention_21,correct_21,correct_intervention_21,completion_22,completion_intervention_22,correct_22,correct_intervention_22,completion_23,completion_intervention_23,correct_23,correct_intervention_23,completion_24,completion_intervention_24,correct_24,correct_intervention_24,completion_25,completion_intervention_25,correct_25,correct_intervention_25,completion_26,completion_intervention_26,correct_26,correct_intervention_26,completion_27,completion_intervention_27,correct_27,correct_intervention_27,completion_28,completion_intervention_28,correct_28,correct_intervention_28,completion_29,completion_intervention_29,correct_29,correct_intervention_29,completion_30,completion_intervention_30,correct_30,correct_intervention_30,completion_31,completion_intervention_31,correct_31,correct_intervention_31
+"Q: separate
+A: join
+
+Q: strengthen
+A: weaken
+
+Q: solid
+A: liquid
+
+Q: fast
+A: slow
+
+Q: forward
+A: backward
+
+Q: east
+A:","Q: east
+A:","Q: separate
+A: join
+
+Q: strengthen
+A: weaken
+
+Q: solid
+A: liquid
+
+Q: fast
+A: slow
+
+Q: forward
+A: backward
+
+",west,east,: : :,False,False,east,: : :,False,False,east,1.,False,False,east,I think it,False,False,east,10,False,False,east,10,False,False,east,west,False,True,east,east,False,False,east,east,False,False,east,west,False,True,east,west,False,True,east,west,False,True,east,west,False,True,east,west,False,True,east,west,False,True,east,west,False,True,east,west,False,True,east,east,False,False,east,west,False,True,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,east,False,False,east,1.,False,False,east,10,False,False
+"Q: young
+A: old
+
+Q: reward
+A: punishment
+
+Q: last
+A: first
+
+Q: native
+A: foreign
+
+Q: dangerous
+A: safe
+
+Q: ignorance
+A:","Q: ignorance
+A:","Q: young
+A: old
+
+Q: reward
+A: punishment
+
+Q: last
+A: first
+
+Q: native
+A: foreign
+
+Q: dangerous
+A: safe
+
+",knowledge,Ignorance,: : :,False,False,Ignorance,: : :,False,False,Ignorance,I'm,False,False,Ignorance,I don',False,False,Ignorance,I'm,False,False,Ignorance,I don',False,False,Ignorance,yes,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,I think that,False,False,Ignorance,I think that,False,False,Ignorance,I think that,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,ignorance,False,False,Ignorance,I think that,False,False,Ignorance,I think that,False,False,Ignorance,(noun,False,False
+"Q: compulsory
+A: voluntary
+
+Q: arrive
+A: depart
+
+Q: freeze
+A: melt
+
+Q: natural
+A: artificial
+
+Q: profit
+A: loss
+
+Q: minor
+A:","Q: minor
+A:","Q: compulsory
+A: voluntary
+
+Q: arrive
+A: depart
+
+Q: freeze
+A: melt
+
+Q: natural
+A: artificial
+
+Q: profit
+A: loss
+
+",major,The minor in,: : :,False,False,The minor in,minor,False,False,The minor in,1.,False,False,The minor in,10,False,False,The minor in,10,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,minor,False,False,The minor in,I'm,False,False,The minor in,The first thing,False,False,The minor in,The most common,False,False,The minor in,The most common,False,False,The minor in,The most common,False,False,The minor in,minor,False,False,The minor in,I think it,False,False,The minor in,I think it,False,False,The minor in,minor,False,False,The minor in,I think it,False,False,The minor in,The minor in,False,False,The minor in,The minor in,False,False,The minor in,The minor in,False,False,The minor in,The minor in,False,False,The minor in,minor,False,False,The minor in,The minor in,False,False,The minor in,1.,False,False
+"Q: unite
+A: divide
+
+Q: shameful
+A: glorious
+
+Q: under
+A: over
+
+Q: bottom
+A: top
+
+Q: peace
+A: war
+
+Q: destroy
+A:","Q: destroy
+A:","Q: unite
+A: divide
+
+Q: shameful
+A: glorious
+
+Q: under
+A: over
+
+Q: bottom
+A: top
+
+Q: peace
+A: war
+
+",create,destroy,10,False,False,destroy,10,False,False,destroy,I'm,False,False,destroy,10,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,destroy,False,False,destroy,I'm,False,False,destroy,1.,False,False
+"Q: innocent
+A: guilty
+
+Q: right
+A: wrong
+
+Q: reveal
+A: conceal
+
+Q: rough
+A: smooth
+
+Q: modern
+A: ancient
+
+Q: short
+A:","Q: short
+A:","Q: innocent
+A: guilty
+
+Q: right
+A: wrong
+
+Q: reveal
+A: conceal
+
+Q: rough
+A: smooth
+
+Q: modern
+A: ancient
+
+",tall,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,long,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,short,False,False,short,1.,False,False
+"Q: senior
+A: junior
+
+Q: remove
+A: introduce
+
+Q: lenient
+A: strict
+
+Q: rich
+A: poor
+
+Q: irregular
+A: regular
+
+Q: lose
+A:","Q: lose
+A:","Q: senior
+A: junior
+
+Q: remove
+A: introduce
+
+Q: lenient
+A: strict
+
+Q: rich
+A: poor
+
+Q: irregular
+A: regular
+
+",win,lose,: : :,False,False,lose,: : :,False,False,lose,I'm,False,False,lose,10,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,lose,False,False,lose,1.,False,False
+"Q: finish
+A: start
+
+Q: cool
+A: warm
+
+Q: humble
+A: arrogant
+
+Q: noisy
+A: quiet
+
+Q: learn
+A: teach
+
+Q: urban
+A:","Q: urban
+A:","Q: finish
+A: start
+
+Q: cool
+A: warm
+
+Q: humble
+A: arrogant
+
+Q: noisy
+A: quiet
+
+Q: learn
+A: teach
+
+",rural,urban,1.,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,rural,False,True,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,urban,False,False,urban,1.,False,False
+"Q: positive
+A: negative
+
+Q: down
+A: up
+
+Q: calm
+A: anxious
+
+Q: empty
+A: full
+
+Q: love
+A: hate
+
+Q: permanent
+A:","Q: permanent
+A:","Q: positive
+A: negative
+
+Q: down
+A: up
+
+Q: calm
+A: anxious
+
+Q: empty
+A: full
+
+Q: love
+A: hate
+
+",temporary,Permanent,10,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,"yes, but",False,False,Permanent,"The word """,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,Permanent,False,False,Permanent,Permanent,False,False,Permanent,Permanent,False,False,Permanent,permanent,False,False,Permanent,permanent,False,False,Permanent,1.,False,False
+"Q: death
+A: birth
+
+Q: lend
+A: borrow
+
+Q: close
+A: distant
+
+Q: soft
+A: hard
+
+Q: awake
+A: asleep
+
+Q: deficiency
+A:","Q: deficiency
+A:","Q: death
+A: birth
+
+Q: lend
+A: borrow
+
+Q: close
+A: distant
+
+Q: soft
+A: hard
+
+Q: awake
+A: asleep
+
+",quality,The defic,:::::,False,False,The defic,: : :,False,False,The defic,: : :,False,False,The defic,10,False,False,The defic,deficiency,False,False,The defic,10,False,False,The defic,10,False,False,The defic,deficiency,False,False,The defic,deficiency,False,False,The defic,deficiency,False,False,The defic,deficiency,False,False,The defic,deficiency,False,False,The defic,deficiency,False,False,The defic,deficiency,False,False,The defic,deficiency,False,False,The defic,I'm,False,False,The defic,The most common,False,False,The defic,The most common,False,False,The defic,The most common,False,False,The defic,The most common,False,False,The defic,The most common,False,False,The defic,The most common,False,False,The defic,deficiency,False,False,The defic,Deficiency,False,False,The defic,deficiency,False,False,The defic,Deficiency,False,False,The defic,The defic,False,False,The defic,The defic,False,False,The defic,The defic,False,False,The defic,The defic,False,False,The defic,A defic,False,False,The defic,1.,False,False
+"Q: failure
+A: success
+
+Q: defeat
+A: victory
+
+Q: success
+A: failure
+
+Q: compliment
+A: insult
+
+Q: pessimist
+A: optimist
+
+Q: under
+A:","Q: under
+A:","Q: failure
+A: success
+
+Q: defeat
+A: victory
+
+Q: success
+A: failure
+
+Q: compliment
+A: insult
+
+Q: pessimist
+A: optimist
+
+",over,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,over,False,True,under,over,False,True,under,over,False,True,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,under,False,False,under,1.,False,False
+"Q: heavy
+A: light
+
+Q: dishonest
+A: honest
+
+Q: export
+A: import
+
+Q: stingy
+A: generous
+
+Q: descend
+A: ascend
+
+Q: glorify
+A:","Q: glorify
+A:","Q: heavy
+A: light
+
+Q: dishonest
+A: honest
+
+Q: export
+A: import
+
+Q: stingy
+A: generous
+
+Q: descend
+A: ascend
+
+",vilify,The word gl,: : :,False,False,The word gl,glorify,False,False,The word gl,1.,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,glorify,False,False,The word gl,1.,False,False
+"Q: sell
+A: buy
+
+Q: impossible
+A: possible
+
+Q: early
+A: late
+
+Q: contract
+A: expand
+
+Q: happiness
+A: sadness
+
+Q: outside
+A:","Q: outside
+A:","Q: sell
+A: buy
+
+Q: impossible
+A: possible
+
+Q: early
+A: late
+
+Q: contract
+A: expand
+
+Q: happiness
+A: sadness
+
+",inside,The outside of,: : :,False,False,The outside of,: : :,False,False,The outside of,10,False,False,The outside of,outside,False,False,The outside of,outside,False,False,The outside of,outside,False,False,The outside of,outside,False,False,The outside of,outside,False,False,The outside of,outside,False,False,The outside of,inside,False,True,The outside of,inside,False,True,The outside of,inside,False,True,The outside of,inside,False,True,The outside of,inside,False,True,The outside of,inside,False,True,The outside of,I'm,False,False,The outside of,I'm,False,False,The outside of,I'm,False,False,The outside of,I think it,False,False,The outside of,I think it,False,False,The outside of,"yes, but",False,False,The outside of,I think it,False,False,The outside of,I think it,False,False,The outside of,I think it,False,False,The outside of,I think it,False,False,The outside of,I think it,False,False,The outside of,I'm,False,False,The outside of,I think it,False,False,The outside of,I think it,False,False,The outside of,outside,False,False,The outside of,I'm,False,False,The outside of,10,False,False
+"Q: above
+A: below
+
+Q: left
+A: right
+
+Q: open
+A: closed
+
+Q: truth
+A: lie
+
+Q: dim
+A: radiant
+
+Q: off
+A:","Q: off
+A:","Q: above
+A: below
+
+Q: left
+A: right
+
+Q: open
+A: closed
+
+Q: truth
+A: lie
+
+Q: dim
+A: radiant
+
+",on,off,: : :,False,False,off,: : :,False,False,off,I think it,False,False,off,I think it,False,False,off,10,False,False,off,1,False,False,off,1,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,off,False,False,off,10,False,False
+"Q: before
+A: after
+
+Q: spend
+A: save
+
+Q: high
+A: low
+
+Q: quiet
+A: loud
+
+Q: busy
+A: idle
+
+Q: old
+A:","Q: old
+A:","Q: before
+A: after
+
+Q: spend
+A: save
+
+Q: high
+A: low
+
+Q: quiet
+A: loud
+
+Q: busy
+A: idle
+
+",young,Old,10,False,False,Old,old,False,False,Old,I'm,False,False,Old,I'm,False,False,Old,10,False,False,Old,10,False,False,Old,19,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,old,False,False,Old,19,False,False
+"Q: tame
+A: wild
+
+Q: shallow
+A: deep
+
+Q: private
+A: public
+
+Q: defeat
+A: victory
+
+Q: south
+A: north
+
+Q: sweet
+A:","Q: sweet
+A:","Q: tame
+A: wild
+
+Q: shallow
+A: deep
+
+Q: private
+A: public
+
+Q: defeat
+A: victory
+
+Q: south
+A: north
+
+",sour,Sweet is,I'm,False,False,Sweet is,sweet,False,False,Sweet is,I’m,False,False,Sweet is,I’m,False,False,Sweet is,I’m,False,False,Sweet is,10,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,I’m,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,sweet,False,False,Sweet is,Sweet is,False,False,Sweet is,Sweet is,False,False,Sweet is,Sweet is,False,False,Sweet is,Sweet is,False,False,Sweet is,Sweet is,False,False,Sweet is,1.,False,False
+"Q: exclude
+A: include
+
+Q: rigid
+A: flexible
+
+Q: innocent
+A: guilty
+
+Q: dawn
+A: dusk
+
+Q: visible
+A: invisible
+
+Q: answer
+A:","Q: answer
+A:","Q: exclude
+A: include
+
+Q: rigid
+A: flexible
+
+Q: innocent
+A: guilty
+
+Q: dawn
+A: dusk
+
+Q: visible
+A: invisible
+
+",question,The answer is,: : :,False,False,The answer is,: : :,False,False,The answer is,I think it,False,False,The answer is,answer,False,False,The answer is,I’m,False,False,The answer is,I think it,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,answer,False,False,The answer is,I'm,False,False,The answer is,I'm,False,False,The answer is,I'm,False,False,The answer is,I'm,False,False,The answer is,I'm,False,False,The answer is,I'm,False,False,The answer is,I'm,False,False,The answer is,The answer is,False,False,The answer is,The answer is,False,False,The answer is,The answer is,False,False,The answer is,The answer is,False,False,The answer is,1.,False,False,The answer is,1.,False,False
+"Q: yield
+A: resist
+
+Q: shallow
+A: deep
+
+Q: foreign
+A: domestic
+
+Q: dry
+A: wet
+
+Q: blunt
+A: sharp
+
+Q: worst
+A:","Q: worst
+A:","Q: yield
+A: resist
+
+Q: shallow
+A: deep
+
+Q: foreign
+A: domestic
+
+Q: dry
+A: wet
+
+Q: blunt
+A: sharp
+
+",best,The worst thing,10,False,False,The worst thing,10,False,False,The worst thing,I'm,False,False,The worst thing,I think it,False,False,The worst thing,I'm,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,worst,False,False,The worst thing,worst,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,I think the,False,False,The worst thing,10,False,False
+"Q: appear
+A: disappear
+
+Q: old
+A: new
+
+Q: foolish
+A: wise
+
+Q: attack
+A: defend
+
+Q: thirsty
+A: quenched
+
+Q: loose
+A:","Q: loose
+A:","Q: appear
+A: disappear
+
+Q: old
+A: new
+
+Q: foolish
+A: wise
+
+Q: attack
+A: defend
+
+Q: thirsty
+A: quenched
+
+",tight,The loose is,: : :,False,False,The loose is,: : :,False,False,The loose is,I'm,False,False,The loose is,10,False,False,The loose is,I’m,False,False,The loose is,1.,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,The most common,False,False,The loose is,The most common,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,loose,False,False,The loose is,The loose is,False,False,The loose is,The loose is,False,False,The loose is,1.,False,False
+"Q: convex
+A: concave
+
+Q: accept
+A: reject
+
+Q: day
+A: night
+
+Q: cowardly
+A: brave
+
+Q: decrease
+A: increase
+
+Q: interior
+A:","Q: interior
+A:","Q: convex
+A: concave
+
+Q: accept
+A: reject
+
+Q: day
+A: night
+
+Q: cowardly
+A: brave
+
+Q: decrease
+A: increase
+
+",exterior,The interior of,10,False,False,The interior of,interior,False,False,The interior of,I think it,False,False,The interior of,interior,False,False,The interior of,interior,False,False,The interior of,interior,False,False,The interior of,interior,False,False,The interior of,interior,False,False,The interior of,interior,False,False,The interior of,exterior,False,True,The interior of,exterior,False,True,The interior of,exterior,False,True,The interior of,exterior,False,True,The interior of,exterior,False,True,The interior of,interior,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,The interior of,False,False,The interior of,1.,False,False

@@ -1,4 +1,6 @@
 import random
+from transformers import PreTrainedTokenizer
+import pandas as pd
 
 
 class ICLDataset:
@@ -15,31 +17,86 @@ class ICLDataset:
 
     def get_prompts(
         self, n_shot: int, n_shot_format: str, question_format: str, preprompt: str = ""
-    ) -> tuple[list[str], list[str]]:
+    ) -> pd.DataFrame:
         nshot_prompts = []
+        context = []
+        corrupted_context = []
         prompts = []
+        corrupted_nshot_prompts = []
         answers = []
 
-        print(len(self.x) // (n_shot + 1))
-
         for i in range(0, len(self.x) - n_shot, n_shot + 1):
-            prompt = preprompt
-            for j in range(n_shot):
-                prompt += n_shot_format.format(x=self.x[i + j], y=self.y[i + j])
-            prompt += question_format.format(x=self.x[i + n_shot], y="")
+            corrupted_choices = random.sample(self.y, k=n_shot)
 
-            nshot_prompts.append(prompt)
+            context.append(
+                preprompt
+                + "".join(
+                    [
+                        n_shot_format.format(x=self.x[i + j], y=self.y[i + j])
+                        for j in range(n_shot)
+                    ]
+                )
+            )
+            corrupted_context.append(
+                preprompt
+                + "".join(
+                    [
+                        n_shot_format.format(
+                            x=self.x[i + j],
+                            y=corrupted_choices[j],
+                        )
+                        for j in range(n_shot)
+                    ]
+                )
+            )
+
+            nshot_prompts.append(
+                preprompt
+                + "".join(
+                    [
+                        n_shot_format.format(x=self.x[i + j], y=self.y[i + j])
+                        for j in range(n_shot)
+                    ]
+                )
+                + question_format.format(x=self.x[i + n_shot], y="")
+            )
+            corrupted_nshot_prompts.append(
+                preprompt
+                + "".join(
+                    [
+                        n_shot_format.format(
+                            x=self.x[i + j],
+                            y=corrupted_choices[j],
+                        )
+                        for j in range(n_shot)
+                    ]
+                )
+                + question_format.format(x=self.x[i + n_shot], y="")
+            )
+
             prompts.append(preprompt + question_format.format(x=self.x[i + n_shot]))
             answers.append(self.y[i + n_shot])
-        return nshot_prompts, prompts, answers
 
-    def get_token_indexes(self, prompts: list[str], token: str, tokenizer) -> list[int]:
+        return pd.DataFrame(
+            {
+                "nshot_prompt": nshot_prompts,
+                "corrupted_nshot_prompt": corrupted_nshot_prompts,
+                "noshot_prompt": prompts,
+                "context": context,
+                "corrupted_context": corrupted_context,
+                "answer": answers,
+            }
+        )
+
+    def get_token_indexes(
+        self, prompts: list[str], token: str, tokenizer: PreTrainedTokenizer
+    ) -> pd.Series:
         token_indexes = []
         for prompt in prompts:
             tokens = tokenizer.tokenize(prompt)
-            last_index = len(tokens) - 1 - tokens[::-1].index(token)
+            last_index = -1 - tokens[::-1].index(token)
             token_indexes.append(last_index)
-        return token_indexes
+        return pd.Series(token_indexes)
 
     def __len__(self):
         return len(self.x)
