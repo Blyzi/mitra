@@ -1,8 +1,6 @@
 import random
 from typing import Generator, Tuple
 
-import torch
-
 
 def batch(array: list, batch_size: int) -> Generator[Tuple[int, list, int], None, None]:
     """Yield successive n-sized chunks from l."""
@@ -19,3 +17,10 @@ def random_derangement(lst):
             result[i], result[j] = result[j], result[i]
         if all(i != result[i] for i in range(n)):
             return [lst[result[i]] for i in range(n)]
+
+
+def first_match(lst, condition):
+    for item in lst:
+        if condition(item):
+            return item
+    return None

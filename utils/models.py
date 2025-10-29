@@ -1,53 +1,57 @@
 from collections import defaultdict
-from xml.parsers.expat import model
+from typing import Any, Callable
 import einops
 from nnsight import LanguageModel
 import torch
 from tqdm import tqdm
 import re
-import pandas as pd
-from utils.functions import batch
+from utils.functions import batch, first_match
+import gc
 
 
 class Model:
     def __init__(
         self,
         name,
-        layers_adr: list[str],
-        attn_key: str,
-        out_proj_key: str,
-        n_head_key: str,
-        d_head_key: str,
+        get_layers_func: Callable[[LanguageModel], list],
+        get_self_attn_func: Callable[[Any], Any],
+        get_out_proj_func: Callable[[Any], Any],
+        get_n_head_func: Callable[[LanguageModel], Any],
+        get_d_head_func: Callable[[LanguageModel], Any],
+        get_d_llm_func: Callable[[LanguageModel], Any],
     ):
         self.name = name
         self.llm = LanguageModel(
             name, device_map="auto", dtype=torch.bfloat16, dispatch=True
         )
-        self.layers = self.llm
+
         self.tokenizer = self.llm.tokenizer
-        self.attn_key = attn_key
-        self.out_proj_key = out_proj_key
+        self.space_token_id = self.tokenizer.encode(" ")[0]
 
-        for adr in layers_adr:
-            self.layers = getattr(self.layers, adr)
+        self.get_self_attn_func = get_self_attn_func
+        self.get_out_proj_func = get_out_proj_func
 
-        self.n_head = self.llm.config.__dict__[n_head_key]
-        self.d_head = self.llm.config.__dict__[d_head_key]
-        self.d_model = self.llm.config.hidden_size
+        self.layers = get_layers_func(self.llm)
+        self.n_head = get_n_head_func(self.llm)
+        self.d_head = get_d_head_func(self.llm)
+        self.d_llm = get_d_llm_func(self.llm)
+        self.n_layers = len(get_layers_func(self.llm))
 
     def get_representations(
         self, prompts: list[str], tokens_idx: list[int]
     ) -> torch.Tensor:
         h = torch.empty(
-            (len(prompts), len(self.layers), self.llm.model.config.hidden_size),
+            (len(prompts), self.n_layers, self.d_llm),
             device=self.llm.device,
         )
 
         with torch.no_grad():
             for i, prompt in enumerate(tqdm(prompts)):
                 with self.llm.trace(prompt):
-                    for layer in range(len(self.layers)):
-                        h[i, layer, :] = self.layers[layer].output[0][tokens_idx[i], :]
+                    for layer in range(self.n_layers):
+                        h[i, layer, :] = self.get_output(self.get_layers()[layer])[
+                            tokens_idx[i], :
+                        ]
 
         return h.mean(dim=0)
 
@@ -58,10 +62,10 @@ class Model:
         answers: list[str],
         batch_size: int = 1,
     ) -> torch.Tensor:
-        heads = range(self.llm.config.num_attention_heads)
+        heads = range(self.n_head)
         n_samples = len(prompts)
         correct_completion_ids = [
-            toks[0]
+            first_match(toks, lambda x: x != self.space_token_id)
             for toks in self.tokenizer(
                 answers,
                 add_special_tokens=False,
@@ -71,16 +75,15 @@ class Model:
         with torch.no_grad():
             z_dict = {}
             head_tensor = torch.zeros(
-                (n_samples, len(self.layers), self.n_head, self.d_head),
+                (n_samples, self.n_layers, self.n_head, self.d_head),
                 device=self.llm.device,
             )
 
             for i, prompt in enumerate(tqdm(prompts, desc="Regular Prompts")):
                 with self.llm.trace(prompt):
-                    for layer in range(len(self.layers)):
-                        z = getattr(
-                            getattr(self.layers[layer], self.attn_key),
-                            self.out_proj_key,
+                    for layer in range(self.n_layers):
+                        z = self.get_out_proj(
+                            self.get_self_attn(self.layers[layer]),
                         ).input[:, -1]
 
                         z_reshaped = z.reshape(1, self.n_head, self.d_head)
@@ -98,7 +101,7 @@ class Model:
             for i, corrupted_prompt in enumerate(
                 tqdm(corrupted_prompts, desc="Corrupted prompts")
             ):
-                with self.llm.trace(corrupted_prompt) as tracer:
+                with self.llm.trace(corrupted_prompt):
                     logits = self.llm.lm_head.output[:, -1]
 
                     correct_logprobs_corrupted[i] = logits.log_softmax(dim=-1)[
@@ -113,11 +116,10 @@ class Model:
                     for i, batch_corrupted_prompts, current_batch_size in batch(
                         corrupted_prompts, batch_size
                     ):
-                        with self.llm.trace(batch_corrupted_prompts) as tracer:
+                        with self.llm.trace(batch_corrupted_prompts):
                             # Get hidden states, reshape to get head dimension, then set it to the a-vector
-                            z = getattr(
-                                getattr(self.layers[layer], self.attn_key),
-                                self.out_proj_key,
+                            z = self.get_out_proj(
+                                self.get_self_attn(self.layers[layer]),
                             ).input[:, -1]
                             # Can be replace by:
                             # torch.arange(current_batch_size),
@@ -140,6 +142,9 @@ class Model:
                             )
 
                     correct_logprobs_dict[(layer, head)] = correct_logprobs
+
+                gc.collect()
+                torch.cuda.empty_cache()
 
             # Get difference between intervention logprobs and corrupted logprobs, and take mean over batch dim
             all_correct_logprobs_intervention = einops.rearrange(
@@ -185,8 +190,8 @@ class Model:
                 for layer, head_list in head_dict.items():
                     # Get the output projection layer
                     # out_proj = self.llm.transformer.h[layer].attn.out_proj
-                    out_proj = getattr(
-                        getattr(self.layers[layer], self.attn_key), self.out_proj_key
+                    out_proj = self.get_out_proj(
+                        self.get_self_attn(self.layers[layer]),
                     )
 
                     # Get the mean output projection input (note, setting values of this tensor will not
@@ -254,9 +259,9 @@ class Model:
                 prompt,
                 max_new_tokens=max_new_tokens,
                 do_sample=False,
-            ) as generator:
+            ):
                 for layer in fn_vector.keys():
-                    self.layers[layer].output[:, -1] += fn_vector[layer] * 5
+                    self.layers[layer].output[:, -1] += fn_vector[layer]
 
                 tokens_intervention = self.llm.generator.output[:, prompt_len:].save()
 
@@ -269,91 +274,11 @@ class Model:
 
         return completion_intervention
 
-    def generate(
-        self,
-        prompts: list[str],
-        max_new_tokens: int = 2,
-        stops: list[str] = [],
-    ) -> list[str]:
-        generated = []
-        pattern = r"\s*(?:" + "|".join(map(re.escape, stops)) + r")\s*"
+    def get_self_attn(self, layer) -> Any:
+        return self.get_self_attn_func(layer)
 
-        for i, prompt in enumerate(tqdm(prompts)):
-            prompt_len = len(self.llm.tokenizer.encode(prompt))
+    def get_out_proj(self, self_attn) -> Any:
+        return self.get_out_proj_func(self_attn)
 
-            with self.llm.generate(
-                prompt, max_new_tokens=max_new_tokens, do_sample=False
-            ) as generator:
-                output = self.llm.generator.output[:, prompt_len:].save()
-
-            tokens = self.llm.tokenizer.decode(output[0])
-
-            if stops:
-                generated.append(re.split(pattern, tokens)[0])
-            else:
-                generated.append(tokens)
-
-        return pd.DataFrame(
-            {
-                "completion": generated,
-            }
-        )
-
-    def generate_with_intervention(
-        self,
-        prompts: list[str],
-        representation: torch.Tensor,
-        layer: int,
-        tokens_idx: list[int],
-        max_new_tokens: int = 2,
-        stops: list[str] = [],
-    ) -> list[str]:
-        generated_intervention = []
-        pattern = r"\s*(?:" + "|".join(map(re.escape, stops)) + r")\s*"
-
-        for i, prompt in enumerate(tqdm(prompts)):
-            prompt_len = len(self.llm.tokenizer.encode(prompt))
-
-            with self.llm.generate(
-                prompt, max_new_tokens=max_new_tokens, do_sample=False
-            ) as generator:
-                for layer_idx in range(10, 14):
-                    hidden_states = self.layers[layer_idx].output[0]
-
-                    hidden_states[tokens_idx[i], :] += representation[layer_idx, :] * 8
-
-                output_intervention = self.llm.generator.output[:, prompt_len:].save()
-
-            tokens_intervention = self.llm.tokenizer.decode(output_intervention[0])
-
-            if stops:
-                generated_intervention.append(re.split(pattern, tokens_intervention)[0])
-            else:
-                generated_intervention.append(tokens_intervention)
-
-        return pd.DataFrame(
-            {
-                "completion_intervention": generated_intervention,
-            }
-        )
-
-    def compute_logprobs(
-        self,
-        prompts: list[str],
-        answers: list[str],
-        representation: torch.Tensor,
-        layer: int,
-        tokens_idx: list[int],
-    ) -> list[float]:
-        logprobs = []
-
-        for prompt in tqdm(prompts):
-            with self.llm.trace(prompt):
-                logprob = (
-                    self.llm.lm_head.logits[:, :-1]
-                    .log_softmax(dim=-1)
-                    .gather(2, self.llm.input_ids[:, 1:, None])
-                )
-                logprobs.append(logprob.sum().item())
-
-        return logprobs
+    def __repr__(self):
+        return self.llm.__repr__()

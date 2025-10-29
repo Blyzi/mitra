@@ -2,13 +2,10 @@ import torch
 from utils.data import ICLDataset
 from utils.models import Model
 from datasets import load_dataset
-import os
-
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 
 def main():
-    lang_en, lang_fr, lang_pt = "eng_Latn", "fra_Latn", "por_Latn"
+    lang_en, lang_fr = "eng_Latn", "fra_Latn"
 
     pairs_en_fr = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {"pairs": (x["sentence_" + lang_en], x["sentence_" + lang_fr])}
