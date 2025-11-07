@@ -1,5 +1,5 @@
-from utils.gemma3 import Gemma3Model
-from utils.models import Model
+from src.utils.gemma3 import Gemma3Model
+from src.utils.models import Model
 
 
 def get_model(name: str) -> Model:

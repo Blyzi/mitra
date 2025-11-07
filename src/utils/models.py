@@ -3,9 +3,10 @@ from typing import Any, Callable
 import einops
 from nnsight import LanguageModel
 import torch
+import torch.nn.functional as F
 from tqdm import tqdm
 import re
-from utils.functions import batch, first_match
+from src.utils.functions import batch, first_match
 import gc
 
 
@@ -55,12 +56,13 @@ class Model:
 
         return h.mean(dim=0)
 
-    def get_fv_impact(
+    def get_activation_patch_map(
         self,
         prompts: list[str],
         corrupted_prompts: list[str],
         answers: list[str],
         batch_size: int = 1,
+        layer_heads_list: list[tuple[int, int]] = None,
     ) -> torch.Tensor:
         heads = range(self.n_head)
         n_samples = len(prompts)
@@ -161,14 +163,131 @@ class Model:
             # Return mean effect of intervention, over the batch dimension
             return logprobs_diff
 
+    def get_attribution_patch_map(
+        self,
+        clean_context: list[str],
+        corrupted_context: list[str],
+        answers: list[str],
+        batch_size: int = 1,
+    ) -> torch.Tensor:
+        clean_out = []
+        corrupted_out = []
+        corrupted_grads = []
+
+        corrupted_prompts = [corrupted_context[i] for i in range(len(answers))]
+        clean_prompts = [clean_context[i] for i in range(len(answers))]
+
+        for i, batch_corrupted_prompt, current_batch_size in batch(
+            corrupted_prompts, batch_size
+        ):
+            batch_corrupted_out = []
+            batch_corrupted_grads = []
+
+            with self.llm.trace(batch_corrupted_prompt):
+                for layer in range(len(self.layers)):
+                    attn_out = self.get_out_proj(
+                        self.get_self_attn(self.layers[layer]),
+                    ).input.save()
+
+                    attn_out.retain_grad()
+                    batch_corrupted_out.append(attn_out)
+
+                self.llm.lm_head.output.sum().backward()
+
+            for layer in range(len(self.layers)):
+                batch_corrupted_grads.append(
+                    batch_corrupted_out[layer].grad[:, -1].clone()
+                )
+
+                # Free up some memory
+                with torch.no_grad():
+                    original_batch_corrupted_out = batch_corrupted_out[layer]
+                    clone_batch_corrupted_out = batch_corrupted_out[layer][
+                        :, -1
+                    ].clone()
+
+                    batch_corrupted_out[layer] = clone_batch_corrupted_out
+                    del original_batch_corrupted_out
+
+                    torch.cuda.empty_cache()
+
+            if len(corrupted_out) != 0:
+                for layer in range(len(self.layers)):
+                    corrupted_out[layer] = torch.cat(
+                        (
+                            corrupted_out[layer],
+                            batch_corrupted_out[layer],
+                        ),
+                        dim=0,
+                    )
+
+                    corrupted_grads[layer] = torch.cat(
+                        (
+                            corrupted_grads[layer],
+                            batch_corrupted_grads[layer],
+                        ),
+                        dim=0,
+                    )
+            else:
+                corrupted_out = batch_corrupted_out
+                corrupted_grads = batch_corrupted_grads
+
+        with torch.no_grad():
+            for i, batch_clean_prompt, current_batch_size in batch(
+                clean_prompts, batch_size
+            ):
+                batch_clean_out = []
+                with self.llm.trace(batch_clean_prompt):
+                    for layer in range(len(self.layers)):
+                        attn_out = self.get_out_proj(
+                            self.get_self_attn(self.layers[layer]),
+                        ).input
+                        batch_clean_out.append(attn_out[:, -1].save())
+
+                if len(clean_out) != 0:
+                    for layer in range(len(self.layers)):
+                        clean_out[layer] = torch.cat(
+                            (
+                                clean_out[layer],
+                                batch_clean_out[layer],
+                            ),
+                            dim=0,
+                        )
+                else:
+                    clean_out = batch_clean_out
+
+        print("corrupted_grad", corrupted_grads[0].shape)
+        print("corrupted_out", corrupted_out[0].shape)
+        print("clean_out", clean_out[0].shape)
+
+        patching_results = []
+
+        for corrupted_grad, corrupted, clean, layer in zip(
+            corrupted_grads, corrupted_out, clean_out, range(len(clean_out))
+        ):
+            residual_attr = einops.reduce(
+                corrupted_grad * (clean - corrupted),
+                "batch (head dim) -> head",
+                "mean",
+                head=self.n_head,
+                dim=self.d_head,
+            )
+
+            patching_results.append(
+                residual_attr.detach().cpu().to(torch.float32).numpy()
+            )
+
+        return patching_results
+
     def calculate_fn_vector(
         self,
         prompts: list[str],
         head_list: list[tuple[int, int]],
-    ) -> torch.Tensor:
+        batch_size: int = 1,
+    ) -> dict[int, torch.Tensor]:
         """
-        Returns a vector of length `d_model`, containing the sum of vectors written to the residual
-        stream by the attention heads in `head_list`, averaged over all inputs in `dataset`.
+        Calculates a function vector for the given heads, by averaging the output projection inputs
+        over the given prompts.
 
         Inputs:
             model: LanguageModel
@@ -185,36 +304,61 @@ class Model:
             head_dict[layer].add(head)
 
         fn_vector_dict = {}
+
         with torch.no_grad():
-            with self.llm.trace(prompts):
-                for layer, head_list in head_dict.items():
-                    # Get the output projection layer
-                    # out_proj = self.llm.transformer.h[layer].attn.out_proj
+            for layer, head_list in head_dict.items():
+                hidden_states = torch.zeros(
+                    (self.n_head * self.d_head), device=self.llm.device
+                )
+                mean_norms = torch.zeros((self.n_head), device=self.llm.device)
+
+                for i, batch_prompts, current_batch_size in batch(prompts, batch_size):
+                    with self.llm.trace(batch_prompts):
+                        # Get the output projection layer
+                        # out_proj = self.llm.transformer.h[layer].attn.out_proj
+                        out_proj = self.get_out_proj(
+                            self.get_self_attn(self.layers[layer]),
+                        )
+
+                        # Get the mean output projection input (note, setting values of this tensor will not
+                        # have downstream effects on other tensors)
+                        batch_hidden_states = out_proj.input[:, -1].mean(dim=0).save()
+
+                        # Compute the mean norm for each head
+                        batch_mean_norms = (
+                            out_proj.input[:, -1]
+                            .reshape(current_batch_size, self.n_head, self.d_head)
+                            .norm(dim=-1)
+                            .mean(dim=0)
+                            .save()
+                        )
+
+                    hidden_states += (
+                        batch_hidden_states * current_batch_size / len(prompts)
+                    )
+
+                    mean_norms += batch_mean_norms * current_batch_size / len(prompts)
+
+                # Zero-ablate all heads which aren't in our list, then get the output (which
+                # will be the sum over the heads we actually do want!)
+                heads_to_ablate = set(range(self.n_head)) - head_dict[layer]
+                print(
+                    f"Layer {layer}, ablating heads: {heads_to_ablate}, keeping heads: {head_list}"
+                )
+
+                for head in heads_to_ablate:
+                    hidden_states.reshape(self.n_head, self.d_head)[head] = 0.0
+
+                with self.llm.trace("") as tracer:
                     out_proj = self.get_out_proj(
                         self.get_self_attn(self.layers[layer]),
                     )
-
-                    # Get the mean output projection input (note, setting values of this tensor will not
-                    # have downstream effects on other tensors)
-                    hidden_states = out_proj.input[:, -1].mean(dim=0)
-
-                    # Zero-ablate all heads which aren't in our list, then get the output (which
-                    # will be the sum over the heads we actually do want!)
-                    heads_to_ablate = set(range(self.n_head)) - head_dict[layer]
-                    print(
-                        f"Layer {layer}, ablating heads: {heads_to_ablate}, keeping heads: {head_list}"
-                    )
-
-                    for head in heads_to_ablate:
-                        hidden_states.reshape(self.n_head, self.d_head)[head] = 0.0
-
-                    print(f"Hidden states max: {hidden_states.max()}")
 
                     # Now that we've zeroed all unimportant heads, get the output & add it to the list
                     # (we need a single batch dimension so we can use `out_proj`)
                     out_proj_output = out_proj(hidden_states.unsqueeze(0)).squeeze()
 
-                    fn_vector_dict[layer] = out_proj_output
+                    fn_vector_dict[layer] = out_proj_output.save()
 
         return fn_vector_dict
 
@@ -224,7 +368,7 @@ class Model:
         fn_vector: torch.Tensor,
         max_new_tokens: int = 5,
         stops: list[str] = [],
-    ) -> tuple[str, str]:
+    ) -> list[str]:
         """
         Intervenes with a function vector, by adding it at the last sequence position of a generated
         prompt.
@@ -261,7 +405,9 @@ class Model:
                 do_sample=False,
             ):
                 for layer in fn_vector.keys():
-                    self.layers[layer].output[:, -1] += fn_vector[layer]
+                    self.get_out_proj(self.get_self_attn(self.layers[layer])).output[
+                        :, -1
+                    ] += fn_vector[layer].to(self.llm.device)
 
                 tokens_intervention = self.llm.generator.output[:, prompt_len:].save()
 
@@ -273,6 +419,34 @@ class Model:
                 completion_intervention.append(tokens)
 
         return completion_intervention
+
+    def generate(
+        self,
+        prompts: list[str],
+        max_new_tokens: int = 5,
+        stops: list[str] = [],
+    ) -> list[str]:
+        completion_baseline = []
+
+        pattern = r"\s*(?:" + "|".join(map(re.escape, stops)) + r")\s*"
+        for prompt in tqdm(prompts, desc="Generating baseline"):
+            prompt_len = len(self.llm.tokenizer.encode(prompt))
+
+            with self.llm.generate(
+                prompt,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+            ):
+                tokens_baseline = self.llm.generator.output[:, prompt_len:].save()
+
+            tokens = self.tokenizer.decode(tokens_baseline[0])
+
+            if stops:
+                completion_baseline.append(re.split(pattern, tokens)[0])
+            else:
+                completion_baseline.append(tokens)
+
+        return completion_baseline
 
     def get_self_attn(self, layer) -> Any:
         return self.get_self_attn_func(layer)

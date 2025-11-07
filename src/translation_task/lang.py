@@ -1,23 +1,26 @@
 import torch
-from utils.data import ICLDataset
-from utils.get_model import get_model
+from src.utils.icl import ICLDataset
+from src.utils.get_model import get_model
 from datasets import load_dataset
 import sys
 import random
 
 
 def main(model_name, lang_source, lang_target):
-    fake_langs = list({
-        "eng_Latn",
-        "fra_Latn",
-        "spa_Latn",
-        "por_Latn",
-        "jpn_Jpan",
-        "zho_Hans",
-        "hin_Deva",
-        "arb_Arab",
-        "rus_Cyrl",
-    } - {lang_target, lang_source})
+    fake_langs = list(
+        {
+            "eng_Latn",
+            "fra_Latn",
+            "spa_Latn",
+            "por_Latn",
+            "jpn_Jpan",
+            "zho_Hans",
+            "hin_Deva",
+            "arb_Arab",
+            "rus_Cyrl",
+        }
+        - {lang_target, lang_source}
+    )
 
     pairs_fake = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
@@ -69,9 +72,7 @@ def main(model_name, lang_source, lang_target):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print(
-            "Usage: python lang.py <model_name> <lang_source> <lang_target>"
-        )
+        print("Usage: python lang.py <model_name> <lang_source> <lang_target>")
         sys.exit(1)
 
     model_name, lang_source, lang_target = (

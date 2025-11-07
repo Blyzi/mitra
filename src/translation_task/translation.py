@@ -1,6 +1,6 @@
 import torch
-from utils.data import ICLDataset
-from utils.get_model import get_model
+from src.utils.icl import ICLDataset
+from src.utils.get_model import get_model
 from datasets import load_dataset
 import sys
 

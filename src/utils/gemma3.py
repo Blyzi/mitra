@@ -1,4 +1,4 @@
-from utils.models import Model
+from src.utils.models import Model
 
 
 def get_gemma_model_size(name: str) -> int:
