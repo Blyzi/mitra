@@ -4,7 +4,6 @@ from typing import Literal
 import torch
 import pandas as pd
 from datasets import load_dataset
-import json
 
 sys.path.insert(0, Path.cwd().as_posix())
 
@@ -41,10 +40,10 @@ def get_representations(
                 continue
 
             if Path(
-                f"logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}.pt"
+                f"results/translation_task/logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}.pt"
             ).exists():
                 log_probs_diff = torch.load(
-                    f"logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}.pt",
+                    f"results/translation_task/logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}.pt",
                     map_location="cpu",
                 )
                 logs_probs_diff[(source, target)] = log_probs_diff
@@ -61,10 +60,14 @@ def add_vectors(
     keys = sorted(list(set(v1.keys()).union(set(v2.keys()))))
     print("Keys in the combined vector:", keys)
     combined_vector = {}
+    zero_vector = None
+
+    if v1 or v2:
+        zero_vector = torch.zeros_like(next(iter(v1.values()))) if v1 else torch.zeros_like(next(iter(v2.values())))
 
     for layer in keys:
-        vec1 = v1.get(layer, torch.zeros_like(next(iter(v1.values()))))
-        vec2 = v2.get(layer, torch.zeros_like(next(iter(v2.values()))))
+        vec1 = v1.get(layer, zero_vector)
+        vec2 = v2.get(layer, zero_vector)
         combined_vector[layer] = factor_v1 * vec1 + factor_v2 * vec2
 
     return combined_vector
@@ -101,6 +104,8 @@ def main(
         "hin_Deva",
         "arb_Arab",
         "rus_Cyrl",
+        "wol_Latn",
+        "swh_Latn",
     ]
 
     ds_lang = ICLDataset(lang_pairs, bidirectional=False)
@@ -126,21 +131,31 @@ def main(
 
     logprobs_diff_trads = get_representations(model_name, langs, type="trad")
 
-    selected_heads_lang = get_top_k(logprobs_diff_langs.mean(dim=-1), num_lang_heads)
-    selected_heads_trad = get_top_k(logprobs_diff_trads.mean(dim=-1), num_trad_heads)
+    selected_heads_lang = get_top_k(
+        logprobs_diff_langs[(lang_source, lang_target)].mean(dim=-1), num_lang_heads
+    )
+    selected_heads_trad = get_top_k(
+        logprobs_diff_trads[(trad_source, trad_target)].mean(dim=-1), num_trad_heads
+    )
 
     print("Selected heads (language):", selected_heads_lang)
     print("Selected heads (translation):", selected_heads_trad)
 
-    h_lang = model.calculate_fn_vector(
-        df_lang["context"].tolist(), selected_heads_lang, batch_size=64
-    )
+    if len(selected_heads_lang) > 0:
+        h_lang = model.calculate_fn_vector(
+            df_lang["context"].tolist(), selected_heads_lang, batch_size=32
+        )
+    else:
+        h_lang = {}
 
-    h_trad = model.calculate_fn_vector(
-        df_trad["context"].tolist(), selected_heads_trad, batch_size=64
-    )
+    if len(selected_heads_trad) > 0:
+        h_trad = model.calculate_fn_vector(
+            df_trad["context"].tolist(), selected_heads_trad, batch_size=32
+        )
+    else:
+        h_trad = {}
 
-    h = add_vectors(h_lang, h_trad, factor_v1=1.0, factor_v2=1.0)
+    h = add_vectors(h_lang, h_trad, factor_v1=3.0, factor_v2=3.0)
 
     generations_function_vector = model.generate_with_fn_vector(
         df_lang["noshot_prompt"].tolist(),
@@ -177,7 +192,7 @@ def main(
         {
             "prompt": df_lang["noshot_prompt"],
             "reference": df_lang["noshot_answers"],
-            "generation_baseline": generation_baseline["generation_baseline"],
+            "generation_baseline": generation_baseline,
             "generation_function_vector": generations_function_vector,
         }
     )
@@ -215,15 +230,15 @@ def main(
     )
 
     results_df.to_csv(
-        f"generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv",
+        f"results/translation_task/generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv",
         index=False,
     )
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 6:
+    if len(sys.argv) != 8:
         print(
-            "Usage: python generate.py <model_name> <lang_source> <lang_target> <number of trad_heads> <number of lang_heads>"
+            "Usage: python generate.py <model_name> <trad_source> <trad_target> <lang_source> <lang_target> <number of trad_heads> <number of lang_heads>"
         )
         sys.exit(1)
 

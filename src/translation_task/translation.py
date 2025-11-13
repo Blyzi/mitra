@@ -7,7 +7,7 @@ sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.icl import ICLDataset
 from src.utils.get_model import get_model
-from utils.functions import get_top_k
+from src.utils.functions import get_top_k
 
 
 def main(
@@ -38,11 +38,11 @@ def main(
             df["context"].tolist(),
             df["corrupted_context"].tolist(),
             df["context_answers"].tolist(),
-            batch_size=16,
+            batch_size=2,
         )
 
         selected_heads = get_top_k(
-            attribution_approximation.mean(dim=-1),  # mean over samples
+            attribution_approximation,
             top_k=20,
         )
 
@@ -50,13 +50,13 @@ def main(
         df["context"].tolist(),
         df["corrupted_context"].tolist(),
         df["context_answers"].tolist(),
-        batch_size=48,
+        batch_size=16,
         selected_heads=selected_heads,
     )
 
     torch.save(
         h,
-        f"results/translation_task_new/logprobs_diff_trad/{model_name.split('/')[-1]}:{lang_source}:{lang_target}.pt",
+        f"results/translation_task/logprobs_diff_trad/{model_name.split('/')[-1]}:{lang_source}:{lang_target}.pt",
     )
 
 

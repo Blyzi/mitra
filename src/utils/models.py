@@ -412,9 +412,13 @@ class Model:
         with torch.no_grad():
             for layer, head_list in head_dict.items():
                 hidden_states = torch.zeros(
-                    (self.n_head * self.d_head), device=self.llm.device
+                    (self.n_head * self.d_head),
+                    device=self.llm.device,
+                    dtype=torch.bfloat16,
                 )
-                mean_norms = torch.zeros((self.n_head), device=self.llm.device)
+                mean_norms = torch.zeros(
+                    (self.n_head), device=self.llm.device, dtype=torch.bfloat16
+                )
 
                 for i, batch_prompts, current_batch_size in batch(prompts, batch_size):
                     with self.llm.trace(batch_prompts):
@@ -432,7 +436,7 @@ class Model:
                         batch_mean_norms = (
                             out_proj.input[:, -1]
                             .reshape(current_batch_size, self.n_head, self.d_head)
-                            .norm(dim=-1)
+                            .norm( dim=-1)
                             .mean(dim=0)
                             .save()
                         )
@@ -457,14 +461,13 @@ class Model:
                 # Rescale the remaining heads by their mean norm
                 for head in head_list:
                     hidden_states.reshape(self.n_head, self.d_head)[head] = (
-                        hidden_states.reshape(self.n_head, self.d_head)[head]
-                        * mean_norms[head]
+                        mean_norms[head]
                         / hidden_states.reshape(self.n_head, self.d_head)[head].norm(
                             dim=-1
                         )
-                    )
+                    ) * hidden_states.reshape(self.n_head, self.d_head)[head]
 
-                with self.llm.trace("") as tracer:
+                with self.llm.trace(" ") as tracer:
                     out_proj = self.get_out_proj(
                         self.get_self_attn(self.layers[layer]),
                     )

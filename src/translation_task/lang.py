@@ -8,7 +8,7 @@ sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.icl import ICLDataset
 from src.utils.get_model import get_model
-from utils.functions import get_top_k
+from src.utils.functions import get_top_k
 
 
 def main(model_name, lang_source, lang_target, attribution_approximation):
@@ -68,11 +68,11 @@ def main(model_name, lang_source, lang_target, attribution_approximation):
             df_target["context"].tolist(),
             df_fake["context"].tolist(),
             df_target["context_answers"].tolist(),
-            batch_size=16,
+            batch_size=2,
         )
 
         selected_heads = get_top_k(
-            attribution_approximation.mean(dim=-1),  # mean over samples
+            attribution_approximation,
             top_k=20,
         )
 

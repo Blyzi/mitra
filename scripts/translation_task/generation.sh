@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH --job-name=logprobs_diff_lang
-#SBATCH --output=logs/logprobs_diff_%A_%a.out
-#SBATCH --error=logs/logprobs_diff_%A_%a.out
+#SBATCH --job-name=generation
+#SBATCH --output=logs/generation_%A_%a.out
+#SBATCH --error=logs/generation_%A_%a.out
 #SBATCH --array=0-13
 #SBATCH --partition=gpu_p6
 #SBATCH --cpus-per-task=16
@@ -29,17 +29,25 @@ fi
 # Determine direction and language
 if [ $task_id -lt $num_langs ]; then
     # en -> lang
+    lang=${arr[$task_id]}
     source=$en
-    target=${arr[$task_id]}
+    target=$lang
 else
     # lang -> en
     lang_index=$((task_id - num_langs))
-    source=${arr[$lang_index]}
+    lang=${arr[$lang_index]}
+    source=$lang
     target=$en
 fi
 
 export HF_HUB_OFFLINE=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
-echo "Running command with: $source $target"
-uv run src/translation_task/lang.py $1 $source $target $2
+for lang_head in $(seq 0 5); do
+    for trad_head in $(seq 0 5); do
+        echo "Processing language pair: $source to $target with lang_head=$lang_head and trad_head=$trad_head"
+        uv run src/translation_task/generate.py $1 $source $target $source $target $trad_head $lang_head 
+    done
+done
+
+

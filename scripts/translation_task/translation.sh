@@ -1,12 +1,13 @@
 #!/bin/bash
 
-#SBATCH --job-name=logprobs_diff_lang
-#SBATCH --output=logs/logprobs_diff_lang_%A_%a.out
-#SBATCH --error=logs/logprobs_diff_lang_%A_%a.out
+#SBATCH --job-name=logprobs_diff_translation
+#SBATCH --output=logs/logprobs_diff_%A_%a.out
+#SBATCH --error=logs/logprobs_diff_%A_%a.out
 #SBATCH --array=0-13
-#SBATCH --partition=almanach,gpu
+#SBATCH --partition=gpu_p6
 #SBATCH --cpus-per-task=16
-#SBATCH --account=almanach
+#SBATCH --hint=nomultithread
+#SBATCH --account=zln@h100
 #SBATCH --gres=gpu:1
 #SBATCH --constraint=h100
 #SBATCH --time=02:00:00
@@ -47,6 +48,6 @@ export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 echo "Processing language pair: $source to $target"
 
-uv run src/translation_task/translation.py $1 $source $target
+uv run src/translation_task/translation.py $1 $source $target $2
 
 
