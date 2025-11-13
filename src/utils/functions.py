@@ -59,7 +59,7 @@ def get_top_k(logprobs_diff: torch.Tensor, top_k: int) -> set[tuple[int, int]]:
     Get the best heads contributing to the logprobs difference.
 
     Args:
-        logprobs_diff (torch.Tensor): Tensor of shape (num_layers, num_heads, num_samples)
+        logprobs_diff (torch.Tensor): Tensor of shape (num_layers, num_heads)
         top_k (int): Number of top heads to return
 
     Returns:
@@ -67,7 +67,7 @@ def get_top_k(logprobs_diff: torch.Tensor, top_k: int) -> set[tuple[int, int]]:
     """
 
     heads = set()
-    _, indices = logprobs_diff.mean(dim=-1).flatten().topk(top_k)
+    _, indices = logprobs_diff.flatten().topk(top_k)
 
     for idx in indices:
         layer = idx // logprobs_diff.shape[1]
@@ -75,4 +75,4 @@ def get_top_k(logprobs_diff: torch.Tensor, top_k: int) -> set[tuple[int, int]]:
 
         heads.add((layer.item(), head.item()))
 
-    return heads
+    return sorted(heads, key=lambda x: x[0])

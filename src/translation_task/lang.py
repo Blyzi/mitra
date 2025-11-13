@@ -1,12 +1,17 @@
+from pathlib import Path
+import sys
+from datasets import load_dataset
+import random
 import torch
+
+sys.path.insert(0, Path.cwd().as_posix())
+
 from src.utils.icl import ICLDataset
 from src.utils.get_model import get_model
-from datasets import load_dataset
-import sys
-import random
+from utils.functions import get_top_k
 
 
-def main(model_name, lang_source, lang_target):
+def main(model_name, lang_source, lang_target, attribution_approximation):
     fake_langs = list(
         {
             "eng_Latn",
@@ -57,29 +62,47 @@ def main(model_name, lang_source, lang_target):
         model_name,
     )
 
-    h = model.get_fv_impact(
+    selected_heads = None
+    if attribution_approximation:
+        attribution_approximation = model.get_attribution_patch_map(
+            df_target["context"].tolist(),
+            df_fake["context"].tolist(),
+            df_target["context_answers"].tolist(),
+            batch_size=16,
+        )
+
+        selected_heads = get_top_k(
+            attribution_approximation.mean(dim=-1),  # mean over samples
+            top_k=20,
+        )
+
+    h = model.get_activation_patch_map(
         df_target["context"].tolist(),
         df_fake["context"].tolist(),
         df_target["context_answers"].tolist(),
-        batch_size=48,
+        batch_size=16,
+        selected_heads=selected_heads,
     )
 
     torch.save(
         h,
-        f"logprobs_diff_lang/{model_name.split('/')[-1]}:{lang_source}:{lang_target}.pt",
+        f"results/translation_task/logprobs_diff_lang/{model_name.split('/')[-1]}:{lang_source}:{lang_target}.pt",
     )
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: python lang.py <model_name> <lang_source> <lang_target>")
+    if len(sys.argv) != 5:
+        print(
+            "Usage: python lang.py <model_name> <lang_source> <lang_target> <attribution_approximation>"
+        )
         sys.exit(1)
 
-    model_name, lang_source, lang_target = (
+    model_name, lang_source, lang_target, attribution_approximation = (
         sys.argv[1],
         sys.argv[2],
         sys.argv[3],
+        bool(int(sys.argv[4])),
     )
 
     print(f"Model: {model_name}, Source: {lang_source}, Target: {lang_target}")
-    main(model_name, lang_source, lang_target)
+    main(model_name, lang_source, lang_target, attribution_approximation)
