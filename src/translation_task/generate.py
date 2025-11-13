@@ -2,12 +2,16 @@ from pathlib import Path
 import sys
 from typing import Literal
 import torch
+import pandas as pd
+from datasets import load_dataset
+import json
+
+sys.path.insert(0, Path.cwd().as_posix())
+
+from src.utils.functions import get_top_k
 from src.utils.icl import ICLDataset
 from src.utils.evaluation import eval_bleu, eval_chrf
 from src.utils.get_model import get_model
-from datasets import load_dataset
-from src.utils.functions import get_logprobs_diff_elbow, get_top_k
-import pandas as pd
 
 
 def get_noshot_prompt(prompt: str, source: str, target: str) -> str:
@@ -66,24 +70,24 @@ def add_vectors(
     return combined_vector
 
 
-def get_selected_heads(
-    log_probs_diff: dict[tuple[str, str], torch.Tensor],
-) -> list[tuple[int, int]]:
-    # Get the top k heads based on the elbow method
-
-    k = get_logprobs_diff_elbow(log_probs_diff, list(log_probs_diff.keys()))
-
-    top_heads = get_top_k(
-        torch.mean(torch.stack(list(log_probs_diff.values())), dim=0), k
-    )
-
-    return sorted(top_heads, key=lambda x: x[0])
-
-
-def main(model_name, lang_source, lang_target):
-    pairs_source_target = load_dataset("facebook/flores", "all")["dev"].map(
+def main(
+    model_name,
+    trad_source,
+    trad_target,
+    lang_source,
+    lang_target,
+    num_trad_heads,
+    num_lang_heads,
+):
+    lang_pairs = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
             "pairs": (x["sentence_" + lang_source], x["sentence_" + lang_target])
+        }
+    )["pairs"]
+
+    trad_pairs = load_dataset("facebook/flores", "all")["dev"].map(
+        lambda x: {
+            "pairs": (x["sentence_" + trad_source], x["sentence_" + trad_target])
         }
     )["pairs"]
 
@@ -99,9 +103,17 @@ def main(model_name, lang_source, lang_target):
         "rus_Cyrl",
     ]
 
-    icl_ds = ICLDataset(pairs_source_target, bidirectional=False)
+    ds_lang = ICLDataset(lang_pairs, bidirectional=False)
+    ds_trad = ICLDataset(trad_pairs, bidirectional=False)
 
-    df = icl_ds.get_prompts(
+    df_lang = ds_lang.get_prompts(
+        n_shot=5,
+        n_shot_format="Q: {x}\nA: {y}\n\n",
+        question_format="Q: {x}\nA:",
+        local_corruption=False,
+    )
+
+    df_trad = ds_trad.get_prompts(
         n_shot=5,
         n_shot_format="Q: {x}\nA: {y}\n\n",
         question_format="Q: {x}\nA:",
@@ -114,42 +126,59 @@ def main(model_name, lang_source, lang_target):
 
     logprobs_diff_trads = get_representations(model_name, langs, type="trad")
 
-    selected_heads_lang = get_selected_heads(logprobs_diff_langs)
-    selected_heads_trad = get_selected_heads(logprobs_diff_trads)
+    selected_heads_lang = get_top_k(logprobs_diff_langs.mean(dim=-1), num_lang_heads)
+    selected_heads_trad = get_top_k(logprobs_diff_trads.mean(dim=-1), num_trad_heads)
 
     print("Selected heads (language):", selected_heads_lang)
     print("Selected heads (translation):", selected_heads_trad)
 
     h_lang = model.calculate_fn_vector(
-        df["context"].tolist(), selected_heads_lang, batch_size=64
+        df_lang["context"].tolist(), selected_heads_lang, batch_size=64
     )
+
     h_trad = model.calculate_fn_vector(
-        df["context"].tolist(), selected_heads_trad, batch_size=64
+        df_trad["context"].tolist(), selected_heads_trad, batch_size=64
     )
 
-    h = add_vectors(h_lang, h_trad, factor_v1=0.0, factor_v2=6.0)
+    h = add_vectors(h_lang, h_trad, factor_v1=1.0, factor_v2=1.0)
 
-    generations__function_vector = model.generate_with_fn_vector(
-        df["noshot_prompt"].tolist(),
+    generations_function_vector = model.generate_with_fn_vector(
+        df_lang["noshot_prompt"].tolist(),
         fn_vector=h,
-        max_new_tokens=50,
+        max_new_tokens=75,
         stops=["\n"],
     )
 
-    generation_baseline = model.generate(
-        df["noshot_prompt"]
-        .apply(lambda x: get_noshot_prompt(x, lang_source, lang_target))
-        .tolist(),
-        max_new_tokens=50,
-        stops=["\n"],
-    )
+    # if baseline generations do not exist, compute and save them
+    if not Path(
+        f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv"
+    ).exists():
+        generation_baseline_answer = model.generate(
+            df_lang["noshot_prompt"]
+            .apply(lambda x: get_noshot_prompt(x, lang_source, lang_target))
+            .tolist(),
+            max_new_tokens=75,
+            stops=["\n"],
+        )
+
+        with open(
+            f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv",
+            "w",
+        ) as f:
+            pd.DataFrame({"generation_baseline": generation_baseline_answer}).to_csv(
+                f, index=False
+            )
+
+    generation_baseline = pd.read_csv(
+        f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv"
+    )["generation_baseline"].tolist()
 
     results_df = pd.DataFrame(
         {
-            "prompt": df["noshot_prompt"],
-            "reference": df["noshot_answers"],
-            "generation_baseline": generation_baseline,
-            "generation_function_vector": generations__function_vector,
+            "prompt": df_lang["noshot_prompt"],
+            "reference": df_lang["noshot_answers"],
+            "generation_baseline": generation_baseline["generation_baseline"],
+            "generation_function_vector": generations_function_vector,
         }
     )
 
@@ -186,20 +215,42 @@ def main(model_name, lang_source, lang_target):
     )
 
     results_df.to_csv(
-        f"generation/{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv",
+        f"generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv",
         index=False,
     )
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 4:
-        print("Usage: python generate.py <model_name> <lang_source> <lang_target>")
+    if len(sys.argv) != 6:
+        print(
+            "Usage: python generate.py <model_name> <lang_source> <lang_target> <number of trad_heads> <number of lang_heads>"
+        )
         sys.exit(1)
 
-    model_name, lang_source, lang_target = (
+    (
+        model_name,
+        trad_source,
+        trad_target,
+        lang_source,
+        lang_target,
+        num_trad_heads,
+        num_lang_heads,
+    ) = (
         sys.argv[1],
         sys.argv[2],
         sys.argv[3],
+        sys.argv[4],
+        sys.argv[5],
+        int(sys.argv[6]),
+        int(sys.argv[7]),
     )
 
-    main(model_name, lang_source, lang_target)
+    main(
+        model_name,
+        trad_source,
+        trad_target,
+        lang_source,
+        lang_target,
+        num_trad_heads,
+        num_lang_heads,
+    )
