@@ -3,7 +3,7 @@
 #SBATCH --job-name=generation
 #SBATCH --output=logs/generation_%A_%a.out
 #SBATCH --error=logs/generation_%A_%a.out
-#SBATCH --array=0-13
+#SBATCH --array=0-19
 #SBATCH --partition=gpu_p6
 #SBATCH --cpus-per-task=16
 #SBATCH --hint=nomultithread
@@ -13,7 +13,7 @@
 #SBATCH --time=02:00:00
 
 en="eng_Latn"
-arr=(fra_Latn spa_Latn por_Latn jpn_Jpan zho_Hans swh_Latn wol_Latn)
+arr=(fra_Latn spa_Latn por_Latn jpn_Jpan zho_Hans swh_Latn wol_Latn hin_Deva arb_Arab rus_Cyrl)
 
 # Get number of elements
 num_langs=${#arr[@]}
