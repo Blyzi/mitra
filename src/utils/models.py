@@ -23,7 +23,7 @@ class Model:
     ):
         self.name = name
         self.llm = LanguageModel(
-            name, device_map="auto", dtype=torch.bfloat16, dispatch=True
+            name, device_map="auto", dtype=torch.float32, dispatch=True
         )
 
         self.tokenizer = self.llm.tokenizer
@@ -178,7 +178,7 @@ class Model:
                     logits = self.llm.lm_head.output[:, -1]
 
                     correct_logprobs_corrupted[i] = logits.log_softmax(dim=-1)[
-                        :, correct_completion_ids[i]
+                        0, correct_completion_ids[i]
                     ].save()
 
             # We now do the intervention by patching in the mean activations head by head
@@ -210,7 +210,7 @@ class Model:
                             ] = z_dict[(layer, head)]
 
                             # Get logprobs at the end, which we'll compare with our corrupted logprobs
-                            correct_logprobs[i : i + current_batch_size] = (
+                            batch_correct_logprobs = (
                                 self.llm.lm_head.output[:, -1]
                                 .log_softmax(dim=-1)[
                                     torch.arange(current_batch_size),
@@ -218,6 +218,10 @@ class Model:
                                 ]
                                 .save()
                             )
+
+                        correct_logprobs[i : i + current_batch_size] = (
+                            batch_correct_logprobs
+                        )
 
                     correct_logprobs_intervention[layer, head] = correct_logprobs
 
@@ -414,10 +418,10 @@ class Model:
                 hidden_states = torch.zeros(
                     (self.n_head * self.d_head),
                     device=self.llm.device,
-                    dtype=torch.bfloat16,
+                    dtype=torch.float32,
                 )
                 mean_norms = torch.zeros(
-                    (self.n_head), device=self.llm.device, dtype=torch.bfloat16
+                    (self.n_head), device=self.llm.device, dtype=torch.float32
                 )
 
                 for i, batch_prompts, current_batch_size in batch(prompts, batch_size):
@@ -436,7 +440,7 @@ class Model:
                         batch_mean_norms = (
                             out_proj.input[:, -1]
                             .reshape(current_batch_size, self.n_head, self.d_head)
-                            .norm( dim=-1)
+                            .norm(dim=-1)
                             .mean(dim=0)
                             .save()
                         )

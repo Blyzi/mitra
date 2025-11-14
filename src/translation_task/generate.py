@@ -63,7 +63,11 @@ def add_vectors(
     zero_vector = None
 
     if v1 or v2:
-        zero_vector = torch.zeros_like(next(iter(v1.values()))) if v1 else torch.zeros_like(next(iter(v2.values())))
+        zero_vector = (
+            torch.zeros_like(next(iter(v1.values())))
+            if v1
+            else torch.zeros_like(next(iter(v2.values())))
+        )
 
     for layer in keys:
         vec1 = v1.get(layer, zero_vector)
