@@ -46,7 +46,7 @@ fi
 export HF_HUB_OFFLINE=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
-echo "Processing language pair: $source to $target"
+echo "Model: $1 - Language pair: $source -> $target"
 
 uv run src/translation_task/translation.py $1 $source $target $2
 
