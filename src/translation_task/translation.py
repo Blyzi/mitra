@@ -42,7 +42,7 @@ def main(
             df["context"].tolist(),
             df["corrupted_context"].tolist(),
             df["context_answers"].tolist(),
-            batch_size=2,
+            batch_size=1,
         )
 
         selected_heads = get_top_k(

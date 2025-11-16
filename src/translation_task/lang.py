@@ -71,7 +71,7 @@ def main(model_name, lang_source, lang_target, attribution_approximation):
             df_target["context"].tolist(),
             df_fake["context"].tolist(),
             df_target["context_answers"].tolist(),
-            batch_size=2,
+            batch_size=1,
         )
 
         selected_heads = get_top_k(
@@ -83,7 +83,7 @@ def main(model_name, lang_source, lang_target, attribution_approximation):
         df_target["context"].tolist(),
         df_fake["context"].tolist(),
         df_target["context_answers"].tolist(),
-        batch_size=16,
+        batch_size=1,
         selected_heads=selected_heads,
     )
 
