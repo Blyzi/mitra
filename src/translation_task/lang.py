@@ -30,15 +30,18 @@ def main(model_name, lang_source, lang_target, attribution_approximation):
     pairs_fake = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
             "pairs": (
-                x["sentence_" + lang_source],
-                x["sentence_" + random.choice(fake_langs)],
+                " " + x["sentence_" + lang_source],
+                " " + x["sentence_" + random.choice(fake_langs)],
             )
         }
     )["pairs"]
 
     pairs_target = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
-            "pairs": (x["sentence_" + lang_source], x["sentence_" + lang_target])
+            "pairs": (
+                " " + x["sentence_" + lang_source],
+                " " + x["sentence_" + lang_target],
+            )
         }
     )["pairs"]
 
@@ -47,14 +50,14 @@ def main(model_name, lang_source, lang_target, attribution_approximation):
 
     df_fake = icl_ds_fake.get_prompts(
         n_shot=5,
-        n_shot_format="Q: {x}\nA: {y}\n\n",
-        question_format="Q: {x}\nA:",
+        n_shot_format="Q:{x}\nA:{y}\n\n",
+        question_format="Q:{x}\nA:",
         local_corruption=False,
     )
     df_target = icl_ds_target.get_prompts(
         n_shot=5,
-        n_shot_format="Q: {x}\nA: {y}\n\n",
-        question_format="Q: {x}\nA:",
+        n_shot_format="Q:{x}\nA:{y}\n\n",
+        question_format="Q:{x}\nA:",
         local_corruption=False,
     )
 

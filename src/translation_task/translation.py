@@ -15,16 +15,20 @@ def main(
 ):
     pairs = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
-            "pairs": (x["sentence_" + lang_source], x["sentence_" + lang_target])
+            "pairs": (
+                " " + x["sentence_" + lang_source],
+                " " + x["sentence_" + lang_target],
+            )
         }
     )["pairs"]
+    # We add a space at the beginning to not have to add it later in the get_prompts function
 
     icl_ds = ICLDataset(pairs, bidirectional=False)
 
     df = icl_ds.get_prompts(
         n_shot=5,
-        n_shot_format="Q: {x}\nA: {y}\n\n",
-        question_format="Q: {x}\nA:",
+        n_shot_format="Q:{x}\nA:{y}\n\n",
+        question_format="Q:{x}\nA:",
         local_corruption=False,
     )
 
@@ -50,7 +54,7 @@ def main(
         df["context"].tolist(),
         df["corrupted_context"].tolist(),
         df["context_answers"].tolist(),
-        batch_size=16,
+        batch_size=1,
         selected_heads=selected_heads,
     )
 

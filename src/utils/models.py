@@ -67,7 +67,9 @@ class Model:
         prompts_pairs = list(zip(prompts_p, prompts_q))
 
         with torch.no_grad():
-            for i, batch_pairs, current_batch_size in batch(prompts_pairs, batch_size):
+            for i, batch_pairs, current_batch_size in batch(
+                prompts_pairs, batch_size=batch_size
+            ):
                 with self.llm.trace([pair[0] for pair in batch_pairs]):
                     p_logprobs = self.llm.lm_head.output.log_softmax(dim=-1).save()
 
@@ -100,13 +102,13 @@ class Model:
         heads = range(self.n_head)
         n_samples = len(prompts)
         answer_tokens = self.tokenizer(
-            [f" {answers[i]}" for i in range(len(answers))],
+            answers,
             add_special_tokens=False,
         )["input_ids"]
 
-        full_prompts = [f"{prompts[i]} {answers[i]}" for i in range(len(answers))]
+        full_prompts = [prompts[i] + answers[i] for i in range(len(answers))]
         full_corrupted_prompts = [
-            f"{corrupted_prompts[i]} {answers[i]}" for i in range(len(answers))
+            corrupted_prompts[i] + answers[i] for i in range(len(answers))
         ]
 
         kl_divergences = self.get_kl_divergence(
@@ -155,12 +157,12 @@ class Model:
                     for layer in range(self.n_layers):
                         z = self.get_out_proj(
                             self.get_self_attn(self.layers[layer]),
-                        ).input[:, -1]
+                        ).input[0, -1]
 
-                        z_reshaped = z.reshape(1, self.n_head, self.d_head)
+                        z_reshaped = z.reshape(self.n_head, self.d_head)
 
                         for head in heads:
-                            head_tensor[i, layer, head] = z_reshaped[0, head].save()
+                            head_tensor[i, layer, head] = z_reshaped[head].save()
 
             for layer in range(len(self.layers)):
                 for head in heads:
@@ -175,10 +177,10 @@ class Model:
                 tqdm(patch_corrupted_prompts, desc="Corrupted prompts")
             ):
                 with self.llm.trace(patch_corrupted_prompt):
-                    logits = self.llm.lm_head.output[:, -1]
+                    logits = self.llm.lm_head.output[0, -1]
 
                     correct_logprobs_corrupted[i] = logits.log_softmax(dim=-1)[
-                        0, correct_completion_ids[i]
+                        correct_completion_ids[i]
                     ].save()
 
             # We now do the intervention by patching in the mean activations head by head
@@ -200,7 +202,7 @@ class Model:
                         patch_corrupted_prompts, batch_size
                     ):
                         with self.llm.trace(batch_patch_corrupted_prompts):
-                            # Get hidden states, reshape to get head dimension, then set it to the a-vector
+                            # Get hidden states, reshape to get head dimension, then set it to the action vector
                             z = self.get_out_proj(
                                 self.get_self_attn(self.layers[layer]),
                             ).input[:, -1]
