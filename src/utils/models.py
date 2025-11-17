@@ -23,7 +23,7 @@ class Model:
     ):
         self.name = name
         self.llm = LanguageModel(
-            name, device_map="auto", dtype=torch.float32, dispatch=True
+            name, device_map="auto", dtype=torch.bfloat16, dispatch=True
         )
 
         self.tokenizer = self.llm.tokenizer
@@ -67,8 +67,9 @@ class Model:
         prompts_pairs = list(zip(prompts_p, prompts_q))
 
         with torch.no_grad():
-            for i, batch_pairs, current_batch_size in batch(
-                prompts_pairs, batch_size=batch_size
+            for i, batch_pairs, current_batch_size in tqdm(
+                batch(prompts_pairs, batch_size=batch_size),
+                desc="KL Divergence Batches",
             ):
                 with self.llm.trace([pair[0] for pair in batch_pairs]):
                     p_logprobs = self.llm.lm_head.output.log_softmax(dim=-1).save()
@@ -290,8 +291,8 @@ class Model:
             for i in range(n_samples)
         ]
 
-        for i, batch_patch_corrupted_prompt, current_batch_size in batch(
-            patch_corrupted_prompts, batch_size
+        for i, batch_patch_corrupted_prompt, current_batch_size in tqdm(
+            batch(patch_corrupted_prompts, batch_size), desc="Corrupted Prompts"
         ):
             batch_corrupted_out = []
             batch_corrupted_grads = []
@@ -346,8 +347,8 @@ class Model:
                 corrupted_grads = batch_corrupted_grads
 
         with torch.no_grad():
-            for i, batch_patch_clean_prompt, current_batch_size in batch(
-                patch_clean_prompts, batch_size
+            for i, batch_patch_clean_prompt, current_batch_size in tqdm(
+                batch(patch_clean_prompts, batch_size), desc="Clean Prompts"
             ):
                 batch_clean_out = []
                 with self.llm.trace(batch_patch_clean_prompt):
@@ -387,6 +388,11 @@ class Model:
 
                 patching_results[layer] = residual_attr
 
+            del corrupted_out
+            del corrupted_grads
+            del clean_out
+            torch.cuda.empty_cache()
+
             return patching_results
 
     def calculate_fn_vector(
@@ -420,10 +426,10 @@ class Model:
                 hidden_states = torch.zeros(
                     (self.n_head * self.d_head),
                     device=self.llm.device,
-                    dtype=torch.float32,
+                    dtype=torch.bfloat16,
                 )
                 mean_norms = torch.zeros(
-                    (self.n_head), device=self.llm.device, dtype=torch.float32
+                    (self.n_head), device=self.llm.device, dtype=torch.bfloat16
                 )
 
                 for i, batch_prompts, current_batch_size in batch(prompts, batch_size):
