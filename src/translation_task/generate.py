@@ -1,4 +1,5 @@
 from pathlib import Path
+import random
 import sys
 from typing import Literal
 import torch
@@ -11,6 +12,8 @@ from src.utils.functions import get_top_k
 from src.utils.icl import ICLDataset
 from src.utils.evaluation import eval_bleu, eval_chrf
 from src.utils.get_model import get_model
+from src.utils.fasttext import get_language, flores_langs
+from src.utils.add_vectors import add_vectors
 
 
 def get_noshot_prompt(prompt: str, source: str, target: str) -> str:
@@ -29,7 +32,7 @@ def get_noshot_prompt(prompt: str, source: str, target: str) -> str:
     return f"Translate the following sentence from {map[source]} to {map[target]}:\n{prompt}"
 
 
-def get_representations(
+def get_logprobs_diff(
     model_name: str, langs: list[str], type: Literal["lang", "trad"]
 ) -> dict[tuple[str, str], torch.Tensor]:
     logs_probs_diff = {}
@@ -51,30 +54,32 @@ def get_representations(
     return logs_probs_diff
 
 
-def add_vectors(
-    v1: dict[tuple[int, int], torch.Tensor],
-    v2: dict[tuple[int, int], torch.Tensor],
-    factor_v1=1.0,
-    factor_v2=1.0,
-) -> dict[tuple[int, int], torch.Tensor]:
-    keys = sorted(list(set(v1.keys()).union(set(v2.keys()))))
-    print("Keys in the combined vector:", keys)
-    combined_vector = {}
-    zero_vector = None
+def get_all_answers():
+    answer_dict = {}
+    ds = load_dataset("facebook/flores", "all")["dev"]
 
-    if v1 or v2:
-        zero_vector = (
-            torch.zeros_like(next(iter(v1.values())))
-            if v1
-            else torch.zeros_like(next(iter(v2.values())))
+    for lang in flores_langs:
+        pairs = ds.map(
+            lambda x: {
+                "pairs": (
+                    "",
+                    " " + x["sentence_" + lang],
+                )
+            }
+        )["pairs"]
+
+        icl = ICLDataset(pairs, bidirectional=False)
+
+        df = icl.get_prompts(
+            n_shot=5,
+            n_shot_format="Q:{x}\nA:{y}\n\n",
+            question_format="Q:{x}\nA:",
+            local_corruption=False,
         )
 
-    for layer in keys:
-        vec1 = v1.get(layer, zero_vector)
-        vec2 = v2.get(layer, zero_vector)
-        combined_vector[layer] = factor_v1 * vec1 + factor_v2 * vec2
+        answer_dict[lang] = df["noshot_answers"].tolist()
 
-    return combined_vector
+    return answer_dict
 
 
 def main(
@@ -86,15 +91,45 @@ def main(
     num_trad_heads,
     num_lang_heads,
 ):
+    fake_langs = list(
+        {
+            "eng_Latn",
+            "fra_Latn",
+            "spa_Latn",
+            "por_Latn",
+            "jpn_Jpan",
+            "zho_Hans",
+            "hin_Deva",
+            "arb_Arab",
+            "rus_Cyrl",
+        }
+        - {lang_target, lang_source}
+    )
+
     lang_pairs = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
-            "pairs": (x["sentence_" + lang_source], x["sentence_" + lang_target])
+            "pairs": (
+                " " + x["sentence_" + lang_source],
+                " " + x["sentence_" + lang_target],
+            )
+        }
+    )["pairs"]
+
+    lang_fake_pairs = load_dataset("facebook/flores", "all")["dev"].map(
+        lambda x: {
+            "pairs": (
+                " " + x["sentence_" + lang_source],
+                " " + x["sentence_" + random.choice(fake_langs)],
+            )
         }
     )["pairs"]
 
     trad_pairs = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
-            "pairs": (x["sentence_" + trad_source], x["sentence_" + trad_target])
+            "pairs": (
+                " " + x["sentence_" + trad_source],
+                " " + x["sentence_" + trad_target],
+            )
         }
     )["pairs"]
 
@@ -113,27 +148,35 @@ def main(
     ]
 
     ds_lang = ICLDataset(lang_pairs, bidirectional=False)
+    ds_lang_fake = ICLDataset(lang_fake_pairs, bidirectional=False)
     ds_trad = ICLDataset(trad_pairs, bidirectional=False)
 
     df_lang = ds_lang.get_prompts(
         n_shot=5,
-        n_shot_format="Q: {x}\nA: {y}\n\n",
-        question_format="Q: {x}\nA:",
+        n_shot_format="Q:{x}\nA:{y}\n\n",
+        question_format="Q:{x}\nA:",
+        local_corruption=False,
+    )
+
+    df_lang_fake = ds_lang_fake.get_prompts(
+        n_shot=5,
+        n_shot_format="Q:{x}\nA:{y}\n\n",
+        question_format="Q:{x}\nA:",
         local_corruption=False,
     )
 
     df_trad = ds_trad.get_prompts(
         n_shot=5,
-        n_shot_format="Q: {x}\nA: {y}\n\n",
-        question_format="Q: {x}\nA:",
+        n_shot_format="Q:{x}\nA:{y}\n\n",
+        question_format="Q:{x}\nA:",
         local_corruption=False,
     )
 
     model = get_model(model_name)
 
-    logprobs_diff_langs = get_representations(model_name, langs, type="lang")
+    logprobs_diff_langs = get_logprobs_diff(model_name, langs, type="lang")
 
-    logprobs_diff_trads = get_representations(model_name, langs, type="trad")
+    logprobs_diff_trads = get_logprobs_diff(model_name, langs, type="trad")
 
     selected_heads_lang = get_top_k(
         logprobs_diff_langs[(lang_source, lang_target)].mean(dim=-1), num_lang_heads
@@ -147,14 +190,22 @@ def main(
 
     if len(selected_heads_lang) > 0:
         h_lang = model.calculate_fn_vector(
-            df_lang["context"].tolist(), selected_heads_lang, batch_size=32
+            df_lang["context"].tolist(),
+            df_lang_fake["context"].tolist(),
+            df_lang["context_answers"].tolist(),
+            selected_heads_lang,
+            batch_size=1,
         )
     else:
         h_lang = {}
 
     if len(selected_heads_trad) > 0:
         h_trad = model.calculate_fn_vector(
-            df_trad["context"].tolist(), selected_heads_trad, batch_size=32
+            df_trad["context"].tolist(),
+            df_trad["corrupted_context"].tolist(),
+            df_trad["context_answers"].tolist(),
+            selected_heads_trad,
+            batch_size=1,
         )
     else:
         h_trad = {}
@@ -167,6 +218,8 @@ def main(
         max_new_tokens=75,
         stops=["\n"],
     )
+
+    print("Generations with function vector done.")
 
     # if baseline generations do not exist, compute and save them
     if not Path(
@@ -189,7 +242,9 @@ def main(
             )
 
     generation_baseline = pd.read_csv(
-        f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv"
+        f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv",
+        dtype=str,
+        na_filter=False,
     )["generation_baseline"].tolist()
 
     results_df = pd.DataFrame(
@@ -198,40 +253,66 @@ def main(
             "reference": df_lang["noshot_answers"],
             "generation_baseline": generation_baseline,
             "generation_function_vector": generations_function_vector,
-        }
+        },
+        dtype=str,
     )
+
+    print("Evaluating generations...")
 
     results_df["bleu_baseline"] = results_df.apply(
         lambda row: eval_bleu(
-            reference=row["reference"],
-            generation=row["generation_baseline"],
+            reference=row["reference"].strip(),
+            generation=row["generation_baseline"].strip(),
         ),
         axis=1,
     )
 
     results_df["bleu_function_vector"] = results_df.apply(
         lambda row: eval_bleu(
-            reference=row["reference"],
-            generation=row["generation_function_vector"],
+            reference=row["reference"].strip(),
+            generation=row["generation_function_vector"].strip(),
         ),
         axis=1,
     )
 
     results_df["chrf_baseline"] = results_df.apply(
         lambda row: eval_chrf(
-            reference=row["reference"],
-            generation=row["generation_baseline"],
+            reference=row["reference"].strip(),
+            generation=row["generation_baseline"].strip(),
         ),
         axis=1,
     )
 
     results_df["chrf_function_vector"] = results_df.apply(
         lambda row: eval_chrf(
-            reference=row["reference"],
-            generation=row["generation_function_vector"],
+            reference=row["reference"].strip(),
+            generation=row["generation_function_vector"].strip(),
         ),
         axis=1,
     )
+
+    results_df["function_vector_lang"] = results_df["generation_function_vector"].apply(
+        lambda x: get_language(x),
+    )
+
+    all_answers = get_all_answers()
+
+    for i, row in results_df.iterrows():
+        lang = row["function_vector_lang"]
+        if lang in all_answers:
+            results_df.at[i, "bleu_function_vector_lang"] = eval_bleu(
+                reference=all_answers[lang][i].strip(),
+                generation=row["generation_function_vector"].strip(),
+            )
+            results_df.at[i, "chrf_function_vector_lang"] = eval_chrf(
+                reference=all_answers[lang][i].strip(),
+                generation=row["generation_function_vector"].strip(),
+            )
+        else:
+            results_df.at[i, "bleu_function_vector_lang"] = None
+            results_df.at[i, "chrf_function_vector_lang"] = None
+
+    print("Saving results...")
 
     results_df.to_csv(
         f"results/translation_task/generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv",
