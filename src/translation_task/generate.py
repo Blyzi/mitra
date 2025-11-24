@@ -28,6 +28,7 @@ def get_noshot_prompt(prompt: str, source: str, target: str) -> str:
         "arb_Arab": "Arabic",
         "rus_Cyrl": "Russian",
         "swh_Latn": "Swahili",
+        "wol_Latn": "Wolof",
     }
     return f"Translate the following sentence from {map[source]} to {map[target]}:\n{prompt}"
 
