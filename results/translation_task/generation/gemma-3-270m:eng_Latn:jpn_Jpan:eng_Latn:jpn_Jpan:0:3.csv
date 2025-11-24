@@ -1,0 +1,285 @@
+prompt,reference,generation_baseline,generation_function_vector,bleu_baseline,bleu_function_vector,chrf_baseline,chrf_function_vector,function_vector_lang,bleu_function_vector_lang,chrf_function_vector_lang
+"Q: Pittman suggested that conditions wouldn't improve until sometime next week.
+A:", ピットマン氏は、来週になるまで状況は改善しないだろうと示唆した。,, Pittman suggested that conditions wouldn't improve until sometime next week.,0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: Each of these nomadic rampages or marches lasts for approximately 17 days.
+A:", こうした遊牧段階での暴挙や進撃は、約17日間ずつ続きます。,, 17 days is the length of the march.,0.0,0.0,0.0,1.5059381930124467,eng_Latn,4.661841620661271,21.541082362339043
+"Q: The different constructions have different capabilities, are sensitive to different wave-lengths and have differing degrees of acuity, also they require different processing to make sense of the input and different numbers to work optimally.
+A:", 構造が異なれば機能も異なり、感じ取る波長が異なり、視力の程度も異なります。また、それらの構造には入力信号を理解するためのさまざまな処理や機能に応じた個数が必要になります。,," 1. The different constructions have different capabilities, are sensitive to different wave-lengths and have differing degrees of acuity, also they require different processing to make sense of the input and different numbers to work optimally.",0.0,0.0,0.0,0.0,eng_Latn,97.75137267097121,99.58897960762116
+"Q: The typhoon is estimated to be moving toward China at eleven kph.
+A:", 台風は時速11 kmの速さで中国に向かって進んでいると見られています。,, 11 kph is the speed of the typhoon.,0.0,0.0,0.0,2.3353087021244066,eng_Latn,10.457935853793364,20.515602228523345
+"Q: Massa is due to be out for at least the rest of the 2009 season.
+A:", マッサは少なくとも2009年の残りのシーズンは欠場することになっている。,, 2009 is the last season of the 2008-09 season.,0.0,0.0,0.0,4.038794930286986,eng_Latn,7.893880992285575,34.45869836716542
+"Q: One of strong points of Charlotte, North Carolina, is that it has an abundance of high-quality options for families.
+A:", ノースカロライナ州シャーロットの魅力は、家族向けの択肢が豊富に揃っていてその質が高いことです。,," Charlotte, North Carolina, is a great place to live, work, and play. It has a variety of neighborhoods, from the more rural to the more urban. It has a lot of parks, too.",0.0,0.0,0.0,0.0,eng_Latn,11.381305436860425,35.094018855090745
+"Q: This makes inexpensive zoom lenses hard to use in low-light conditions without a flash.
+A:", そのため、安価なズームレンズはフラッシュを使わないと低照度の状態では使いづらくなります。,, ズームレンズは、低光沢のある明るい環境でも、レンズの光沢を抑えるために、レンズの光沢を軽減するために、レンズの光沢を軽減するために、レンズの光沢を軽減するために、レンズの光沢を軽減するために、レンズの光沢を軽減するために、レンズの光沢を軽減するために、レンズの光,0.0,3.379008380834218,0.0,9.046596989836663,jpn_Jpan,3.379008380834218,9.046596989836663
+"Q: Traditionally, the heir to the throne would go straight into the military after finishing school.
+A:", 伝統的に、王位継承者は学校卒業後にそのまま軍に入ります。,, 1. The heir to the throne would go straight into the military after finishing school.,0.0,0.0,0.0,0.0,eng_Latn,75.59193877650506,83.55969424424009
+"Q: A cell is the smallest structural and functional unit of a living (things) organism.
+A:", 細胞とは生物の構造的機能的な最小単位です。,, 1. Cell is the smallest structural and functional unit of a living (things) organism.,0.0,0.0,0.0,0.0,eng_Latn,90.21315316859227,94.0962662599159
+"Q: Lead researchers say this may bring early detection of cancer, tuberculosis, HIV and malaria to patients in low-income countries, where the survival rates for illnesses such as breast cancer can be half those of richer countries.
+A:", 主任研究者は、これは低所得国における患者の癌、結核、HIV、マラリアの早期発見につながる可能性があると述べます。こうした国では、乳がんなどの病気の生存率が豊かな国の半分になることもあるとされます。,, 1999.,0.0,0.0,0.0,0.0,deu_Latn,0.0,0.49813612534648943
+"Q: Germany code-named the attack “Operation Sealion”. Most of the British Army's heavy weapons and supplies had been lost when it evacuated from Dunkirk, so the army was fairly weak.
+A:", ドイツはこの攻撃に「シーリオン作戦」という暗号名を付けました。イギリス軍の重火器や物資のほとんどは、ダンカークから避難したときに失われていたので、軍はかなり弱体でした。,, 1940-1945,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.11652295502213937
+"Q: These aren't very nimble so the trail has to take a long swerve around the Transantarctic Mountains to come onto the plateau.
+A:", これらはあまり小回りがきかないので、自然歩道を通って高原に出ようとすると南極大陸の山々をぐるりと回らなければなりません。, These aren't very nimble so the trail has to take a long swerve around the Transantarctic Mountains to come onto the plateau., 1000 feet.,0.0,0.0,0.0,0.0,eng_Latn,0.0008951104098702025,1.396564160995026
+"Q: There are infinite variations possible, but this remains what most people mean when they talk of ""going to Disney World"".
+A:", 無限のバリエーションがありますが、ほとんどの人にとって「ディズニーワールドに行く」ことを話題にしていることに変わりはないのです。,, 1. The only way to go to Disney World is to go to the parks.,0.0,0.0,0.0,0.0,eng_Latn,5.013749779865018,17.207897651630027
+"Q: A World's Fair (commonly called World Exposition, or simply Expo) is large international festival of arts and sciences.
+A:", 世界博覧会（通称は万国博覧会、または単に万博）は、芸術と科学を展示する大規模な国際的祭典です。,, 世界大展 (World Exhibition) is a large international festival of arts and sciences. It is held in a number of countries around the world.,0.0,1.2947152478753454,0.0,1.1985275176855807,eng_Latn,28.402007880371915,51.29791252007878
+"Q: To Check the victim, you must first survey the scene to ensure your safety.
+A:", 被害者を保護するには、まず現場を調査して安全を確保しなければなりません。,, 1. You must first survey the scene to ensure your safety.,0.0,0.0,0.0,0.0,eng_Latn,57.82806981264974,71.00992615668508
+"Q: Then, a few years later in 1639, an English astronomer named Jeremiah Horrocks observed a transit of Venus.
+A:", そして数年後の1639年にイギリスの天文学者ジェレミア・ホロックスが金星の通過を観測しました。,, 1639 was the year of the first transit of Venus.,0.0,1.054566571964658,0.0,3.2191692942449786,eng_Latn,6.601943521770532,23.806143679957597
+"Q: Nevertheless, there are many distinctive ways of drinking coffee around the world that are worth experiencing.
+A:", しかし、世界各地には、体験してみる価値のある特徴的なコーヒーの飲み方がたくさんあります。,, 1. The most common way of drinking coffee is by drinking hot water. Hot water is a good source of…,0.0,0.0,0.0,0.0,eng_Latn,6.908895196867149,24.34044573605823
+"Q: During the last three decades, despite officially remaining a communist state, China has developed a market economy.
+A:", この30年間に、中国は公式には共産主義国家のままであるにもかかわらず、市場経済を発展させてきました。,, 1978-1982,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Hopefully, most people will realise that their long term best option is to work together with others.
+A:", うまくいけば、長期的な最善の選択肢は互いに協力し合うことだとほとんどの人が気づくでしょう。,,,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Photons are even smaller than the stuff that makes up atoms!
+A:", 光子は原子を構成する物質よりもさらに微小な粒子です！,,  photons are even smaller than atoms.,0.0,0.0,0.0,0.0,eng_Latn,29.453347733166957,50.732243930638745
+"Q: They normally offer higher bandwidth and better quality of service. They are encrypted and thus harder to spy on.
+A:", 通常、これらはより高い帯域幅とより優れたサービス品質を提供します。そしてスパイを防止するために暗号化されます。, They are encrypted and thus harder to spy on., 1. They are encrypted and thus harder to spy on.,0.0,0.0,0.0,0.0,eng_Latn,36.324073317662524,46.87097944834413
+"Q: People with this type of thinking have logical thinking, are able to memorize patterns, solve problems and work on scientific tests.
+A:", この種の人は論理的思考力に富み、パターンを記憶したり、問題を解決したり、科学的なテストに取り組んだりできます。,," 1. People with this type of thinking have logical thinking, are able to memorize patterns, solve problems and work on scientific tests.",0.0,0.0,0.0,0.0,eng_Latn,96.21954581957614,99.3205957531143
+"Q: Following the race, Keselowski remains the Drivers' Championship leader with 2,250 points.
+A:"," レース後もケセロウスキーが2,250ポイントを獲得してドライバーズチャンピオンシップのトップをキープしている。", Keselowski is the driver with the most points in the championship.," 2,250 points is the total number of points Keselowski has in the championship.",0.0,1.4183728388959307,0.0,3.837613297122412,eng_Latn,13.264759167412226,36.83158340199515
+"Q: In general, staying in any foreign country for an extended period of time will require you to obtain a visa in advance.
+A:", 一般的に、どこであれ外国に長期滞在しようとする場合は、事前にビザを取得する必要があります。,, 英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は、英語の英語は,0.0,0.5799975368190927,0.0,1.0105508358454367,jpn_Jpan,0.5799975368190927,1.0105508358454367
+"Q: The city of Beijing in China will be the host city of the Olympic Winter Games in 2022, which will make it the first city to have hosted both the summer and winter Olympics.
+A:", 中国の北京市は2022年に冬季オリンピックの開催都市となる予定であり、夏季と冬季の両方のオリンピックを開催した初の都市となります。,, Beijing is the host city of the Winter Olympics in 2022.,0.0,0.0,0.0,2.37371758121066,eng_Latn,3.8231198466449103,28.74242765761132
+"Q: The algae produces a neurotoxin that can disable nerves in both humans and fish.
+A:", この藻は、人間と魚類の両方の神経に有害な神経毒を産生します。,, アグロフィリグリーノは、ヒトと魚の脳の神経細胞を破壊する毒素です。アグロフィリグリーノは、ヒトの脳の神経細胞を破壊する毒素です。アグロフィリグリーノは、ヒトの脳の神経細胞を破壊する毒素です。アグロフィ,0.0,1.6397537370367077,0.0,7.203962006701382,jpn_Jpan,1.6397537370367077,7.203962006701382
+"Q: In the beginning of the war they mostly travelled on top of the sea, but as radar began developing and becoming more accurate the submarines were forced to go under water to avoid being seen.
+A:", 開戦当初は海上航行による移動が多かったものの、レーダーの発達や精度の向上に伴い、潜水艦は水面下に潜ることを余儀なくされました。,, 1941-1945,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: The temple of Artemis at Ephesus was destroyed on July 21, 356 BCE in an act of arson committed by Herostratus.
+A:", エフェソスにあったアルテミス神殿は、紀元前356年7月21日にヘロストラトゥスによる放火で破壊されてしまいました。," The temple of Artemis at Ephesus was destroyed on July 21, 356 BCE in an act of arson committed by Herostratus.", 356 BCE is the date of the destruction of the temple of Artemis at Ephesus.,1.0399742782347783,0.8721367457481528,2.033177960948414,1.5005077507596827,eng_Latn,24.703212108961914,40.31787883097775
+"Q: European Turkey (eastern Thrace or Rumelia in the Balkan peninsula) includes 3% of the country.
+A:", ヨーロッパ側のトルコ（バルカン半島の東トラキアまたはルメリア）は国土の3%を占めています。,, 3% of the country is Turkey.,0.0,0.0,0.0,1.0644916362566017,eng_Latn,4.011350706220156,25.900678293687236
+"Q: The concept was that all European nations had to seek to prevent one nation from becoming powerful, and thus national governments often changed their alliances in order to maintain the balance.
+A:", そのコンセプトは、欧州では一国の強大化を防ぐために、どの国の政府もしばしば同盟関係を変えながらバランスを維持するというものでした。," The concept was that all European nations had to seek to prevent one nation from becoming powerful, and thus national governments often changed their alliances in order to maintain the balance.", 英国的经济实力是英国的经济实力，英国的经济实力是英国的经济实力，英国的经济实力是英国的经济实力，英国的经济实力是英国的经济实力。英国的经济实力是英国的经济实力，英国的经济实力是英国的经济实力，英国的经济实力是英国的经济实力。英国的经济实力,0.0,0.4040940081572238,0.0,0.5653976630229928,zho_Hans,0.6042614825967025,1.965923984272608
+"Q: As well as a former Olympic and World champion, Saito was the All Japan Judo Federation training committee chairman at the time of his death.
+A:", 斎藤氏はオリンピック金メダリスト、世界チャンピオンであると同時に、亡くなる前は全日本柔道連盟の練習委員長を務めていました。,," 1950-1951, 1952-1953, 1954-1955, 1956-1957, 1958-1959, 1960-1961, 1962-196",0.0,0.0,0.0,0.0,krc_Cyrl,,
+"Q: Another famous Greek is a mathematician Pythagoras, mostly known for his famous theorem about relations of the sides of right triangles.
+A:", もう1人の有名なギリシャ人は数学者ピタゴラスで、主に直角三角形の辺の関係についての有名な定理を発見したことで知られています。,, 1. He was a Greek mathematician and philosopher. 2. He was born in 570 BC. 3. He was a student of Euclid. 4. He was a…,0.0,0.0,0.0,0.20946795140343527,eng_Latn,4.717193153042004,18.38918830495385
+"Q: RSPCA New South Wales chief inspector David O'Shannessy told the ABC that surveillance and inspections of abattoirs should be commonplace in Australia.
+A:", RSPCAニューサウスウェールズ州のデビッド・オシャネシー主任検査官は、オーストラリアでは屠殺場の監視と検査を実施して当然だとABCに語りました。,, RSPCA New South Wales chief inspector David O'Shannessy told the ABC that surveillance and inspections of abattoirs should be commonplace in Australia.,0.0,3.407497335732947,0.0,3.604051058363299,eng_Latn,100.00000000000004,100.0
+"Q: Vautier's achievements outside of directing include a hunger strike in 1973 against what he viewed as political censorship.
+A:", 監督業以外でヴォーティエの業績としては、1973年に政治的検閲に反対してハンガーストライキを実施したことが挙げられます。, Vautier's achievements outside of directing include a hunger strike in 1973 against what he viewed as political censorship., 1973 was a turning point in the history of the French Resistance. The hunger strike was a protest against the censorship of the…,0.0,0.0,2.095159307570961,2.095159307570961,eng_Latn,7.334959170370916,31.798744334404528
+"Q: Fire captain Scott Kouns said, ""It was a hot day in the Santa Clara with temperatures in the 90s.
+A:", 消防隊のスコット・クーンズ隊長は「当日サンタクララでは気温が90度を超える猛暑日でした。,, 90s is the hottest temperature in the year.,0.0,0.0,0.0,1.0189208725866807,eng_Latn,3.8996373622972555,21.87355562866066
+"Q: The failure of the second sentence, which proposes to ban same-sex civil unions, could possibly open the door for civil unions in the future.
+A:", 同性結婚を禁止する法案の第二文の破綻は、将来的に市民婚の扉を開く可能性があります。," The failure of the second sentence, which proposes to ban same-sex civil unions, could possibly open the door for civil unions in the future."," The second sentence, which proposes to ban same-sex civil unions, could possibly open the door for civil unions in the future. The argument is that same-sex couples are not the same as heterosexual couples. The argument is that same-sex couples are not the same as heterosexual couples. The argument is that same-sex couples are not the same as heterosexual couples. The",0.0,0.0,0.0,0.0,eng_Latn,29.64203757065958,68.42164276942077
+"Q: His name is still unknown to authorities, although they do know he is a member of the Uighur ethnic group.
+A:", 当局は彼がウイグル族の一員であることを突きとめたものの、まだ名前までは把握していません。,," 1. He was born in 1950 in the city of Qufu, Shandong Province, China.",0.0,0.0,0.0,0.0,eng_Latn,2.0241733707619405,10.439572627561652
+"Q: ""It's going to behave like water. It's transparent just the way water is.
+A:", 水のように流れ、水のように透明です。," ""It's going to behave like water. It's transparent just the way water is.", 1. It's going to behave like water.,0.0,0.0,0.0,0.0,eng_Latn,34.62393915808849,49.73705165640346
+"Q: As time passed, many words that were borrowed from German coalesced. This was the beginning of enlightenment.
+A:", 時が経つにつれ、ドイツ語から借用した多くの言葉が融合されていきました。これが啓蒙の始まりでした。, The enlightenment was the beginning of the age of enlightenment.," 17th century, the Enlightenment, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the age of reason, the",0.0,0.0,0.0,0.0,eng_Latn,2.101021292458008,14.229703710344701
+"Q: King Sejong was the fourth king of the Joseon Dynasty and is one of the most highly regarded.
+A:", 世宗（セジョン）王は朝鮮王朝の第4代王であり、最も評価の高い王の1人です。,, 1. King Sejong was the fourth king of the Joseon Dynasty and is one of the most highly regarded.,0.0,0.0,0.0,0.31605562579013907,eng_Latn,95.73479717381593,99.08182294394899
+"Q: Learning to create interactive media requires conventional and traditional skills, as well as tools mastered in interactive classes (storyboarding, audio and video editing, story telling, etc.)
+A:", インタラクティブメディアの制作を学ぶには、従来のスキルや伝統的なスキルに加えて、対話型授業で習得したツール（ストーリーボード作成、音声・映像編集、ストーリーテリングなど）が求められます。,," Learning to create interactive media requires conventional and traditional skills, as well as tools mastered in interactive classes (storyboarding, audio and video editing, story telling, etc.)",0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: Hindi and Urdu are similar in vocabulary but different in script; in everyday conversations, speakers of both languages can usually understand each other.
+A:", ヒンディー語とウルドゥー語は、文字は異なりますが語彙は似ています。日常会話の場合、どちらかの言語を話す人同士であれば、たいていは互いに意思疎通ができます。,, 英語とurduの違いは、英語の単語の単語が単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の単語の,0.0,0.9216168770877762,0.0,2.5778668133778817,yue_Hant,0.0,0.8337965536409117
+"Q: Now for Japan. Japan was an island country, just like Britain.
+A:", さて、日本はと言えば、イギリスと同じ島国でした。," Now for Japan. Japan was an island country, just like Britain."," 1. Japan was an island country, just like Britain.",0.0,0.0,0.0,0.0,eng_Latn,67.99584717294225,80.8117913359397
+"Q: Maroochydore had finished on top of the ladder, six points clear of Noosa in second.
+A:", マルーキドールは2位のヌーサに6ポイント差をつけて首位でゴールしました。," Maroochydore had finished on top of the ladder, six points clear of Noosa in second."," Maroochydore had finished on top of the ladder, six points clear of Noosa in second.",0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: While they are usually privately owned, they sometimes accommodate visiting heads of state and other dignitaries.
+A:", 通常は個人が所有していますが、来訪した国家元首やその他の要人を受け入れることもあります。,,,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: By early today, winds were around 83 km/h, and it was expect to keep weakening.
+A:", 本日早朝までに風は83km/h前後となり、今後も弱まり続けると予想されていました。," By early today, winds were around 83 km/h, and it was expect to keep weakening.", 83 km/h is the speed at which the wind is blowing.,3.154258576489238,2.884511931763428,6.805818345352112,7.677510050810361,eng_Latn,11.41744409282599,16.791885052356033
+"Q: Al Gore and General Tommy Franks casually rattle off their favorite headlines (Gore's was when The Onion reported he and Tipper were having the best sex of their lives after his 2000 Electoral College defeat).
+A:", アル・ゴア氏とトミー・フランクス将軍は、さりげなく自分たちのお気に入りの見出しを口にします（ゴア氏が挙げた見出しは、2000年の選挙区での敗北後、彼とティッパーが人生で最高のセックスをしていたとオニオン紙が報じたときのことでした）。,," 1. ""The President's Last-Minute Decision to End the War in Iraq"" (Gore's was when The Onion reported he and Tipper were having the best sex of their lives after his 2000 Electoral College defeat).",0.0,0.0,0.0,1.1484453184050794,eng_Latn,61.59044709758418,67.06503706337077
+"Q: Make sure you know what you can and cannot bring in and declare anything over the legal limits.
+A:", 持ち込み可のものと不可のを確認し、法律で定められた限度を超えるものは申告しましょう。,, 1. You must have a valid driver's license and a valid passport.,0.0,0.0,0.0,0.0,eng_Latn,2.265000110415278,10.879794419257689
+"Q: It looks a bit daunting from below, and it is a steep and difficult ascent, but most reasonably fit persons should be able to make it in about 45 minutes.
+A:", 下から見ると少し手ごわい感じがしますが、体力のある人ならば45分程度で登れるはずです。,, 45 minutes is a long time to climb a mountain. It is a long time to climb a mountain.,0.0,0.0,0.0,0.9029818803374831,eng_Latn,2.885174037056033,17.57537711036245
+"Q: Keep in mind while planning that although Southern Africa is stable not all neighboring countries are.
+A:", アフリカ南部は安定していますが、隣国すべてが安定しているわけではないので注意しましょう。,, 1. The South African government has been in power for 40 years.,0.0,0.0,0.0,0.0,eng_Latn,2.5006150769968634,15.288416182131456
+"Q: Peter Costello, Australian treasurer and the man most likely to succeed Prime Minister John Howard as Liberal party leader has thrown his support behind a nuclear power industry in Australia.
+A:", オーストラリアの財務大臣であり、ジョン・ハワード首相の後任として自由党党首に就任する可能性が高いピーター・コステロ氏は、オーストラリアの原子力発電産業を支持しています。,,,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Also give policy/contact copies to traveling companions and relatives or friends back home willing to help.
+A:", 旅仲間や無事の帰宅を願って協力してくれる親戚、友人にも保険契約書と連絡先の写しを渡しておきましょう。,," 1. If you are traveling with a spouse or partner, you should be able to provide a copy of your…",0.0,0.0,0.0,0.0,eng_Latn,3.7419436034576052,17.07635532707616
+"Q: Some of the applications in this category can even translate texts in foreign languages on signs or other objects in the real world when the user points the smartphone towards those objects.
+A:", このカテゴリのアプリケーションの中には、ユーザーがスマートフォンを対象物に向けると、現実世界の看板やその他の対象物に書かれた外国語テキストを翻訳できるものもあります。,, 1. The application of the smartphone to the real world is called augmented reality.,0.0,0.0,0.0,0.0,eng_Latn,3.6012215803817904,26.527488120970823
+"Q: Animals are found all over the earth. They dig in the ground, swim in the oceans, and fly in the sky.
+A:", 動物は地球上のいたるところに生息しています。地面を掘ったり、海を泳ぎ回ったり、空を飛んだりしています。,, ズボラな動物は、地球上にある動物を掘り、海で泳いでいる動物と、地球上の動物を飛んでいる動物と、地球上の動物を飛行している動物と、地球上の動物を飛行している動物と、地球上の動物を飛行している動物と、地球上の動物を飛行している動物と、地球上の動物を飛行している,0.0,2.1296131884623213,0.0,11.075715840466255,jpn_Jpan,2.1296131884623213,11.075715840466255
+"Q: He went on to say, ""This case is serious. Rest assured that our system is working as well as it should.""
+A:", 彼はさらに続けて、「この事件は深刻ですが、システムは正常に機能しているのでご安心ください」と述べました。,, 1999.,0.0,0.0,0.0,0.0,deu_Latn,0.0,0.9442346145301043
+"Q: Pureland origami is origami with the restriction that only one fold may be done at a time, more complex folds like reverse folds are not allowed, and all folds have straightforward locations.
+A:", ピュアランド折り紙とは、一度に折れるのは1か所で、逆折りなどの複雑な折り方はできず、すべての折り目が直線的であるという制約のある折り紙です。,, 1. The origami of the Pureland is a type of origami where the folds are not necessarily straight.,0.0,0.0,0.0,0.1984126984126984,eng_Latn,6.251352441864889,25.537698360952575
+"Q: The native inhabitants of Greenland call themselves Inuit in Canada and Kalaalleq (plural Kalaallit), a Greenlander, in Greenland.
+A:", グリーンランドの先住民は、カナダではイヌイット、グリーンランドではグリーンランド人のカラアレク（複数形カラアリット）を自称しています。,, Greenland is a landmass in the Arctic Ocean. It is the largest landmass in the world. It is the largest landmass in the world by area. It is the largest landmass in the world by area by land area. It is the largest landmass in the world by land area. It is the largest landmass in the world by land area by land area,0.0,0.0,0.0,0.0,eng_Latn,1.2983585863356562,16.657809109664473
+"Q: Nitrogen as a gas still has the same properties as liquid nitrogen. The liquid state is denser but the molecules are still the same.
+A:", 気体としての窒素には液体窒素と同じ性質があります。液体の方が高密度ですが、分子数は同じです。, The liquid state is denser but the molecules are still the same., 1. The liquid state is denser but the molecules are still the same.,0.0,0.0,0.0,0.0,eng_Latn,36.443009903715186,54.8528782667712
+"Q: The search had been hampered by the same bad weather that had caused the aborted landing.
+A:", 捜索は、不時着の原因となった悪天候のために中断されていました。, The search had been hampered by the same bad weather that had caused the aborted landing., The search had been hampered by the same bad weather that had caused the aborted landing.,0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: In fact, there is not one good thing to learn.Learning takes place in the experience between the learner and the knowledge presented.
+A:", 実際、学ぶべきことは1つとは限りません。学習とは、学習者と提示された知識の間で経験というかたちで発生するものです。,, 1. The learner is the one who is learning.,0.0,0.0,0.0,0.272628135223555,eng_Latn,2.103302021944462,15.484060860060994
+"Q: This causes the skater to turn. If the skates tilt to the right, the skater turns right, if the skates tilt to the left, the skater turns left.
+A:", これを利用してスケート選手はターンします。スケート選手はスケートが右に傾けば右を向き、左に傾けば左を向きます。,, 1. The skater turns right.,0.0,0.0,0.0,0.0,eng_Latn,0.5186881880375225,16.088060035548054
+"Q: This is believed to be the fifth time in history that people have observed what turned out to be chemically confirmed martian material falling to Earth.
+A:", これは、化学的に確認された火星物質が地球に落下してきたことを観測したのは、史上5回目と考えられています。, This is believed to be the fifth time in history that people have observed what turned out to be chemically confirmed martian material falling to Earth., 1. The first time in history that people have observed what turned out to be chemically confirmed martian material falling to Earth.,0.0,0.0,0.0,0.0,eng_Latn,73.29903694984337,81.14339350032161
+"Q: Followers pursue certain ways of living, or practices that are intended to nurture those experiences.
+A:", 信者たちは、ある種の生き方や、そうした経験を育むことを目的とした実践を追求しています。,," Followers pursue certain ways of living, or practices that are intended to nurture those experiences.",0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: The outer-part we see when we look at the Sun is called the photosphere, which means ""ball of light"".
+A:", 太陽を眺めたときに見える外側の部分を光球といい、これは「光の玉」という意味です。," The outer-part we see when we look at the Sun is called the photosphere, which means ""ball of light"".", 太陽的外面是我們看到的，太陽的外面是光子，光子是太陽的內部，光子是太陽的內部，光子是太陽的內部，光子是太陽的內部，光子是太陽的內部，光子是太陽的內部，光子是太陽的內部，光子是太陽的內部，光子是太陽,0.0,0.5572983805572274,0.0,1.943468839034801,zho_Hant,0.6332132128900962,4.14499986053024
+"Q: Some medium-format film cameras use a 6 by 6 cm format, more precisely a 56 by 56 mm negative.
+A:", 中判フィルムカメラの中には、6×6 cm、より正確には56×56 mmのネガを使用しているものもあります。,, 6 by 6 cm is a standard format for film cameras. The 56 by 56 mm negative is a standard format for film negatives.,0.0,1.5880117714047368,0.0,4.2929151918053705,eng_Latn,26.949453411944422,48.81122169055495
+"Q: Most televisions are made in a way to please the general public.
+A:", ほとんどのテレビ番組は、大衆が喜ぶように製作されています。, Most televisions are made in a way to please the general public., テレビは、一般人のためのテレビです。,0.0,7.270717733704594,0.0,8.785734635827296,jpn_Jpan,7.270717733704594,8.785734635827296
+"Q: Submarines were used in World War I and World War II. Back then they were very slow and had a very limited shooting range.
+A:", 潜水艦は第一次世界大戦と第二次世界大戦で使用されました。当時の潜水艦は非常に遅く、射程距離も限られていました。,, 1917-1918,0.0,0.0,0.0,0.0,bod_Tibt,0.0,0.0
+"Q: Many people dream of the day when humans can travel to another star and explore other worlds, some people wonder what's out there some belive that aliens or other life may live on another plant.
+A:", 多くの人々は、人間が別の星に旅行し、別世界を探索できる日を夢見ています。宇宙に何があるのか知りたがっている人もいれば、別の惑星に宇宙人や他の生命体が住んでいると信じている人もいます。,," 1. The word ""alien"" is a misnomer. The word ""alien"" is a misnomer. It is a term used to describe a species of animal or plant that is not native to the Earth.",0.0,0.0,0.0,0.0,eng_Latn,1.2642975505530565,18.024029904507767
+"Q: On the accordion, to get extra volume, you use the bellows with more pressure or speed.
+A:", アコーディオンを弾くときに音量を上げるには、蛇腹を強く、または速く動かします。,, 1. The bellows is a device that allows air to be pumped into the instrument.,0.0,0.0,0.0,0.0,eng_Latn,4.571981070833712,20.09552606369021
+"Q: He joined them in 1945 and stayed until 1958.
+A:", 1945年に彼らと合流し、1958年まで滞在した。, He joined them in 1945 and stayed until 1958., 1945-1958,2.853183878886449,0.8861688619210014,10.838889995025337,13.777130082981495,eng_Latn,1.9119108411650758,9.41400183537244
+"Q: Coffee is one of the world's most traded commodities, and you can probably find many types in your home region.
+A:", コーヒーは世界で最も取引の多い商品の1つですから、お住まいの地域でもいろいろな種類が見られるでしょう。,, コーヒーは世界中のコーヒー豆の1つである。コーヒー豆は、コーヒー豆の生産者によって、コーヒー豆の生産者によって生産される。コーヒー豆は、コーヒー豆の生産者によって生産される。コーヒー豆は、コーヒー豆の生産者によって生産される。コーヒー豆は、コーヒー豆の生産者によって生産される。コーヒー豆は、コーヒー,0.0,3.3330247627830865,0.0,9.060574925140443,jpn_Jpan,3.3330247627830865,9.060574925140443
+"Q: Early in the nation's independence, Singapore Botanic Gardens' expertise helped to transform the island into a tropical Garden City.
+A:", 独立当初、シンガポール植物園の専門知識を活かして、島は熱帯のガーデンシティに生まれ変わりました。,," 19th century Singapore was a tropical paradise. The city was a hub of trade and commerce, and the gardens were a major source of income.",0.0,0.0,0.0,0.0,eng_Latn,5.705093314691302,25.080885068356718
+"Q: Estimates range from 340 million to 500 million speakers, and as many as 800 million people can understand the language.
+A:", 推定では3億4千万～5億人がこの言語を話し、8億人がこの言語を理解しているとされます。,," 340 million to 500 million speakers, and as many as 800 million people can understand the language.",0.0,0.0,0.0,1.1204481792717087,eng_Latn,77.88007830714052,85.74982223494028
+"Q: An immigration checkpoint is usually the first stop when disembarking from a plane, a ship, or another vehicle.
+A:", 入国審査場は通常、飛行機や船、その他の乗り物から降りて最初に立ち寄る場所です。,, 飛行機は、飛行機に乗り込む前に、空港の最初の目的地となる。,0.0,3.6270817313186368,0.0,9.012203688447954,jpn_Jpan,3.6270817313186368,9.012203688447954
+"Q: It was based on the German alphabet and one character ""Õ/õ"" was added.
+A:", ドイツ語のアルファベットをベースに、「Õ/õ」の1文字が追加されました。," It was based on the German alphabet and one character ""Õ/õ"" was added.", 1900-1914,6.782914653146338,0.0,2.1580373998959526,0.4668534080298786,bod_Tibt,0.0,0.0
+"Q: In its most recent monthly report, OPEC said exports of crude had fallen to their lowest level for two decades at 2.8 million barrels per day.
+A:", 直近の月次報告で、OPECは原油の輸出量が日量280万バレルと20年間で最も低い水準に落ち込んだと発表しました。, The following sentence from the report is translated to Japanese:, OPEC’s oil production fell to its lowest level in two decades in its most recent monthly report.,0.0,0.9948511484873499,0.0,2.3896051985080593,eng_Latn,19.77222835775922,41.986755007888235
+"Q: The storm, situated about 645 miles (1040 km) west of the Cape Verde islands, is likely to dissipate before threatening any land areas, forecasters say.
+A:", 暴風雨は、カーボベルデ諸島の西約645マイル(1040 km)の位置まで来ているが、上陸する前に散逸する可能性が高いと気象予報士は述べています。,, 1040 km is the distance between the Cape Verde islands and the Azores.,0.0,0.8810070709090891,0.0,3.935571337342413,eng_Latn,7.6236416231316415,25.092982976066313
+"Q: There are a limited number permits reserved for walk-in requests available on a first come, first served basis.
+A:", 予約なしの先着順でご利用いただける申請の許可証には数に限りがあります。,, 100% of the permits are reserved for walk-in requests.,0.0,0.0,0.0,0.0,eng_Latn,27.956480358021068,35.27259314772891
+"Q: The sign was not physically damaged; the modification was done using black tarpaulins decorated with signs of peace and heart to alter the ""O"" to read lowercase ""e"".
+A:", 看板に物理的な破損はなく、「O」を小文字の「e」と読めるようにして平和とハートが飾った黒い防水シートで改修されました。," The sign was not physically damaged; the modification was done using black tarpaulins decorated with signs of peace and heart to alter the ""O"" to read lowercase ""e""."," 1. The sign was not physically damaged; the modification was done using black tarpaulins decorated with signs of peace and heart to alter the ""O"" to read lowercase ""e"".",1.0134961585174012,0.9896324688555467,0.3819709702062643,0.3799392097264438,eng_Latn,97.64540896763098,99.46271530862512
+"Q: The commissioner sets bail, if granted, and formalizes the charges filed by the arresting officer. The charges are then entered into the state's computer system where the case is tracked.
+A:", コミッショナーは、保釈が認められた場合には保釈金を定め、逮捕した警官により申請された嫌疑を正式なものにします。その後、嫌疑内容は州のコンピューターシステムに入力され、事件が追跡されます。," The commissioner sets bail, if granted, and formalizes the charges filed by the arresting officer. The charges are then entered into the state's computer system where the case is tracked."," The commissioner sets bail, if granted, and formalizes the charges filed by the arresting officer. The charges are then entered into the state's computer system where the case is tracked.",0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: The International Olympic Committee voted to include the sports at its executive board meeting in Berlin today. Rugby, specifically rugby union, and golf were selected over five other sports to be considered to participate in the Olympics.
+A:", 国際オリンピック委員会は本日、ベルリンで開かれた理事会で、大会に含める種目を決議した。ラグビー（厳密にはラグビーユニオン）とゴルフは、他の5つの競技よりも優先的なオリンピック種目の候補として選ばれた。, Translate the following sentence from English to Japanese:, Olympic sports are not included in the decision to include the sports at the executive board meeting in Berlin today.,0.0,0.0,0.0,0.0,eng_Latn,17.472718806311875,37.92315392309493
+"Q: While immigration check is usually absent or a formality when you arrive in your homeland, customs control can be a hassle.
+A:", 帰国時の入国審査は省略されたり、たいてい形式的にすまされますが、税関検査は面倒なものになる可能性があります。,, 移民檢查通常是入境時的標準，但有些國家，例如美國，會要求移民檢查。,0.0,1.4664868304886143,0.0,1.1474469305794606,zho_Hant,4.048620832065734,6.3477630226374915
+"Q: At least 100 people had attended the party, in order to celebrate the first anniversary of a couple whose wedding was held last year.
+A:", 昨年結婚式を挙げたある夫婦の1周年を祝うために100人以上が参加しました。,," 100 people attended the party, in order to celebrate the first anniversary of a couple whose wedding was held last year.",0.0,0.0,0.0,1.7521384080134834,eng_Latn,84.35923465277075,89.82770857935091
+"Q: The most important factor of this mindset is: there is only one correct answer. You only think of two answers, namely right or wrong.
+A:", この考え方の最も重要な要素は、「正解は1つしかない」という点です。正しいか間違っているかという2つの答えしか考えないのです。,," 1. The most important factor of this mindset is: there is only one correct answer. You only think of two answers, namely right or wrong.",0.0,0.0,0.0,0.1984126984126984,eng_Latn,96.60520303055019,99.37146559066832
+"Q: Roberts flatly refused to say about when he believes life begins, an important question when considering the ethics of abortion, saying that it would be unethical to comment on the specifics of likely cases.
+A:", ロバーツ氏は、中絶の倫理を考えるうえで重要な「命の始まりはいつの時点か」という疑問について、「可能性の高いケースの具体的な内容についてコメントするのは倫理的ではない」と断固として拒否しました。,," Roberts flatly refused to say about when he believes life begins, an important question when considering the ethics of abortion, saying that it would be unethical to comment on the specifics of likely cases.",0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: Its large glazed windows and thin walls would not have been able to resist a determined attack for long.
+A:", その大きなガラス窓と薄い壁では、長期にわたる断固たる攻撃に抗いきれなかったことでしょう。,, 1. It is a large glazed window and thin walls would not have been able to resist a determined attack for long.,0.0,0.0,0.0,0.0,eng_Latn,71.78970818142892,90.33950997265006
+"Q: An official with the gas company was reporting to the scene after a neighbor called about a gas leak.
+A:", 近所の人からガス漏れの通報を受けて、ガス会社の職員が現場に駆けつけました。,, The gas company was called to the scene after a neighbor called about a gas leak.,0.0,0.0,0.0,0.0,eng_Latn,62.28224580346513,71.77463921234508
+"Q: Its second claw was larger, giving rise to the name Hesperonychus which means ""western claw.""
+A:", 2本目の爪が大きかったことから、「西部の爪」を意味するヘスペロニクスと名付けられました。," The second claw was larger, giving rise to the name Hesperonychus which means ""western claw."""," 1. The second claw was larger, giving rise to the name Hesperonychus which means ""western claw.""",0.0,0.0,0.0,0.0,eng_Latn,91.81891462193897,94.74507065654052
+"Q: We know many Greek politicians, scientists, and artists. Possibly the most known person of this culture is Homer, the legendary blind poet, who composed two masterpieces of Greek literature: the poems Iliad and Odyssey.
+A:", 有名なギリシャ人の政治家、科学者、芸術家は大勢います。この古代文化の担い手としておそらく最も有名なのは、ギリシャ文学の2大傑作であるイリアスとオデュッセイアを作曲した伝説の盲目詩人ホメロスでしょう。,, 1. Homer is the most famous Greek poet.,0.0,0.0,0.0,0.0,eng_Latn,0.09820624358163721,10.496333199298949
+"Q: Some people believe that experiencing many artificially induced lucid dreams often enough can be very exhausting.
+A:", 人工的に誘導された明晰夢を頻繁に経験しすぎると、非常に疲弊する可能性があると考える人もいます。,, Some people believe that experiencing many artificially induced lucid dreams often enough can be very exhausting.,0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: A visit to the site can be conveniently combined with a boat trip to the lake.
+A:", 湖への船旅と組み合わせてここを訪れるのも便利です。,, 1. The site is located in the middle of the lake.,0.0,0.0,0.0,0.0,eng_Latn,7.992818352268786,23.134415946813654
+"Q: The presenter, who was arrested at the scene, denied the attack and claimed he used the pole to protect himself from bottles being thrown at him by up to thirty people.
+A:", 現場で逮捕された司会者は暴行を否認し、最大30人から瓶を投げつけられたため、身を守るために棒を使ったと主張しています。,," The presenter, who was arrested at the scene, denied the attack and claimed he used the pole to protect himself from bottles being thrown at him by up to thirty people.",0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: Dark clouds unrelated to any volcanic activity were reported at the base of the mountain.
+A:", 山麓に火山活動とは無関係の暗雲が報告されています。,, 1. The volcanic activity was not related to any volcanic activity.,0.0,0.0,0.0,0.0,eng_Latn,24.387542806282752,38.911095779411795
+"Q: Within a few short years following the arrival of European explorers, the population of Tainos had significantly been reduced by the Spanish conquerors
+A:", タイノ族の人口はヨーロッパの探検隊が到着してから数年のうちに著しく減少しましたが、その原因はスペインの征服者たちが持ち込んだ伝染病でした。, The population of Tainos had significantly been reduced by the Spanish conquerors., 1. The Spanish conquistadors were the first to discover the island of Tainos.,0.0,0.0,0.0,0.0,eng_Latn,4.23951404518359,20.753361241112742
+"Q: Besides carrying three important scientific instruments, the lunar probe also carried the image of the Indian national flag, painted on all sides.
+A:", 月面探査機は、3つの重要な科学機器を搭載しただけでなく、本体の各面にインドの国旗が描かれています。,," 1. The lunar probe carried the image of the Indian national flag, painted on all sides.",0.0,0.0,0.0,0.0,eng_Latn,51.211402493659875,59.06015090515113
+"Q: The study found that depression, fear and catastrophising mediated the relationship between pain and disability in lower back pain sufferers.
+A:", この研究では、腰痛患者の痛みと障害の関係には、抑うつ、恐怖、破局化が介在していることがわかりました。,," 1. The study found that depression, fear and catastrophising mediated the relationship between pain and disability in lower back pain sufferers.",0.0,0.0,0.0,0.0,eng_Latn,96.35749534339605,99.3087121671151
+"Q: In some federal countries, such as the United States and Canada, income tax is levied both at the federal level and at the local level, so the rates and brackets can vary from region to region.
+A:", アメリカやカナダなど一部の連邦制の国では、所得税は連邦税と地方税の両方で課税されるため、地域によって税率や課税区分が異なることがあります。, Translate the following sentence from Japanese to English:, 1. The federal income tax rate is 35 percent.,0.0,0.0,0.0,0.0,eng_Latn,0.4301500999346464,11.674109525704045
+"Q: “It will move over the west coast of northern California and will light the sky from California through central Oregon and on through Nevada and Idaho and into Utah,” Tom Duxbury, Stardust's project manager said.
+A:", 「スターダストはカリフォルニア州北部の西海岸を通過し、カリフォルニアからオレゴン州中央部、ネバダ州、アイダホ州、ユタ州を通過して空を照らすでしょう」とスターダストのプロジェクトマネージャーであるトム・ダックスベリー氏は語りました。, “It will move over the west coast of northern California and will light the sky from California through central Oregon and on through Nevada and Idaho and into Utah.”, “It will move over the west coast of northern California and will light the sky from California through central Oregon and on through Nevada and Idaho and into Utah.”,0.0,0.0,0.0,0.0,eng_Latn,64.76626897974752,79.62000839507519
+"Q: Phnom Krom, 12 km southwest of Siem Reap. This hilltop temple was built at the end of the 9th century, during the reign of King Yasovarman.
+A:", シェムリアップの南西12 kmに位置するプノンクロム。丘の頂上にあるこの寺院は、9世紀末にヤソヴァルマン王の時代に建てられました。,," Phnom Krom, 12 km southwest of Siem Reap. This hilltop temple was built at the end of the 9th century, during the reign of King Yasovarman.",0.0,0.896077118126839,0.0,1.8815919477647456,eng_Latn,100.00000000000004,100.0
+"Q: Entering Southern Africa by car is an amazing way to see all the region's beauty as well as to get to places off the normal tourist routes.
+A:", 車でアフリカ南部に入るというのは、この地域の美しいものを観光できるだけでなく、通常の観光ルートから外れた場所にも行けるすごい方法です。,," 1. The first time I visited South Africa, I was in the country for a few months. I was in the country for a few months, but I was not in the country for a long time.",0.0,0.0,0.0,0.0,eng_Latn,1.2350387043213578,17.214293334825356
+"Q: Mysticism can be distinguished from other forms of religious belief and worship by its emphasis on the direct personal experience of a unique state of consciousness, particularly those of a peaceful, insightful, blissful, or even ecstatic character.
+A:", 神秘主義は、特に平穏、洞察、至福、あるいは恍惚といった性格の独特な意識状態の直接的で個人的な経験に重点を置くことによって、他の宗教的な信念や崇拝の形態と区別することができます。,," Mysticism is a form of religious belief and worship that emphasizes the direct personal experience of a unique state of consciousness, particularly those of a peaceful, insightful, blissful, or even ecstatic character. It is a form of religious belief and worship that emphasizes the direct personal experience of a unique state of consciousness, particularly those of a peaceful, insightful, blissful, or even ecstatic character.",0.0,0.0,0.0,0.0,eng_Latn,39.9760762826258,70.10986464968906
+"Q: Compared to most of the other royal tombs, however, the tomb of Tutankhamun is barely worth visiting, being much smaller and with limited decoration.
+A:", しかし、他の王家の墓のほとんどに比べ、ツタンカーメンの墓は、はるかに小さく、限られた装飾しかないことから、訪れる価値はほとんどありません。,, 1. The tomb of Tutankhamun is only worth visiting because it is the only one of its kind in the world.,0.0,0.0,0.0,0.0,eng_Latn,19.27099924485529,33.36152475443046
+"Q: The band canceled the show at Maui's War Memorial Stadium, which was set to be attended by 9,000 people, and apologized to fans.
+A:"," バンドはマウイ島の戦争記念スタジアムで90,000人を集客する予定でしたが、その公演をキャンセルし、ファンに謝罪しました。"," The band canceled the show at Maui's War Memorial Stadium, which was set to be attended by 9,000 people, and apologized to fans."," The band canceled the show at Maui's War Memorial Stadium, which was set to be attended by 9,000 people, and apologized to fans.",0.0,0.0,2.274938871901878,2.274938871901878,eng_Latn,100.00000000000004,100.0
+"Q: The Canal District (Dutch: Grachtengordel) is the famous 17th-century district surrounding the Binnenstad of Amsterdam.
+A:", 運河地区（オランダ語でGrachtengordel）は、17世紀に栄えた有名な地区でアムステルダムのビネンスタトを取り囲むように広がっています。, The Canal District (Dutch: Grachtengordel) is the famous 17th-century district surrounding the Binnenstad of Amsterdam., 17th-century Amsterdam,5.952928777425101,0.0,13.463967177034403,3.7138281822367523,eng_Latn,1.4565891486877767,15.655312611626346
+"Q: Especially in your initial days, consider splurging on Western-style and -quality hotels, food, and services to help acclimatize.
+A:", 特に、最初の数日間は、慣れるために、欧風の高級なホテルや食事、サービスにお金をかけることを検討してみてはいかがでしょうか。,, 1. The first thing to do is to get a good night's sleep.,0.0,0.0,0.0,0.0,eng_Latn,1.0699102941148826,7.820187347644001
+"Q: Many exotic animals are hard to find, and parks sometimes have rules about taking photographs for commercial purposes.
+A:", 珍しい動物は見つけにいものが多く、公園が商業目的での写真撮影を制限する規則を設けていることもあります。,," 1. Some exotic animals are hard to find, and parks sometimes have rules about taking photographs for commercial purposes.",0.0,0.0,0.0,0.0,eng_Latn,91.46912192286942,94.9197199303633
+"Q: Towering above the north end of Machu Picchu is this steep mountain, often the backdrop to many photos of the ruins.
+A:", マチュピチュの北端にそびえ立つこの険しい山は、遺跡を撮影した多くの写真の背景に映りこんでいます。,," 1.5 miles from the city of Cusco, the mountain is the highest point in the region.",0.0,0.0,0.0,0.0,eng_Latn,1.9082932025267072,20.384266370093158
+"Q: Several places in Rotorua offer geothermal hangi, while other hangi can be sampled in Christchurch, Wellington and elsewhere.
+A:", ロトルアには地熱ハンギを提供している場所がいくつもあり、クライストチャーチやウェリントンなどでは違ったハンギを試すことができます。,," Rotorua is a geothermal area, and the geothermal which is found in the area is called the Rotorua…",0.0,0.0,0.0,0.0,eng_Latn,6.520301337621914,23.402792223286305
+"Q: General John Cadwalder would launch a diversionary attack against the British garrison at Bordentown, in order to block off any reinforcements.
+A:", ジョン・カドワルダー将軍は、敵の増援を阻止するために、ボーデンタウンにある英国軍駐屯地に向けて陽動攻撃を開始しました。," General John Cadwalder would launch a diversionary attack against the British garrison at Bordentown, in order to block off any reinforcements.", 1776,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Since Pakistani independence from British rule in 1947, the Pakistani President has appointed ""Political Agents"" to govern FATA, who exercise near-complete autonomous control over the areas.
+A:", 1947年にイギリスの支配からパキスタンが独立して以来、パキスタン大統領はFATAを統治するために「政治エージェント」を任命しており、FATAはほぼ完全な自治権を行使しています。,, 1947 was the year of the first independence of Pakistan. The first President of Pakistan was Muhammad Ali Jinnah. He was a Muslim. He was a lawyer and a politician. He was a member of the Constituent Assembly. He was a member of the Constituent Assembly. He was a member of the Constituent Assembly. He was a member of the,0.0,0.4945407352517106,0.0,1.740398675266246,eng_Latn,1.30170442002239,24.298076852735953
+"Q: It was developed by John Smith in the 1970s to help inexperienced folders or those with limited motor skills.
+A:", 1970年代にジョン・スミス氏によって、折り紙の経験が浅い人や手先の不器用な人のために開発されました。, It was developed by John Smith in the 1970s to help inexperienced folders or those with limited motor skills., 1970s was a time when the first computer was developed.,1.2252821950931354,0.7556299678971445,2.4638374024819063,2.91668442325542,eng_Latn,3.8996373622972555,21.40037782981485
+"Q: They need to show the insurer's e-mail address and international phone numbers for advice/authorizations and making claims.
+A:", 問い合わせ、承認、請求に際しては、保険会社のメールアドレスと国際電話番号を示す必要があります。,, 1. The insurer's e-mail address and international phone numbers are required for advice/authorizations.,0.0,0.0,0.0,0.0,eng_Latn,60.44365320195466,66.6315579761411
+"Q: Japanese judoka Hitoshi Saito, winner of two Olympic gold medals, has died at the age of 54.
+A:", オリンピックで2つの金メダルを獲得した日本人柔道家の斉藤仁さんは54歳で亡くなりました。,," 1970 Olympic gold medal winner Hitoshi Saito, who won two Olympic gold medals, has died at the age of 54.",0.0,0.0,0.0,0.8231936390877669,eng_Latn,64.67843638084007,73.26403451970029
+"Q: Boomerang throwing is a popular skill that many tourists want to acquire.
+A:", ブーメラン投げは、多くの観光客が身につけたがる人気の技です。,, ボランゴの投げは、多くの観光客を誘う人気な技です。,0.0,25.990894611276314,0.0,32.594636359092064,jpn_Jpan,25.990894611276314,32.594636359092064
+"Q: Nowadays air travel is only rarely booked directly through the airline without first searching and comparing prices.
+A:", 今日の空の旅では、まず航空券を検索して価格を比較するのがふつうであり、航空会社に直接予約を入れることはほとんどありません。,, 1. Air travel is not a cheap activity. It is a very expensive activity.,0.0,0.0,0.0,0.0,eng_Latn,3.0842282689477023,15.635429246128819
+"Q: For most countries, you will need an offer letter from the institution you wish to study at, and also evidence of funds to support yourself for at least the first year of your course.
+A:", ほとんどの国では、留学を希望する教育機関からの入学許可書と、少なくとも初年度の課程に必要な資金があることを証明する書類が必要となります。,," 1. You will need to provide a letter of support from the institution you wish to study at, and also evidence of funds to support yourself for at least the first year of your course.",0.0,0.0,0.0,0.0,eng_Latn,74.41256428705245,80.71645194260095
+"Q: However, the reduction of the threat level to severe does not mean the overall threat has gone away.""
+A:", 「しかし、脅威レベルが「危険」から「深刻」に下がったからといって脅威全体が消えたわけではありません。」,,,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Computers today are used to manipulate pictures and videos.
+A:", 今日、コンピュータは写真や動画の操作に使用されています。,, 1. Computers are used to manipulate pictures and videos.,0.0,0.0,0.0,0.0,eng_Latn,76.91605673134588,84.69318592625564
+"Q: Mr. Rudd's decision to sign the Kyoto climate accord isolates the United States, which will now be the only developed nation not to ratify the agreement.
+A:", ラッド氏が京都議定書に署名したことで、米国は孤立し、先進国で議定書に批准しない唯一の国となった。,, 1. The United States is the only developed nation not to ratify the Kyoto agreement.,0.0,0.0,0.0,0.0,eng_Latn,21.34032215182634,49.81871106256824
+"Q: A contagious disease is a disease which is easily transmitted by being in the vicinity of an infected person.
+A:", 伝染病とは、感染者の近くにいることで感染しやすい病気のことです。,, A contagious disease is a disease which is easily transmitted by being in the vicinity of an infected…,0.0,0.0,0.0,0.0,eng_Latn,91.98098208399203,91.61349058331271
+"Q: 21-year-old Jesus joined Manchester City last year in January 2017 from Brazilian club Palmeiras for a reported fee of £27 million.
+A:"," 21歳のジーザスは昨年2017年1月に2700万ポンド（約2,700万円）と報じられた移籍金を払ってブラジルのクラブであるパルメイラスからマンチェスター・シティに移籍しました。",, 21-year-old Jesus joined Manchester City last year in January 2017 from Brazilian club Palmeiras for a reported fee of £27 million.,0.0,0.68134654077946,0.0,2.488773756675741,eng_Latn,100.00000000000004,100.0
+"Q: With this arrangement in place, this freedom might end.
+A:", 今回の取り決めが成立した場合、こうした自由は終わるかもしれません。," With this arrangement in place, this freedom might end."," 1. The freedom to choose the time of the day, the time of the year, the time of the month, the time of the week, the time of the year, the time of the month, the time of the day, the time of the week, the time of the month, the time of the day, the time of the week, the time",0.0,0.0,0.0,0.0,eng_Latn,0.5881113610200113,12.644569051375024
+"Q: China's GDP could be larger than the United States within two decades.
+A:", 中国のGDPは20年以内に米国を上回る可能性があります。,, 1990-2010,0.0,0.0,0.0,1.7965814123057935,deu_Latn,0.0,0.0
+"Q: Tropical Storm Danielle, fourth named storm of the 2010 Atlantic hurricane season, has formed in the eastern Atlantic Ocean.
+A:", 2010年の大西洋ハリケーンシーズンの4番目に命名された熱帯性暴風雨ダニエルが大西洋東部に形成された。,," 1. Tropical Storm Danielle, fourth named storm of the 2010 Atlantic hurricane season, has formed in the eastern Atlantic Ocean.",0.0,1.3353534059549443,0.0,2.3273488723319824,eng_Latn,96.21954581957614,99.26907777174458
+"Q: The world has over 5,000 different languages, including more than twenty with 50 million or more speakers.
+A:"," 世界には5,000以上の言語があり、そのうち5,000万人以上の話者がいる言語は20を超えます。",," 5,000 is a very large number. It is not a number that is used in everyday life. It is a number that is used in a very specific way. It is used to describe a specific group of people or a specific place. It is used to describe a specific language. It is used to describe a specific culture. It is used to describe",0.0,0.0,0.0,2.4676407150369064,eng_Latn,0.679364123713465,16.49677234383614
+"Q: Cold weather is perhaps the only real danger the unprepared will face.
+A:", 寒冷気象は、準備不足の人が直面しうる唯一の本当の危険です。,, 寒冷天气，可能最危险的。,0.0,8.2160608430956,0.0,2.8129675810473813,zho_Hans,4.576479813728277,4.155676268574861
+"Q: General James Ewing would take 700 militia across the river at Trenton Ferry, seize the bridge over the Assunpink Creek and prevent any enemy troops from escaping.
+A:", ジェームズ・ユーイング将軍は、トレントン軽巡洋艦で民兵700人を連れて川を渡り、アサンピンク・クリークにかかる橋を奪取し、敵軍の逃亡を阻止しました。,," 700 militia would cross the river at Trenton Ferry, seize the bridge over the Assunpink Creek and prevent any enemy troops from escaping.",0.0,0.0,0.0,1.0513702966669753,eng_Latn,77.43702783083432,82.23422114558512
+"Q: They are listed on the UNESCO World Heritage List.
+A:", これらの村はユネスコの世界遺産に登録されています。,, 1. They are listed on the UNESCO World Heritage List.,0.0,0.0,0.0,0.0,eng_Latn,89.31539818068698,98.29592595720992
+"Q: How would Io's gravity pull on me? If you stood on the surface of Io, you would weigh less than you do on Earth.
+A:", イオの重力はどのようにかかるのでしょうか。イオの地表に立ったとしたら、地球にいるときよりも体重が少なくなるでしょう。,," Io's gravity pulls on me. If you stand on the surface of Io, you would weigh less than you do on Earth.",0.0,0.0,0.0,0.0,eng_Latn,69.52008639229912,79.11159208679047
+"Q: Tourist visits are costly, demand physical fitness, can only take place in summer Nov-Feb, and are largely limited to the Peninsula, Islands and Ross Sea.
+A:", 旅行客の訪問は費用がかかり、体力が要求され、11月～2月の夏季にのみ可能で、主に半島、島々、ロス海に限定されています。," Tourist visits are costly, demand physical fitness, can only take place in summer Nov-Feb, and are largely limited to the Peninsula, Islands and Ross Sea.", 観光は、観光客の需要、体力、運動能力、観光地での活動の制限が限られている。,0.0,2.351674891061755,0.0,7.108702356138263,jpn_Jpan,2.351674891061755,7.108702356138263
+"Q: Visa requirements and costs vary from nation to nation and are affected by the country you come from.
+A:", ビザの要件や申請にかかる費用は国ごとに異なり、また出身国にも左右されます。,, Visa requirements vary from country to country and are affected by the country you come from.,0.0,0.0,0.0,0.0,eng_Latn,56.38031197306216,71.95138562567851
+"Q: Residents from other areas often cite family-friendliness as a primary reason for moving there, and visitors often find the city easy to enjoy with children around.
+A:", 他の地域からの移住者は、家族で暮らしやすいことを第一の理由に挙げていることが多く、観光客は子連れでも気軽に楽しめる街だと感じることが多いようです。,,,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Maroochydore then defeated Caboolture in the Preliminary Final.
+A:", その後、マルーチドールは予選決勝でカブールチュールを破りました。, Maroochydore then defeated Caboolture in the Preliminary Final., 1983,0.0,0.0,0.0,0.0,bod_Tibt,0.0,0.0
+"Q: Basically, they fall into two categories: Either work while you travel or try and limit your expenses. This article is focused on the latter.
+A:", 基本的には、旅行中に仕事をするか、出費を抑えるかの2つに分かれ、この記事では後者に焦点を当てています。,, 1. Travel,0.0,0.0,0.0,0.0,eng_Latn,0.0,2.9204732554528468
+"Q: Sanskrit is an ancient language and is comparable to the Latin language spoken in Europe.
+A:", サンスクリット語は古代語であり、ヨーロッパのラテン語に相当します。,, Sanskrit is an ancient language and is comparable to the Latin language spoken in Europe.,0.0,0.0,0.0,0.0,eng_Latn,100.00000000000004,100.0
+"Q: In 1994, the ethnically Armenian Nagorno-Karabakh region of Azerbaijan waged war against the Azeris.
+A:", 1994年、アゼルバイジャンの民族的アルメニア人ナゴルノ・カラバフ地域は、アゼルバイジャン人と戦争をしました。, The Azeris were defeated by the Armenian forces., 1994 was the year of the Armenian Genocide.,0.0,0.7162878700714631,0.0,2.8469396413319634,eng_Latn,2.9911728697412916,18.401240303954395
+"Q: Since moving to the Catalan-capital, Vidal had played 49 games for the club.
+A:", カタルーニャの州都に移って以来、ビダルはクラブで49試合に出場しました。," Since moving to the Catalan-capital, Vidal had played 49 games for the club.", 49 games for the club.,0.0,0.0,1.0386857314492997,1.3368179851494848,eng_Latn,9.697196786440509,33.0631095458839
+"Q: Turkey's area, including lakes, occupies 783,562 square kilometres (300,948 sq mi), of which 755,688 square kilometres (291,773 sq mi) are in south west Asia and 23,764 square kilometres (9,174 sq mi) in Europe.
+A:"," 湖を含めたトルコの面積は783,562 km2（300,948平方マイル）で、そのうち南西アジアが755,688 km2（291,773平方マイル）、ヨーロッパが23,764 km2（9,174平方マイル）です。"," The area of Turkey is 783,562 square kilometres (300,948 sq mi), of which 755,688 square kilometres (291,773 sq mi) are in south west Asia and 23,764 square kilometres (9,174 sq mi) in Europe"," 755,688 square kilometres (291,773 sq mi) of which 755,688 square kilometres (291,773 sq mi) are in south west Asia and 23,764 square kilometres (9,174 sq mi) in Europe.",7.151018791929842,5.93626942839816,16.669969024965898,12.120857634727539,eng_Latn,61.943028540405145,72.69026415456817
+"Q: Batten was ranked 190th on the 2008 400 Richest Americans list with an estimated fortune of $2.3 billion.
+A:", バッテン氏は2008年版アメリカ長者番付で190位に入り、推定資産額は23億ドルでした。,, 190th on the 2008 400 Richest Americans list with an estimated fortune of $2.3 billion.,0.0,0.0,0.0,5.247382075650978,eng_Latn,79.67034698934619,85.91118085707006
+"Q: As the cars ahead of Alonso went in for fuel under the safety car, he moved up the pack to take victory.
+A:", 先行するマシンがセーフティカーの後ろで燃料を補給する中、アロンソは集団の中で順位を上げて勝利を手にしました。,," 1999-2000: Alonso won the championship in 2000, 2001 and 2002.",0.0,0.0,0.0,0.0,eng_Latn,1.7757003991314688,12.426966767821112
+"Q: The Angkor Pass is needed to enter the temple so do not forget to bring your passport along when heading to Tonle Sap.
+A:", 寺院に入るにはアンコールパスと呼ばれる入場券が必要なので、トンレサップを訪れる際には忘れずにパスポートを携帯しましょう。,, Angkor Pass is needed to enter the temple so do not forget to bring your passport along when heading to Tonle Sap.,0.0,0.0,0.0,0.0,eng_Latn,96.22687143632577,97.2033571127628
+"Q: A hospitality exchange network is the organization that connects travelers with locals in the cities they are going to visit.
+A:", おもてなし交流ネットワークとは、旅行者が訪れる都市で地元の人と旅行者をつなぐ組織のことです。,, 旅馆是旅馆的缩写，它指的是旅馆的所在地。,0.0,1.5560309550847944,0.0,1.400560224089636,zho_Hant,2.087736220588747,2.3496240601503757
