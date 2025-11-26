@@ -217,7 +217,7 @@ def main(
         df_lang["noshot_prompt"].tolist(),
         fn_vector=h,
         max_new_tokens=75,
-        stops=["\n"],
+        stops=["\n", "<eos>", "<|endoftext|>"],
     )
 
     print("Generations with function vector done.")
@@ -231,7 +231,7 @@ def main(
             .apply(lambda x: get_noshot_prompt(x, lang_source, lang_target))
             .tolist(),
             max_new_tokens=75,
-            stops=["\n"],
+            stops=["\n", "<eos>", "<|endoftext|>"],
         )
 
         with open(
