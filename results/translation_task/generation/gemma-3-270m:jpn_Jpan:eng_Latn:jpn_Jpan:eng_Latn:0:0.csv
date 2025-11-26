@@ -2,7 +2,7 @@ prompt,reference,generation_baseline,generation_function_vector,bleu_baseline,bl
 "Q: ピットマン氏は、来週になるまで状況は改善しないだろうと示唆した。
 A:", Pittman suggested that conditions wouldn't improve until sometime next week.,, 2015年11月10日,0.0,0.0,0.0,0.0,ron_Latn,0.0,0.0
 "Q: こうした遊牧段階での暴挙や進撃は、約17日間ずつ続きます。
-A:", Each of these nomadic rampages or marches lasts for approximately 17 days., The most recent incident of this type is repeated for a long time., 17日間,3.0268675397150564,0.02765421850739168,14.801696324739638,1.17992983518841,deu_Latn,0.010173418450532207,1.3259633203399577
+A:", Each of these nomadic rampages or marches lasts for approximately 17 days., The most recent incident of this type is repeated for a long time., 17日間,3.0268675397150564,0.0276542185073916,14.801696324739638,1.17992983518841,deu_Latn,0.010173418450532207,1.3259633203399577
 "Q: 構造が異なれば機能も異なり、感じ取る波長が異なり、視力の程度も異なります。また、それらの構造には入力信号を理解するためのさまざまな処理や機能に応じた個数が必要になります。
 A:"," The different constructions have different capabilities, are sensitive to different wave-lengths and have differing degrees of acuity, also they require different processing to make sense of the input and different numbers to work optimally.", 構造が異なれば機能も異なり、感じ取る波長が異なり、視力の程度も異なります。また、それらの構造には入力信号を理解するためのさまざまな処理や機能に応じた個数が必要になります。, 構造が異なれば、機能も異なり、感じ取る波長が異なり、視力の程度も異なります。また、それらの構造には入力信号を理解するためのさまざまな処理や機能に応じた個数が必要になります。,0.0,0.0,0.0,0.0,jpn_Jpan,94.0028651976138,82.87810095596721
 "Q: 台風は時速11 kmの速さで中国に向かって進んでいると見られています。
@@ -24,7 +24,7 @@ A:"," Germany code-named the attack “Operation Sealion”. Most of the British
 "Q: これらはあまり小回りがきかないので、自然歩道を通って高原に出ようとすると南極大陸の山々をぐるりと回らなければなりません。
 A:", These aren't very nimble so the trail has to take a long swerve around the Transantarctic Mountains to come onto the plateau., This is a sentence from Japanese to English:, 登山は、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山頂から山頂まで、山,0.3525279032119809,0.0,7.885662948754092,0.0,jpn_Jpan,0.5644235767491028,2.1354282940418767
 "Q: 無限のバリエーションがありますが、ほとんどの人にとって「ディズニーワールドに行く」ことを話題にしていることに変わりはないのです。
-A:"," There are infinite variations possible, but this remains what most people mean when they talk of ""going to Disney World""."," The world of Disney is endless, but it is not a topic that is discussed much in Japan.", 1999年、ディズニーランドの「ディズニーワールド」は、ディズニーの歴史を振り返るようなテーマパークで、ディズニーの歴史を振り返るようなテーマパークです。,3.4251017286865153,0.0,17.52916095255335,0.0,jpn_Jpan,9.427624888579823,14.063921521808254
+A:"," There are infinite variations possible, but this remains what most people mean when they talk of ""going to Disney World""."," The world of Disney is endless, but it is not a topic that is discussed much in Japan.", 1999年、ディズニーランドの「ディズニーワールド」は、ディズニーの歴史を振り返るようなテーマパークで、ディズニーの歴史を振り返るようなテーマパークです。,3.4251017286865157,0.0,17.52916095255335,0.0,jpn_Jpan,9.427624888579823,14.063921521808254
 "Q: 世界博覧会（通称は万国博覧会、または単に万博）は、芸術と科学を展示する大規模な国際的祭典です。
 A:"," A World's Fair (commonly called World Exposition, or simply Expo) is large international festival of arts and sciences.", 世界博覧会（通称は万国博覧会、または単に万博）は、芸術と科学を展示する大規模な国際的祭典です。, 1962年（昭和37年）に開催された世界博覧会は、1962年（昭和37年）に開催された世界平和博覧会とほぼ同じ規模で、1962年（昭和37年）に開催された世界平和博覧会とほぼ同じ規模で、1962,1.0885011049519644,0.5657759656209536,0.0,0.0,jpn_Jpan,4.212110902160335,8.891252498561517
 "Q: 被害者を保護するには、まず現場を調査して安全を確保しなければなりません。
@@ -32,7 +32,7 @@ A:"," To Check the victim, you must first survey the scene to ensure your safety
 "Q: そして数年後の1639年にイギリスの天文学者ジェレミア・ホロックスが金星の通過を観測しました。
 A:"," Then, a few years later in 1639, an English astronomer named Jeremiah Horrocks observed a transit of Venus.", The astronomer J. H. Morley observed the Moon passing through Jupiter in 1639., 1639年10月10日、天文学者ジェレミア・ホロックスが金星の通過を観測しました。,5.106434041270721,0.0,26.825626412324134,1.804073658804227,jpn_Jpan,69.43776929402702,57.229237103040596
 "Q: しかし、世界各地には、体験してみる価値のある特徴的なコーヒーの飲み方がたくさんあります。
-A:"," Nevertheless, there are many distinctive ways of drinking coffee around the world that are worth experiencing."," However, in Japan, there are many interesting coffee drinking habits.", 私は、コーヒーを飲むと、とても楽しいです。,11.547360315263367,0.0,33.16490520502059,0.0,vie_Latn,0.0,0.0
+A:"," Nevertheless, there are many distinctive ways of drinking coffee around the world that are worth experiencing."," However, in Japan, there are many interesting coffee drinking habits.", 私は、コーヒーを飲むと、とても楽しいです。,11.547360315263369,0.0,33.16490520502059,0.0,vie_Latn,0.0,0.0
 "Q: この30年間に、中国は公式には共産主義国家のままであるにもかかわらず、市場経済を発展させてきました。
 A:"," During the last three decades, despite officially remaining a communist state, China has developed a market economy."," This 30-year period, China has been a state of the world's capitalist country, but it has been able to expand its market economy.", 中国は、1949年11月1日に、中国共産党が成立した。1950年1月1日に、中国共産党は、中国共産党の代表として、中国共産党の総裁として、中国共産党の総裁として、中国共産党の総裁として、中国共,9.043840764552035,0.0,34.04637858168781,0.0,jpn_Jpan,0.8385529424168122,7.801925685548228
 "Q: うまくいけば、長期的な最善の選択肢は互いに協力し合うことだとほとんどの人が気づくでしょう。
@@ -44,7 +44,7 @@ A:", They normally offer higher bandwidth and better quality of service. They ar
 "Q: この種の人は論理的思考力に富み、パターンを記憶したり、問題を解決したり、科学的なテストに取り組んだりできます。
 A:"," People with this type of thinking have logical thinking, are able to memorize patterns, solve problems and work on scientific tests.", 私はこの種の人は論理的思考力に富み、パターンを記憶したり、問題を解決したり、科学的なテストに取り組んだりできます。, 科学的思考力は、科学の知識を理解し、それを証明する能力です。,0.0,0.0,0.0,0.0,jpn_Jpan,4.216044216867593,8.678270748030876
 "Q: レース後もケセロウスキーが2,250ポイントを獲得してドライバーズチャンピオンシップのトップをキープしている。
-A:"," Following the race, Keselowski remains the Drivers' Championship leader with 2,250 points."," The race is over, but the champion is still in the lead.", 2016年10月26日(金),2.8157669494185633,0.0,21.227172262964608,0.5681818181818182,amh_Ethi,0.0,1.053370786516854
+A:"," Following the race, Keselowski remains the Drivers' Championship leader with 2,250 points."," The race is over, but the champion is still in the lead.", 2016年10月26日(金),2.8157669494185638,0.0,21.227172262964608,0.5681818181818182,amh_Ethi,0.0,1.053370786516854
 "Q: 一般的に、どこであれ外国に長期滞在しようとする場合は、事前にビザを取得する必要があります。
 A:"," In general, staying in any foreign country for an extended period of time will require you to obtain a visa in advance.",, はい、ビザを取得する前に、ビザの申請書を提出する必要があります。,0.0,0.0,0.0,0.0,jpn_Jpan,6.680013609421688,27.886839114761052
 "Q: 中国の北京市は2022年に冬季オリンピックの開催都市となる予定であり、夏季と冬季の両方のオリンピックを開催した初の都市となります。
@@ -96,9 +96,9 @@ A:", Al Gore and General Tommy Franks casually rattle off their favorite headlin
 "Q: 持ち込み可のものと不可のを確認し、法律で定められた限度を超えるものは申告しましょう。
 A:", Make sure you know what you can and cannot bring in and declare anything over the legal limits., 持ち込み可のものと不可の確認をし、法律で定められた限度を超えるものは申告しましょう。, 持ち込み不可のものは、持ち込み不可の証明書を提出しなければなりません。,0.0,0.0,0.0,0.0,jpn_Jpan,7.264404466045646,12.560817594124195
 "Q: 下から見ると少し手ごわい感じがしますが、体力のある人ならば45分程度で登れるはずです。
-A:"," It looks a bit daunting from below, and it is a steep and difficult ascent, but most reasonably fit persons should be able to make it in about 45 minutes.", 45 minutes is a long time for me to walk., 45分程度で登れると思います。,1.0077341424251436,0.12987434758906927,12.222577031917979,0.4174581253503977,jpn_Jpan,4.365934533091659,18.894245218987404
+A:"," It looks a bit daunting from below, and it is a steep and difficult ascent, but most reasonably fit persons should be able to make it in about 45 minutes.", 45 minutes is a long time for me to walk., 45分程度で登れると思います。,1.0077341424251436,0.1298743475890692,12.222577031917979,0.4174581253503977,jpn_Jpan,4.365934533091659,18.894245218987404
 "Q: アフリカ南部は安定していますが、隣国すべてが安定しているわけではないので注意しましょう。
-A:", Keep in mind while planning that although Southern Africa is stable not all neighboring countries are., The Afrikas are stable but the neighboring countries are not stable so you should be careful., アフリカ南部は安定していますが、隣国すべてが安定しているわけではないので注意しましょう。,14.576846149722611,0.0,35.968348488344105,0.0,jpn_Jpan,100.00000000000004,100.0
+A:", Keep in mind while planning that although Southern Africa is stable not all neighboring countries are., The Afrikas are stable but the neighboring countries are not stable so you should be careful., アフリカ南部は安定していますが、隣国すべてが安定しているわけではないので注意しましょう。,14.576846149722613,0.0,35.968348488344105,0.0,jpn_Jpan,100.00000000000004,100.0
 "Q: オーストラリアの財務大臣であり、ジョン・ハワード首相の後任として自由党党首に就任する可能性が高いピーター・コステロ氏は、オーストラリアの原子力発電産業を支持しています。
 A:"," Peter Costello, Australian treasurer and the man most likely to succeed Prime Minister John Howard as Liberal party leader has thrown his support behind a nuclear power industry in Australia.",, 2011年11月10日、オーストラリアの原子力発電産業は、オーストラリアの原子力発電業の主要な産業の一つです。オーストラリアは、オーストラリアの原子力発電業の主要な産業の一つです。オーストラリアは、オーストラリアの原子力発電業の主要な産業の一つです。オーストラリアは、オーストラリアの,0.0,0.0,0.0,0.0,jpn_Jpan,9.012380605750675,20.007515625919897
 "Q: 旅仲間や無事の帰宅を願って協力してくれる親戚、友人にも保険契約書と連絡先の写しを渡しておきましょう。
@@ -138,7 +138,7 @@ A:"," Many people dream of the day when humans can travel to another star and ex
 "Q: アコーディオンを弾くときに音量を上げるには、蛇腹を強く、または速く動かします。
 A:"," On the accordion, to get extra volume, you use the bellows with more pressure or speed.", A door knob is louder when you turn the knob., 蛇腹を強く動かすと、音量を上げることができます。,2.266870701656303,0.0,10.509053441989634,0.0,jpn_Jpan,11.94522553301399,20.59337654719852
 "Q: 1945年に彼らと合流し、1958年まで滞在した。
-A:", He joined them in 1945 and stayed until 1958., 1945年、彼らは、1958年まで滞在した。, 1945年、1958年、1960年、1961年、1962年、1963年、1964年、1965年、1966年、1967年、1968年、1969年、19,3.7477767366779213,0.7772751558853214,8.666527573371297,6.587130114185821,ast_Latn,0.7772751558853214,6.711009590793153
+A:", He joined them in 1945 and stayed until 1958., 1945年、彼らは、1958年まで滞在した。, 1945年、1958年、1960年、1961年、1962年、1963年、1964年、1965年、1966年、1967年、1968年、1969年、19,3.747776736677921,0.7772751558853214,8.666527573371297,6.587130114185821,ast_Latn,0.7772751558853214,6.711009590793153
 "Q: コーヒーは世界で最も取引の多い商品の1つですから、お住まいの地域でもいろいろな種類が見られるでしょう。
 A:"," Coffee is one of the world's most traded commodities, and you can probably find many types in your home region.", 私はコーヒーを世界で最も取引の多い商品の1つです。, コーヒーは世界で最も取引の多い商品の1つですから、お住まいの地域でもいろいろな種類が見られるでしょう。,0.0,0.0,0.0,0.0,jpn_Jpan,100.00000000000004,100.0
 "Q: 独立当初、シンガポール植物園の専門知識を活かして、島は熱帯のガーデンシティに生まれ変わりました。
@@ -148,7 +148,7 @@ A:"," Estimates range from 340 million to 500 million speakers, and as many as 8
 "Q: 入国審査場は通常、飛行機や船、その他の乗り物から降りて最初に立ち寄る場所です。
 A:"," An immigration checkpoint is usually the first stop when disembarking from a plane, a ship, or another vehicle.", 入国審査場は通常、飛行機や船、その他の乗り物から降りて最初に立ち寄る場所です。, 飛行機、船、その他の乗り物から降りて最初に立ち寄る場所です。,0.0,0.0,0.0,0.0,jpn_Jpan,60.41953722099901,60.71442956195205
 "Q: ドイツ語のアルファベットをベースに、「Õ/õ」の1文字が追加されました。
-A:"," It was based on the German alphabet and one character ""Õ/õ"" was added.", Õ=õ, 10000000000000000000000000000000000000000000000000000000000000000000000000,0.13284616367443902,0.0,1.0638297872340425,0.0,zsm_Latn,0.0,0.0
+A:"," It was based on the German alphabet and one character ""Õ/õ"" was added.", Õ=õ, 10000000000000000000000000000000000000000000000000000000000000000000000000,0.132846163674439,0.0,1.0638297872340425,0.0,zsm_Latn,0.0,0.0
 "Q: 直近の月次報告で、OPECは原油の輸出量が日量280万バレルと20年間で最も低い水準に落ち込んだと発表しました。
 A:"," In its most recent monthly report, OPEC said exports of crude had fallen to their lowest level for two decades at 2.8 million barrels per day.", OPECは原油の輸出量が日量280万バレルと20年間で最も低い水準に落ち込んだと発表しました。, 2016年12月15日、OPECは原油の輸出量が日量280万バレルと20年間で最も低い水準に落ち込んだと発表しました。,1.9888319320114711,1.0263184589155638,1.6781118397875012,1.6395778793415257,jpn_Jpan,79.84896299473834,72.32755513228949
 "Q: 暴風雨は、カーボベルデ諸島の西約645マイル(1040 km)の位置まで来ているが、上陸する前に散逸する可能性が高いと気象予報士は述べています。
@@ -204,7 +204,7 @@ A:"," Mysticism can be distinguished from other forms of religious belief and wo
 "Q: しかし、他の王家の墓のほとんどに比べ、ツタンカーメンの墓は、はるかに小さく、限られた装飾しかないことから、訪れる価値はほとんどありません。
 A:"," Compared to most of the other royal tombs, however, the tomb of Tutankhamun is barely worth visiting, being much smaller and with limited decoration."," However, other kings' tombs are very small, and the decoration is limited to a small number of decorations.", 墓の規模は、他の王家の墓よりも小さく、墓の規模は、他の王家の墓よりも大きい。,3.660698231101485,0.0,29.22846641704475,0.0,jpn_Jpan,13.803999220938952,11.38631300060099
 "Q: バンドはマウイ島の戦争記念スタジアムで90,000人を集客する予定でしたが、その公演をキャンセルし、ファンに謝罪しました。
-A:"," The band canceled the show at Maui's War Memorial Stadium, which was set to be attended by 9,000 people, and apologized to fans.",," 2016年10月11日（火）に、マウイ島で100,000人のファンが集まった。",0.0,0.9948511484873499,0.0,1.5597974065257516,jpn_Jpan,5.14359544099374,12.09694710566321
+A:"," The band canceled the show at Maui's War Memorial Stadium, which was set to be attended by 9,000 people, and apologized to fans.",," 2016年10月11日（火）に、マウイ島で100,000人のファンが集まった。",0.0,0.99485114848735,0.0,1.5597974065257516,jpn_Jpan,5.14359544099374,12.09694710566321
 "Q: 運河地区（オランダ語でGrachtengordel）は、17世紀に栄えた有名な地区でアムステルダムのビネンスタトを取り囲むように広がっています。
 A:", The Canal District (Dutch: Grachtengordel) is the famous 17th-century district surrounding the Binnenstad of Amsterdam.,, 運河地区は、17世紀に栄えた有名な地区でアムステルダムのビネンスタトを取り囲むように広がっています。,0.0,0.0,0.0,0.45756229253682756,jpn_Jpan,69.11989507980768,59.401379516957064
 "Q: 特に、最初の数日間は、慣れるために、欧風の高級なホテルや食事、サービスにお金をかけることを検討してみてはいかがでしょうか。
