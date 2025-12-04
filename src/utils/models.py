@@ -553,28 +553,37 @@ class Model:
         """
         completion_intervention = []
 
-        pattern = r"\s*(?:" + "|".join(map(re.escape, stops)) + r")\s*"
-        for prompt in tqdm(prompts, desc="Generating with function vector"):
-            prompt_len = len(self.llm.tokenizer.encode(prompt))
+        fn_vector_device = {
+            layer: fn_vector[layer].to(self.llm.device) for layer in fn_vector.keys()
+        }
 
-            with self.llm.generate(
-                prompt,
-                max_new_tokens=max_new_tokens,
-                do_sample=False,
-            ):
-                for layer in fn_vector.keys():
-                    self.get_out_proj(self.get_self_attn(self.layers[layer])).output[
-                        :, -1
-                    ] += fn_vector[layer].to(self.llm.device)
+        with torch.no_grad():
+            for prompt in tqdm(prompts, desc="Generating with function vector"):
+                prompt_len = len(self.llm.tokenizer.encode(prompt))
 
-                tokens_intervention = self.llm.generator.output[:, prompt_len:].save()
+                with self.llm.generate(
+                    max_new_tokens=max_new_tokens,
+                    do_sample=False,
+                    eos_token_id=[
+                        self.tokenizer.eos_token_id,
+                        self.tokenizer.encode("\n", add_special_tokens=False)[0],
+                        self.tokenizer.encode("\n\n", add_special_tokens=False)[0],
+                    ],
+                ) as tracer:
+                    with tracer.invoke(prompt):
+                        with tracer.all():
+                            for layer in fn_vector_device.keys():
+                                self.get_out_proj(
+                                    self.get_self_attn(self.layers[layer])
+                                ).output[:, -1] += fn_vector_device[layer]
 
-            generation = self.tokenizer.decode(tokens_intervention[0])
+                    with tracer.invoke():
+                        tokens_intervention = self.llm.generator.output[
+                            0, prompt_len:-1
+                        ].save()
 
-            if stops:
-                completion_intervention.append(re.split(pattern, generation)[0])
-            else:
-                completion_intervention.append(generation)
+                generation = self.tokenizer.decode(tokens_intervention)
+                completion_intervention.append(generation.strip().split("\n")[0])
 
         return completion_intervention
 
