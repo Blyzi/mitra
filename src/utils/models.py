@@ -23,7 +23,7 @@ class Model:
     ):
         self.name = name
         self.llm = LanguageModel(
-            name, device_map="auto", dtype=torch.bfloat16, dispatch=True
+            name, device_map="auto", torch_dtype=torch.bfloat16, dispatch=True, attn_implementation="flash_attention_2"
         )
 
         self.tokenizer = self.llm.tokenizer
@@ -557,33 +557,51 @@ class Model:
             layer: fn_vector[layer].to(self.llm.device) for layer in fn_vector.keys()
         }
 
-        with torch.no_grad():
-            for prompt in tqdm(prompts, desc="Generating with function vector"):
-                prompt_len = len(self.llm.tokenizer.encode(prompt))
+        stops_tokens = [
+            self.tokenizer.encode(stop, add_special_tokens=False)[0] for stop in stops
+        ] + [self.tokenizer.eos_token_id]
 
+        
+        for i, prompt in (pbar := tqdm(
+            enumerate(prompts),
+            desc="Generating with function vector",
+            total=len(prompts)
+        )):
+            prompt_len = len(self.llm.tokenizer.encode(prompt))
+            
+            with torch.no_grad():
                 with self.llm.generate(
                     max_new_tokens=max_new_tokens,
                     do_sample=False,
-                    eos_token_id=[
-                        self.tokenizer.eos_token_id,
-                        self.tokenizer.encode("\n", add_special_tokens=False)[0],
-                        self.tokenizer.encode("\n\n", add_special_tokens=False)[0],
-                    ],
+                    eos_token_id=stops_tokens,
                 ) as tracer:
                     with tracer.invoke(prompt):
-                        with tracer.all():
-                            for layer in fn_vector_device.keys():
-                                self.get_out_proj(
-                                    self.get_self_attn(self.layers[layer])
-                                ).output[:, -1] += fn_vector_device[layer]
+                        if len(fn_vector_device.keys()) > 0:
+                            with tracer.all():
+                                for layer in fn_vector_device.keys():
+                                    self.get_out_proj(
+                                        self.get_self_attn(self.layers[layer])
+                                    ).output[:, -1] += fn_vector_device[layer]
 
                     with tracer.invoke():
                         tokens_intervention = self.llm.generator.output[
                             0, prompt_len:-1
                         ].save()
 
-                generation = self.tokenizer.decode(tokens_intervention)
-                completion_intervention.append(generation.strip().split("\n")[0])
+            generation = self.tokenizer.decode(tokens_intervention)
+            completion_intervention.append(generation.strip().split("\n")[0])
+
+
+            if i % 10 == 0 and i > 0:
+                gc.collect()
+                torch.cuda.empty_cache()
+
+            # Monitor GPU memory usage
+            if torch.cuda.is_available():
+                used = torch.cuda.memory_reserved()
+                total = torch.cuda.get_device_properties(0).total_memory
+                pbar.set_postfix(cuda_mem=f"{100 * used / total:.1f}%")
+                
 
         return completion_intervention
 
@@ -595,23 +613,26 @@ class Model:
     ) -> list[str]:
         completion_baseline = []
 
-        pattern = r"\s*(?:" + "|".join(map(re.escape, stops)) + r")\s*"
-        for prompt in tqdm(prompts, desc="Generating baseline"):
+        for i, prompt in tqdm(enumerate(prompts), desc="Generating baseline", total=len(prompts)):
             prompt_len = len(self.llm.tokenizer.encode(prompt))
 
             with self.llm.generate(
                 prompt,
                 max_new_tokens=max_new_tokens,
                 do_sample=False,
+                eos_token_id=[
+                        self.tokenizer.eos_token_id,
+                    ] + [self.tokenizer.encode(stop, add_special_tokens=False)[0] for stop in stops]
             ):
-                tokens_baseline = self.llm.generator.output[:, prompt_len:].save()
+                tokens_baseline = self.llm.generator.output[:, prompt_len:-1].save()
 
             tokens = self.tokenizer.decode(tokens_baseline[0])
 
-            if stops:
-                completion_baseline.append(re.split(pattern, tokens)[0])
-            else:
-                completion_baseline.append(tokens)
+            completion_baseline.append(tokens.strip().split("\n")[0])
+
+            if i % 10 == 0 and i > 0:
+                gc.collect()
+                torch.cuda.empty_cache()
 
         return completion_baseline
 

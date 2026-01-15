@@ -8,10 +8,9 @@ sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.icl import ICLDataset
 from src.utils.get_model import get_model
-from src.utils.functions import get_top_k
 
 
-def main(model_name, lang_source, lang_target, attribution_approximation):
+def main(model_name, lang_source, lang_target):
     fake_langs = list(
         {
             "eng_Latn",
@@ -65,26 +64,11 @@ def main(model_name, lang_source, lang_target, attribution_approximation):
         model_name,
     )
 
-    selected_heads = None
-    if attribution_approximation:
-        attribution_approximation = model.get_attribution_patch_map(
-            df_target["context"].tolist(),
-            df_fake["context"].tolist(),
-            df_target["context_answers"].tolist(),
-            batch_size=1,
-        )
-
-        selected_heads = get_top_k(
-            attribution_approximation,
-            top_k=20,
-        )
-
     h = model.get_activation_patch_map(
-        df_target["context"].tolist(),
-        df_fake["context"].tolist(),
-        df_target["context_answers"].tolist(),
+        df_target["context"].tolist()[:50],
+        df_fake["context"].tolist()[:50],
+        df_target["context_answers"].tolist()[:50],
         batch_size=1,
-        selected_heads=selected_heads,
     )
 
     torch.save(
@@ -94,18 +78,15 @@ def main(model_name, lang_source, lang_target, attribution_approximation):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print(
-            "Usage: python lang.py <model_name> <lang_source> <lang_target> <attribution_approximation>"
-        )
+    if len(sys.argv) != 4:
+        print("Usage: python lang.py <model_name> <lang_source> <lang_target>")
         sys.exit(1)
 
-    model_name, lang_source, lang_target, attribution_approximation = (
+    model_name, lang_source, lang_target = (
         sys.argv[1],
         sys.argv[2],
         sys.argv[3],
-        bool(int(sys.argv[4])),
     )
 
     print(f"Model: {model_name}, Source: {lang_source}, Target: {lang_target}")
-    main(model_name, lang_source, lang_target, attribution_approximation)
+    main(model_name, lang_source, lang_target)

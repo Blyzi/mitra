@@ -7,12 +7,9 @@ sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.icl import ICLDataset
 from src.utils.get_model import get_model
-from src.utils.functions import get_top_k
 
 
-def main(
-    model_name: str, lang_source: str, lang_target: str, attribution_approximation: bool
-):
+def main(model_name: str, lang_source: str, lang_target: str):
     pairs = load_dataset("facebook/flores", "all")["dev"].map(
         lambda x: {
             "pairs": (
@@ -36,26 +33,11 @@ def main(
         model_name,
     )
 
-    selected_heads = None
-    if attribution_approximation:
-        attribution_approximation = model.get_attribution_patch_map(
-            df["context"].tolist(),
-            df["corrupted_context"].tolist(),
-            df["context_answers"].tolist(),
-            batch_size=1,
-        )
-
-        selected_heads = get_top_k(
-            attribution_approximation,
-            top_k=20,
-        )
-
     h = model.get_activation_patch_map(
-        df["context"].tolist(),
-        df["corrupted_context"].tolist(),
-        df["context_answers"].tolist(),
+        df["context"].tolist()[:50],
+        df["corrupted_context"].tolist()[:50],
+        df["context_answers"].tolist()[:50],
         batch_size=1,
-        selected_heads=selected_heads,
     )
 
     torch.save(
@@ -65,10 +47,8 @@ def main(
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print(
-            "Usage: python translation.py <model_name> <lang_source> <lang_target> <attribution_approximation>"
-        )
+    if len(sys.argv) != 4:
+        print("Usage: python translation.py <model_name> <lang_source> <lang_target>")
         sys.exit(1)
 
-    main(sys.argv[1], sys.argv[2], sys.argv[3], bool(int(sys.argv[4])))
+    main(sys.argv[1], sys.argv[2], sys.argv[3])

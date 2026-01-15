@@ -28,10 +28,8 @@ class ICLDataset:
         context = []
         corrupted_context = []
         context_answers = []
-        noshot_prompt = []
-        noshot_answers = []
 
-        for i in range(0, len(self.x) - n_shot - 1, n_shot + 2):
+        for i in range(0, len(self.x) - n_shot - 1, n_shot + 1):
             if local_corruption:
                 corrupted_choices = random_derangement(self.y[i : i + n_shot])
             else:
@@ -64,18 +62,11 @@ class ICLDataset:
             )
             context_answers.append(self.y[i + n_shot])
 
-            noshot_prompt.append(
-                preprompt + question_format.format(x=self.x[i + n_shot + 1])
-            )
-            noshot_answers.append(self.y[i + n_shot + 1])
-
         return pd.DataFrame(
             {
                 "context": context,
                 "corrupted_context": corrupted_context,
                 "context_answers": context_answers,
-                "noshot_prompt": noshot_prompt,
-                "noshot_answers": noshot_answers,
             }
         )
 
