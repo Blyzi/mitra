@@ -520,6 +520,70 @@ class Model:
 
         return fn_vector_dict
 
+    def calculate_head_output(
+        self,
+        clean_context: list[str],
+        corrupted_context: list[str],
+        answers: list[str],
+        head: tuple[int, int],
+        batch_size: int = 1,
+    ) -> torch.Tensor:
+        n_samples = len(clean_context)
+        answer_tokens = self.tokenizer(
+            [f" {answers[i]}" for i in range(len(answers))],
+            add_special_tokens=False,
+        )["input_ids"]
+
+        full_prompts = [f"{clean_context[i]} {answers[i]}" for i in range(len(answers))]
+        full_corrupted_prompts = [
+            f"{corrupted_context[i]} {answers[i]}" for i in range(len(answers))
+        ]
+
+        kl_divergences = self.get_kl_divergence(
+            full_prompts,
+            full_corrupted_prompts,
+            # We start from -len(answer_tokens[i]) - 1 to -1 to only consider answer tokens starting from the last token of the question
+            windows=[(-len(answer_tokens[i]) - 1, -1) for i in range(n_samples)],
+            batch_size=batch_size,
+        )
+
+        max_kl_answer_indices = [
+            torch.argmax(kl_divergences[i]).item() for i in range(n_samples)
+        ]
+
+        # Build the prompts up to the max KL divergence token
+        patch_clean_prompts = [
+            clean_context[i]
+            + self.tokenizer.decode(answer_tokens[i][: max_kl_answer_indices[i]])
+            for i in range(n_samples)
+        ]
+
+        head_output = torch.zeros((self.d_head,), device=self.llm.device)
+
+        with torch.no_grad():
+            for i, batch_prompts, current_batch_size in batch(
+                patch_clean_prompts, batch_size
+            ):
+                with self.llm.trace(batch_prompts):
+                    # Get the output projection layer
+                    # out_proj = self.llm.transformer.h[layer].attn.out_proj
+                    out_proj = self.get_out_proj(
+                        self.get_self_attn(self.layers[head[0]]),
+                    )
+
+                    # Get the mean output projection input (note, setting values of this tensor will not
+                    # have downstream effects on other tensors)
+                    batch_hidden_states = out_proj.input[:, -1].mean(dim=0).save()
+
+                # hidden_states += batch_hidden_states * current_batch_size / n_samples
+                head_output += (
+                    batch_hidden_states.reshape(self.n_head, self.d_head)[head[1]]
+                    * current_batch_size
+                    / n_samples
+                )
+
+        return head_output
+
     def generate_with_fn_vector(
         self,
         prompts: list[str],
