@@ -1,0 +1,285 @@
+prompt,reference,generation_baseline,generation_function_vector,bleu_baseline,bleu_function_vector,chrf_baseline,chrf_function_vector,function_vector_lang,bleu_function_vector_lang,chrf_function_vector_lang
+"Q: Pittman suggested that conditions wouldn't improve until sometime next week.
+A:", 皮特曼认为天气情况要到下周才能改善。, Pittman suggested that conditions wouldn't improve until sometime next week., 肯尼迪认为，如果天气不好的时候，就不能继续进行训练。,0.0,4.814971807094068,0.0,5.9093476059892245,zho_Hans,4.814971807094068,5.9093476059892245
+"Q: Each of these nomadic rampages or marches lasts for approximately 17 days.
+A:", 这种游牧性的横冲直撞行为每次都会持续 17 天左右。,, 17 days is the length of a march.,0.0,1.5694957190569985,0.0,4.778937538983412,eng_Latn,4.661841620661271,19.31631780997776
+"Q: The different constructions have different capabilities, are sensitive to different wave-lengths and have differing degrees of acuity, also they require different processing to make sense of the input and different numbers to work optimally.
+A:", 不同的构造有不同的功能，对不同的波长敏感，且敏锐度不同。它们也需要不同的处理方式来理解输入，并需要不同数量的输入才能达到最佳效果。," The different constructions have different capabilities, are sensitive to different wave-lengths and have differing degrees of acuity, also they require different processing to make sense of the input and different numbers to work optimally."," 1. The different constructions have different capabilities, are sensitive to different wave-lengths and have differing degrees of acuity, also they require different processing to make sense of the input and different numbers to work optimally.",0.9668670750672484,0.9451258377819046,0.0,0.0,eng_Latn,97.75137267097121,99.58897960762116
+"Q: The typhoon is estimated to be moving toward China at eleven kph.
+A:", 预计台风正以每小时十一公里的速度靠近中国。,, 11 kph is the speed of the typhoon.,0.0,0.0,0.0,0.0,eng_Latn,10.457935853793364,20.515602228523345
+"Q: Massa is due to be out for at least the rest of the 2009 season.
+A:", 马萨 (Massa) 至少在 2009 赛季的其余比赛中都不会出场。,, 2009 season is the last season of the 2008-09 season.,0.0,1.3253962558322638,0.0,7.65083088688483,eng_Latn,8.829400210422204,37.02100240173613
+"Q: One of strong points of Charlotte, North Carolina, is that it has an abundance of high-quality options for families.
+A:", 北卡罗来纳州夏洛特市的优势之一在于它为家庭提供了许多高质量的选择。,, 1. Charlotte is a great place to live because it has a lot of high-quality options for families.,0.0,0.0,0.0,0.0,eng_Latn,31.1033032294136,46.22741021447915
+"Q: This makes inexpensive zoom lenses hard to use in low-light conditions without a flash.
+A:", 这使得廉价的变焦镜头在没有闪光灯的情况下很难在弱光条件下使用。,, 镜头可以很便宜的，但使用起来很困难，因为它需要一个闪光灯。,0.0,8.400051487184998,0.0,7.565392286252043,zho_Hans,8.400051487184998,7.565392286252043
+"Q: Traditionally, the heir to the throne would go straight into the military after finishing school.
+A:", 传统上，王位继承人在完成学业后会直接入伍。,, 历史学家认为，如果皇帝是军人，那么皇帝的儿子就应该成为军人。,0.0,2.442663322105964,0.0,3.132832080200501,zho_Hans,2.4426633221059637,3.132832080200501
+"Q: A cell is the smallest structural and functional unit of a living (things) organism.
+A:", 细胞是各类生物体中最小的结构和功能单位。,, 答案：A cell is the smallest structural and functional unit of a living (things) organism.,0.0,1.444580998177086,0.0,0.0,eng_Latn,79.5436912190344,97.73914026913275
+"Q: Lead researchers say this may bring early detection of cancer, tuberculosis, HIV and malaria to patients in low-income countries, where the survival rates for illnesses such as breast cancer can be half those of richer countries.
+A:", 主要研究人员表示，这可以让低收入国家/地区的患者尽早发现癌症、肺结核、艾滋病和疟疾。在这些国家/地区，乳腺癌等疾病的生存率可能仅为富裕国家的一半。,, 科学家们认为，这种方法将有助于早期发现癌症、肺癌、艾滋病毒和疟疾的患者。,0.0,8.015397329340177,0.0,11.293286318296545,zho_Hans,8.015397329340177,11.293286318296545
+"Q: Germany code-named the attack “Operation Sealion”. Most of the British Army's heavy weapons and supplies had been lost when it evacuated from Dunkirk, so the army was fairly weak.
+A:", 德国将此次袭击的代号定为“海狮行动”。英国军队从敦刻尔克撤退时失去了大部分重型武器和补给，元气大伤。, The British Army was fairly weak., 德国号称“Operation Sealion”的英国军队在德军撤离的途中，几乎全部损失了武器和物资。,0.0,3.593461437796148,0.0,8.408656618718997,yue_Hant,2.4162786997309733,4.400357178257442
+"Q: These aren't very nimble so the trail has to take a long swerve around the Transantarctic Mountains to come onto the plateau.
+A:", 车子并不是很灵活，所以必须绕着横贯南极山脉，拐一个长长的的大弯才能来到高原。, These aren't very nimble so the trail has to take a long swerve around the Transantarctic Mountains to come onto the plateau., 登山者們，這不是很輕的，所以，這段山路需要長得多，才能到達高原。,0.0,7.246894744057187,0.0,9.847823569672288,zho_Hans,7.246894744057187,9.847823569672288
+"Q: There are infinite variations possible, but this remains what most people mean when they talk of ""going to Disney World"".
+A:", 迪士尼的玩法有无数种，但对大多数人来说，“去迪士尼乐园”就是这个意思。,, 1. The only way to go to Disney World is to go to the parks.,0.0,0.0,0.0,0.0,eng_Latn,5.013749779865018,17.207897651630027
+"Q: A World's Fair (commonly called World Exposition, or simply Expo) is large international festival of arts and sciences.
+A:", 世界博览会（俗称万国博览会，简称世博）是一场展示艺术和科学的国际盛会。,, 1939年（1939年）年，美国纽约州布鲁克林（布鲁克林）州立大学（University of Chicago）举办的第一次世界大展。,0.0,1.3705063051209183,0.0,4.189908337054487,yue_Hant,1.3705063051209185,4.913536320633927
+"Q: To Check the victim, you must first survey the scene to ensure your safety.
+A:", 要检查受害者，你必须先勘察现场，确保自身的安全。,, 检查死者，首先检查死者现场，以便确保您的安全。,0.0,14.400124446705304,0.0,16.068637095031,zho_Hans,14.400124446705304,16.068637095031
+"Q: Then, a few years later in 1639, an English astronomer named Jeremiah Horrocks observed a transit of Venus.
+A:", 然后，几年后的 1639 年，一位名叫耶利米·霍罗克斯 (Jeremiah Horrocks) 的英国天文学家观测到了一次金星凌日。, Horrocks was a British astronomer who observed Venus in 1639., 1639年，英国天文学家约翰·霍普金斯·罗伯特（John Howard Ross）在1639年发现一个月球绕地球的月亮。,1.6170158354691375,8.756463779945346,14.044959298401633,12.88364901378262,yue_Hant,2.9799893137327635,11.93705917637046
+"Q: Nevertheless, there are many distinctive ways of drinking coffee around the world that are worth experiencing.
+A:", 尽管如此，世界上还是有许多独特的咖啡饮用方式，这些方式都值得去体验。,, 咖啡是一种常见的饮料，但它并不总是适合所有人。咖啡是一种咖啡因含量高的饮料，它含有咖啡因，但它并不适合所有人。咖啡因是一种咖啡因，它是一种咖啡因，它是一种咖啡因，它是一种咖啡因，它是一种咖啡因，它是一种咖啡因，它是一种咖啡因，它是一种咖啡因，它是一种,0.0,1.0152938344458982,0.0,2.7421018287185244,zho_Hans,1.0152938344458982,2.7421018287185244
+"Q: During the last three decades, despite officially remaining a communist state, China has developed a market economy.
+A:", 在过去三十年里，尽管官方层面仍然是个共产主义国家，中国已经发展了市场经济。,, 1978-1982,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Hopefully, most people will realise that their long term best option is to work together with others.
+A:", 希望大多数人都能意识到，从长远来看，与他人合作才是最佳选择。,, 也许大多数人会明白，他们长期最好选择的是与他人合作。,0.0,8.647825468524676,0.0,16.70929360637342,zho_Hans,8.647825468524676,16.70929360637342
+"Q: Photons are even smaller than the stuff that makes up atoms!
+A:", 光子甚至比构成原子的物质还要小！,, 电子是原子中最小的粒子，电子的质量是10-19 电子。,0.0,2.664321121388895,0.0,6.442741066853504,zho_Hans,2.664321121388895,6.442741066853504
+"Q: They normally offer higher bandwidth and better quality of service. They are encrypted and thus harder to spy on.
+A:", 它们通常会提供更高的带宽和更优质的服务。它们经过加密，更难被监视。, They are encrypted and thus harder to spy on., 免费的，但他们通常提供更高的带宽和更好的服务。他们是加密和因此更容易被窃听。,0.0,30.800378673016937,0.0,27.766213668066754,zho_Hans,30.800378673016937,27.766213668066754
+"Q: People with this type of thinking have logical thinking, are able to memorize patterns, solve problems and work on scientific tests.
+A:", 这种思维类型的人具有逻辑思维，能够记得住模式、解决问题，还能进行科学测试。,, 这种类型的思维方式，有逻辑思维，能够记住规律，解决问题，工作科学性测试。,0.0,32.83370618622505,0.0,31.168905393608537,zho_Hans,32.83370618622505,31.168905393608537
+"Q: Following the race, Keselowski remains the Drivers' Championship leader with 2,250 points.
+A:"," 比赛结束后，凯塞洛斯基以 2,250 分的成绩，继续在车手积分榜上高居榜首。", Keselowski is the Drivers' Champion., 赛车在赛道上保持着领先地位，但由于赛道复杂，赛车在赛道上表现不佳。,0.0,1.9508315563589549,0.0,2.824858757062147,zho_Hans,1.9508315563589547,2.824858757062147
+"Q: In general, staying in any foreign country for an extended period of time will require you to obtain a visa in advance.
+A:", 通常来说，较长时间停留在外国需要提前获取签证。,, 澳大利亚的签证需要提前申请，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期为一年，签证有效期,0.0,1.641846520933856,0.0,4.46630085997081,yue_Hant,0.7971029763196829,2.483370873777085
+"Q: The city of Beijing in China will be the host city of the Olympic Winter Games in 2022, which will make it the first city to have hosted both the summer and winter Olympics.
+A:", 中国北京将成为 2022 年冬季奥运会的主办城市，这座城市也将因此成为第一个同时举办过夏季和冬季奥运会的城市。,, 北京奥运会将在2022年举办，是首个奥运会举办城市。,0.0,7.174514139207995,0.0,13.749790219325083,zho_Hans,7.174514139207995,13.749790219325083
+"Q: The algae produces a neurotoxin that can disable nerves in both humans and fish.
+A:", 藻类能产生一种神经毒素，能破坏人类和鱼类的神经。,,  algae produces a neurotoxin that can disable nerves in both humans and fish.,0.0,0.0,0.0,0.0,eng_Latn,95.12294245007145,95.78238436929975
+"Q: In the beginning of the war they mostly travelled on top of the sea, but as radar began developing and becoming more accurate the submarines were forced to go under water to avoid being seen.
+A:", 在战争开始时，它们大多在海面上航行，但随着雷达的发展和精确度的提高，潜艇被迫潜入水下以免被发现。,, 战争期间，他们大多沿海游行，但随着雷达的发展， submarines被迫下水，以免被发现。,0.0,30.73495342283367,0.0,26.05791701627169,eng_Latn,1.9995232817077901,4.252948368715047
+"Q: The temple of Artemis at Ephesus was destroyed on July 21, 356 BCE in an act of arson committed by Herostratus.
+A:", 公元前 356 年 7 月 21 日，赫洛斯塔图斯 (Herostratus) 的纵火行为导致位于以弗所 (Ephesus) 的阿尔忒弥斯神庙毁于一旦。," The temple of Artemis at Ephesus was destroyed on July 21, 356 BCE in an act of arson committed by Herostratus.", 罗马尼亚的古罗马神庙是毁于火灾的，公元前356年。,1.5002472923412151,1.9925244104227775,17.430065283175683,9.62858931920324,zho_Hans,1.9925244104227777,9.62858931920324
+"Q: European Turkey (eastern Thrace or Rumelia in the Balkan peninsula) includes 3% of the country.
+A:", 土耳其位于欧洲的部分（地处巴尔干半岛的东色雷斯或鲁米利亚）占其国土面积的 3％。," The word ""Turkey"" is a contraction of the word ""Turkey"" in Turkish.", 欧洲的土耳其包括3%的国家。,0.0,1.191539445489332,0.0,6.826788890823236,zho_Hans,1.191539445489332,6.826788890823236
+"Q: The concept was that all European nations had to seek to prevent one nation from becoming powerful, and thus national governments often changed their alliances in order to maintain the balance.
+A:", 这种理念是，所有欧洲国家必须设法阻止某个国家/地区独自变得强大，因此，各国政府为了保持平衡经常更换盟友。," The concept was that all European nations had to seek to prevent one nation from becoming powerful, and thus national governments often changed their alliances in order to maintain the balance.", 欧洲国家在寻求防止一个国家成为强大的同时，国家政府也经常改变了盟友关系，以保持平衡。,0.997241677046042,6.236841070398545,0.0,13.308857559530276,zho_Hans,6.236841070398545,13.308857559530276
+"Q: As well as a former Olympic and World champion, Saito was the All Japan Judo Federation training committee chairman at the time of his death.
+A:", 作为前奥运冠军和世界冠军的齐藤仁，在去世前担任全日本柔道联盟训练委员会主席。,," 1950-1951, 1952-1953, 1954-1955, 1956-1957, 1958-1959, 1960-1961, 1962-196",0.0,0.0,0.0,0.0,krc_Cyrl,,
+"Q: Another famous Greek is a mathematician Pythagoras, mostly known for his famous theorem about relations of the sides of right triangles.
+A:", 另一个著名的希腊人是数学家毕达哥拉斯，他最有名的成就是提出了关于直角三角形各边关系的著名定理。,, 另一个著名的古希腊数学家是数学家古斯托普，他著名的定理关于直角三角形的关系。,0.0,28.95880887580035,0.0,25.407642313687933,zho_Hans,28.95880887580035,25.407642313687933
+"Q: RSPCA New South Wales chief inspector David O'Shannessy told the ABC that surveillance and inspections of abattoirs should be commonplace in Australia.
+A:", 英国皇家防止虐待动物协会 (RSPCA ) 新南威尔士州总督察大卫·奥沙纳西 (David O'Shannessy) 告诉 ABC，在澳大利亚监管和视察屠宰场应该是司空见惯的事。, O'Shannessy said that the government was working to improve the quality of abattoirs., 澳大利亚的动物检疫当局应该经常使用。,3.175766051752201,0.3278604759692937,10.050379034945504,3.753033694908434,zho_Hans,0.3278604759692937,3.753033694908434
+"Q: Vautier's achievements outside of directing include a hunger strike in 1973 against what he viewed as political censorship.
+A:", 除了导演电影，沃蒂埃的成就还包括 1973 年为反对他眼中的政治钳制而发起的绝食抗议。, Vautier's achievements outside of directing include a hunger strike in 1973 against what he viewed as political censorship., 杰克·Vautier's achievements outside of directing include a hunger strike in 1973 against what he viewed as political censorship. He was a member of the Communist Party of Canada. He was a member of the Canadian Communist Party. He was a member of the Canadian Communist Party. He was a member of the Communist Party of Canada. He was,1.2009650739411013,0.4447652331523465,4.5896517424187255,2.4129774732620373,eng_Latn,33.30693067235514,72.83578479981358
+"Q: Fire captain Scott Kouns said, ""It was a hot day in the Santa Clara with temperatures in the 90s.
+A:"," 消防队长斯科特·库恩斯表示：“圣塔克拉拉当天十分燥热，温度得有 90 多华氏度高。""",," 消防员Scott Kouns said, ""It was a hot day in the Santa Clara with temperatures in the 90s.",0.0,2.338799828382716,0.0,3.8831597750123965,eng_Latn,79.5436912190344,87.50074237343853
+"Q: The failure of the second sentence, which proposes to ban same-sex civil unions, could possibly open the door for civil unions in the future.
+A:", 禁止同性民事结合的第二个语句未能通过，这可能会为未来的同性婚姻打开大门。," The failure of the second sentence, which proposes to ban same-sex civil unions, could possibly open the door for civil unions in the future."," 2. The failure of the second sentence, which proposes to ban same-sex civil unions, could possibly open the door for civil unions in the future.",1.199348129252962,1.1599713834969505,0.0,0.0,eng_Latn,96.71682101338351,99.37856928409738
+"Q: His name is still unknown to authorities, although they do know he is a member of the Uighur ethnic group.
+A:", 当局仍然不知道他的名字，只知道他是维吾尔族人。,, 汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族，汉族,0.0,0.5721045746841181,0.0,0.8605851979345954,yue_Hant,0.5721045746841181,0.8025682182985555
+"Q: ""It's going to behave like water. It's transparent just the way water is.
+A:", 它会像水一样流动。它和水一样透明。," ""It's going to behave like water. It's transparent just the way water is.", 绿色植物的绿色，是透明的。,0.0,3.4089919964838558,0.0,3.585387379436425,deu_Latn,0.0,0.0
+"Q: As time passed, many words that were borrowed from German coalesced. This was the beginning of enlightenment.
+A:", 随着时间的推移，许多德语外来词与原有词汇合并。这就是启蒙运动的开始。, The enlightenment was the beginning of the end., 历史学家们在德国的殖民地时期，对历史的认识和历史的价值产生了巨大的影响。,0.0,1.8570366481907543,0.0,2.491694352159469,zho_Hans,1.8570366481907545,2.491694352159469
+"Q: King Sejong was the fourth king of the Joseon Dynasty and is one of the most highly regarded.
+A:", 世宗大王为朝鲜王朝的第四任君主，也是最受推崇的君主之一。,, 姜秀平是第4位皇帝，是第4位皇帝，是最受尊敬的。,0.0,3.7900211758054216,0.0,5.333890930296505,npi_Deva,0.0,0.0
+"Q: Learning to create interactive media requires conventional and traditional skills, as well as tools mastered in interactive classes (storyboarding, audio and video editing, story telling, etc.)
+A:", 学习制作互动媒体需要常规传统技能，以及在互动课程中掌握的工具（故事板制作、音频和视频编辑、故事情节设计等）。, The following are the steps to create interactive media:, 学习如何创建互动媒体需要传统和传统技能，以及在互动课程中掌握工具，以及在互动课程中掌握工具。,0.0,33.2916982944374,0.0,29.506373599641005,zho_Hans,33.291698294437396,29.506373599641005
+"Q: Hindi and Urdu are similar in vocabulary but different in script; in everyday conversations, speakers of both languages can usually understand each other.
+A:", 印度语和乌尔都语有着相似的词汇，但文字的书写方式不同；在日常对话中，这两种语言通常可以交流互通。,, 汉语和日文是同义词，但汉语的词汇比日文的词汇更多，日文的词汇更多。,0.0,5.835030914513967,0.0,6.075395884514492,zho_Hans,5.8350309145139665,6.075395884514492
+"Q: Now for Japan. Japan was an island country, just like Britain.
+A:", 现在来看日本。和英国一样，日本是一个岛国。," Now for Japan. Japan was an island country, just like Britain.", 英国,2.6440681349450874,0.0,0.0,5.9436811848387405,jpn_Jpan,0.0,1.7006802721088434
+"Q: Maroochydore had finished on top of the ladder, six points clear of Noosa in second.
+A:", 马鲁基多尔 (Maroochydore) 已经遥遥领先，以六分的优势领先第二名的努沙 (Noosa)。," Maroochydore had finished on top of the ladder, six points clear of Noosa in second.", 澳大利亚的马罗克达罗县已经完成了第6个赛季，排名第10位。,3.5300883567521155,1.4810605049675538,17.881668512446282,2.916344054216291,zho_Hans,1.4810605049675538,2.916344054216291
+"Q: While they are usually privately owned, they sometimes accommodate visiting heads of state and other dignitaries.
+A:", 虽然它们通常是属于私人所有的，但有时也为来访的国家元首和其他政要提供住宿。,, 历史学家们通常会把他们作为私人财产，但他们有时会接待访问的领导人。,0.0,4.676689089260248,0.0,8.366431346024665,zho_Hans,4.676689089260248,8.366431346024665
+"Q: By early today, winds were around 83 km/h, and it was expect to keep weakening.
+A:", 到今天早些时候，风速为每小时 83 公里左右，预计会不断减弱。," By early today, winds were around 83 km/h, and it was expect to keep weakening.", 1999年1月10日，风速约为83公里/h，预计将继续减弱。,1.9833846708190692,13.463808686359252,3.299738209069981,14.579895057425373,ita_Latn,4.509256159760783,1.1388621312251792
+"Q: Al Gore and General Tommy Franks casually rattle off their favorite headlines (Gore's was when The Onion reported he and Tipper were having the best sex of their lives after his 2000 Electoral College defeat).
+A:", 艾伯特·戈尔和汤米·弗兰克斯将军漫不经心地吐露出他们最喜欢的头条（当时洋葱网曾报道说，戈尔在2000年竞选失利后，与其妻子蒂珀享受了一生中最美好的性爱时光）。,, 约翰·霍普金斯大学教授，美国政治学家，美国总统竞选人。,0.0,0.4749486637759592,0.0,1.877308127075459,zho_Hans,0.4749486637759592,1.877308127075459
+"Q: Make sure you know what you can and cannot bring in and declare anything over the legal limits.
+A:", 确保知晓可以携带什么，不能携带什么，并申报任何超出法律允许的物件。,, 1. You must have a valid driver's license and a valid passport.,0.0,0.0,0.0,0.0,eng_Latn,2.265000110415278,10.879794419257689
+"Q: It looks a bit daunting from below, and it is a steep and difficult ascent, but most reasonably fit persons should be able to make it in about 45 minutes.
+A:", 从下面往上看有点吓人，而且是陡峭而艰难的上坡路，但大多数身体状况良好的人应该能在 45 分钟内完成。," It is a bit daunting from below, and it is a steep and difficult ascent, but most reasonably fit persons should be able to make it in about 45 minutes.", 俯瞰下，很困难，但大多数人可以轻松到达。,1.2753998269755913,3.3631009628622697,2.209362678922154,6.908509870164722,zho_Hans,3.3631009628622697,6.908509870164722
+"Q: Keep in mind while planning that although Southern Africa is stable not all neighboring countries are.
+A:", 规划期间，请记住，虽然南部非洲处于稳定状态，但并非所有邻国亦然。,, 东南亚稳定不一定，邻国也不同。,0.0,3.6502678628530494,0.0,4.531803513659669,deu_Latn,0.9726983079028162,0.0
+"Q: Peter Costello, Australian treasurer and the man most likely to succeed Prime Minister John Howard as Liberal party leader has thrown his support behind a nuclear power industry in Australia.
+A:", 澳大利亚财务部长、最有可能接替总理约翰·霍华德担任自由党领袖的彼得·科斯特洛，对澳大利亚的核电工业表示支持。,, 澳大利亚总理Peter Costello，澳大利亚总理，是最有可能成为总理的候选人。,0.0,8.522151529622006,0.0,10.179950223893282,zho_Hans,8.522151529622006,10.179950223893282
+"Q: Also give policy/contact copies to traveling companions and relatives or friends back home willing to help.
+A:", 同时将保险合同/联系方式的副本交予旅伴以及归乡后愿意帮忙的亲友手中。,, 亲人亲友或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚或朋友或亲戚,0.0,0.9621613720042518,0.0,0.9639304580833001,mai_Deva,0.0,0.0
+"Q: Some of the applications in this category can even translate texts in foreign languages on signs or other objects in the real world when the user points the smartphone towards those objects.
+A:", 某些此类应用程序甚至让用户把智能手机对着现实世界中的标志或其他物体，就能翻译上面的外语文字。,, 这种应用可以翻译文本在外国语言中，当用户在手机上向这些物体点时，它会显示这些物体。,0.0,3.915879731696523,0.0,7.3376637244821685,zho_Hans,3.915879731696523,7.3376637244821685
+"Q: Animals are found all over the earth. They dig in the ground, swim in the oceans, and fly in the sky.
+A:", 地球上的各个角落都有动物的身影。它们有的在地下挖洞，有的在海洋中畅游，有的在天空中翱翔。,, 动物遍地开花，地球上到处都是，它们挖土，游泳在海洋，飞在天空。,0.0,6.238801529734297,0.0,10.817972024876859,zho_Hans,6.238801529734297,10.817972024876859
+"Q: He went on to say, ""This case is serious. Rest assured that our system is working as well as it should.""
+A:", 他又称：“这个病例很严重。但我们的医疗系统运作良好，请大家放心。”,, 史蒂夫·德·布莱恩特说，他认为，这起案件是严重。他肯定会继续工作，并确保我们的系统工作得当。,0.0,2.6988233895132607,0.0,8.13150056301398,zho_Hans,2.6988233895132607,8.13150056301398
+"Q: Pureland origami is origami with the restriction that only one fold may be done at a time, more complex folds like reverse folds are not allowed, and all folds have straightforward locations.
+A:", 净土折纸，其限制规则是一次只能进行一次折叠，不允许反向折叠这样更复杂的动作，并且所有折叠的位置都必须简单明了。,, 纸牌的Origami是纸牌的简化版，只有一种可以做，一种是做一个双面，另一种是做一个双面，一种是做一个双面，一种是做一个双面，一种是做一个双面，一种是做一个双面，一种是做一个双面，一种是做一个双面，一种,0.0,0.7902402223323908,0.0,2.67022696929239,zho_Hans,0.7902402223323908,2.67022696929239
+"Q: The native inhabitants of Greenland call themselves Inuit in Canada and Kalaalleq (plural Kalaallit), a Greenlander, in Greenland.
+A:", 在加拿大，格陵兰岛的土著居民称自己为因纽特人，在格陵兰岛则称自己为 Kalaalleq（复数为 Kalaallit），也就是“格陵兰人”的意思。," The native inhabitants of Greenland call themselves Inuit in Canada and Kalaallit, a Greenlander, in Greenland.", 绿林人是绿林人，绿林人是绿林人，绿林人是绿林人，绿林人是绿林人，绿林人是绿林人，绿林人是绿林人，绿林人是绿林人，绿林人是绿林人，绿林人是绿林人，绿林,2.462230828272748,1.1442091493682365,8.676172333186997,1.415320164556556,hrv_Latn,0.0,0.0
+"Q: Nitrogen as a gas still has the same properties as liquid nitrogen. The liquid state is denser but the molecules are still the same.
+A:", 气态氮仍具有与液态氮相同的性质。液态氮的密度更大，但是分子还是一样的。, The liquid state is denser but the molecules are still the same., 氮气仍然是液态氮的性质，液态氮的分子仍然是相同的。,0.0,16.400914543373037,0.0,17.21508497433799,zho_Hans,16.400914543373037,17.21508497433799
+"Q: The search had been hampered by the same bad weather that had caused the aborted landing.
+A:", 导致飞机着陆失败的恶劣天气，也使搜索工作受到了阻碍。, The search had been hampered by the same bad weather that had caused the aborted landing., 飞机在降落时，由于天气原因，飞机没有成功降落。,0.0,5.36091700945855,0.0,4.54554188988148,zho_Hans,5.36091700945855,4.54554188988148
+"Q: In fact, there is not one good thing to learn.Learning takes place in the experience between the learner and the knowledge presented.
+A:", 事实上，没有任何事情需要特意学习。在学习者体验到知识呈现的时候，学习的行为就发生了。,, 学习的过程是经历知识的体验，知识的发生是经历知识的体验。,0.0,3.322580255951873,0.0,6.627105050172818,zho_Hans,3.322580255951873,6.627105050172818
+"Q: This causes the skater to turn. If the skates tilt to the right, the skater turns right, if the skates tilt to the left, the skater turns left.
+A:", 这样一来，溜冰者就可以转弯。冰刀向右倾斜，溜冰者就转向右边。冰刀向左倾斜，溜冰者就转向左边。,, 轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的特点是：轮滑运动的,0.0,0.0,0.0,0.0,zho_Hans,0.0,0.0
+"Q: This is believed to be the fifth time in history that people have observed what turned out to be chemically confirmed martian material falling to Earth.
+A:", 这被认为是人类历史上第五次观测到经过化学方式证实的火星物质坠落到地球上。,, 1953,0.0,0.0,0.0,0.0,eng_Latn,0.0,0.0
+"Q: Followers pursue certain ways of living, or practices that are intended to nurture those experiences.
+A:", 追随者追求某种生活方式或旨在滋养这些经验的修行。,, 粉丝追求某些方式的生活，或旨在培养那些经历，旨在促进这些经历。,0.0,8.757447681401304,0.0,15.514358244723455,zho_Hans,8.757447681401304,15.514358244723455
+"Q: The outer-part we see when we look at the Sun is called the photosphere, which means ""ball of light"".
+A:", 我们看到的太阳外部称作光球层，意即“光之球”。, The Sun is the most luminous object in the solar system., 太阳的外面是太阳的太阳光，也就是太阳的光。,0.0,8.3551771205213,0.0,7.07313196969518,zho_Hans,8.3551771205213,7.07313196969518
+"Q: Some medium-format film cameras use a 6 by 6 cm format, more precisely a 56 by 56 mm negative.
+A:", 一些中画幅胶片相机使用 6x6cm 的画幅，更准确地说，是 56x56mm 的底片。,, 6 by 6 cm is a 56 by 56 mm negative.,0.0,0.699830799650822,0.0,7.178497324816724,eng_Latn,24.87344907436388,36.4802336803139
+"Q: Most televisions are made in a way to please the general public.
+A:", 大多数电视节目都是为娱乐大众而制作的。, Most televisions are made in a way to please the general public., 电视是人们的日常生活必需品。,0.0,3.428694246259452,0.0,4.808626601293319,zho_Hans,3.428694246259452,4.808626601293319
+"Q: Submarines were used in World War I and World War II. Back then they were very slow and had a very limited shooting range.
+A:", 第一次世界大战和第二次世界大战期间都使用了潜水艇。 那时它们的速度很慢，射击范围也非常有限。,, 战争期间，潜艇被用于世界大战和世界大战期间。那时它们非常慢，没有射击范围。,0.0,11.134108834327206,0.0,24.402601977842505,zho_Hans,11.134108834327206,24.402601977842505
+"Q: Many people dream of the day when humans can travel to another star and explore other worlds, some people wonder what's out there some belive that aliens or other life may live on another plant.
+A:", 许多人梦想着人类有一天可以移民到其他星球，探索其他世界。有些人想知道宇宙有什么；有些人相信其他行星上可能有外星人或其他生命。,, 许多人梦想有一天能来到另一个星和探索其他世界，有些人认为这是在其他植物生活。,0.0,12.01987922536616,0.0,14.529146966564053,zho_Hans,12.01987922536616,14.529146966564053
+"Q: On the accordion, to get extra volume, you use the bellows with more pressure or speed.
+A:", 为了提高手风琴的音量，可以更用力或以更快的速度拉风箱。,,"  accordion, to get extra volume, you use the bellows with more pressure or speed.",0.0,1.5560309550847944,0.0,0.0,eng_Latn,90.00876262522596,93.41030045780494
+"Q: He joined them in 1945 and stayed until 1958.
+A:", 他于 1945 年加入球队，一直效力到 1958 年。, He joined them in 1945 and stayed until 1958., 1945-1958,2.605244243496221,0.5039742260635457,14.289626037912322,14.931430978142673,eng_Latn,1.9119108411650758,9.41400183537244
+"Q: Coffee is one of the world's most traded commodities, and you can probably find many types in your home region.
+A:", 咖啡是全球交易量最大的商品之一，你在家乡很可能可以买到种类繁多的咖啡。,, 咖啡是一种全球最受欢迎的商品，你可能在你的家乡找到许多种类型。,0.0,9.29306476776,0.0,14.3673081051196,zho_Hans,9.29306476776,14.3673081051196
+"Q: Early in the nation's independence, Singapore Botanic Gardens' expertise helped to transform the island into a tropical Garden City.
+A:", 在国家独立初期，新加坡植物园发挥其专业知识所长，帮助该岛成为了一座热带“花园城市”。,," 1962, Singapore Botanic Gardens was established as a botanical garden in 1962.",0.0,0.0,0.0,0.0,eng_Latn,11.050766347061325,28.499456000857716
+"Q: Estimates range from 340 million to 500 million speakers, and as many as 800 million people can understand the language.
+A:", 据估计，会说这种语言的人数量范围在 3.4 亿到 5 亿之间，而能听懂这种语言的人则多达 8 亿。,," 340 million to 500 million speakers, and as many as 800 million people can understand the language.",0.0,0.8183299404498398,0.0,1.2254901960784312,eng_Latn,77.88007830714052,85.74982223494028
+"Q: An immigration checkpoint is usually the first stop when disembarking from a plane, a ship, or another vehicle.
+A:", 入境检查站通常是走下飞机、轮船或其他交通工具后经过的第一站。,, 飞机，船，或其他车辆的第一个目的地是机场，飞机，船，或其他车辆。,0.0,4.327969719414173,0.0,8.604755765080965,zho_Hans,4.327969719414173,8.604755765080965
+"Q: It was based on the German alphabet and one character ""Õ/õ"" was added.
+A:", 它是在德语字母表中加了一个字母“Õ/õ”。," It was based on the German alphabet and one character ""Õ/õ"" was added.", 1900,7.535838128770536,0.0,3.093374888456507,0.0,eng_Latn,0.0,0.0
+"Q: In its most recent monthly report, OPEC said exports of crude had fallen to their lowest level for two decades at 2.8 million barrels per day.
+A:", 在最新一期的月报中，石油输出国组织声称原油出口已经跌到了二十年来的最低水平，仅为一天 280 万桶。," The following is a sentence from the most recent monthly report, which is in Chinese:"," 2014 was the first year of the OPEC+ agreement, which was signed in 1999.",0.7473944806206942,0.7052178108392831,0.0,0.496031746031746,eng_Latn,1.7789244369564983,10.021601487143867
+"Q: The storm, situated about 645 miles (1040 km) west of the Cape Verde islands, is likely to dissipate before threatening any land areas, forecasters say.
+A:", 预报员称，这场位于佛得角群岛以西 645 英里（1040 公里）的风暴可能在对陆地地区造成威胁之前就会自行消散。,, 飓风，位于约645英里（1040公里）处西部的哥斯达黎加岛，可能将威胁到任何陆地区域，预言。,0.0,8.350789658869664,0.0,24.089659519729008,zho_Hans,8.350789658869664,24.089659519729008
+"Q: There are a limited number permits reserved for walk-in requests available on a first come, first served basis.
+A:", 对于未经预约的到访，许可证的预留数量有限，并按先到先得的原则提供许可证。,, 门票有限制，门票预约需提前预约。,0.0,2.520830133343146,0.0,4.493174244867247,kor_Hang,0.0,0.0
+"Q: The sign was not physically damaged; the modification was done using black tarpaulins decorated with signs of peace and heart to alter the ""O"" to read lowercase ""e"".
+A:", 该标志没有受到实际损坏；这一改动是用装饰着和平与爱心标志的黑色防水油布将字母 “O” 改成了可读性强的小写 “e”完成的。," The sign was not physically damaged; the modification was done using black tarpaulins decorated with signs of peace and heart to alter the ""O"" to read lowercase ""e"".", 红色标志的损坏程度是无法直接识别的，但可以通过涂鸦的方式进行修改。,0.8684530270834108,2.8051502483097903,0.3378378378378379,4.338819383634273,zho_Hans,2.8051502483097903,4.338819383634273
+"Q: The commissioner sets bail, if granted, and formalizes the charges filed by the arresting officer. The charges are then entered into the state's computer system where the case is tracked.
+A:", 如果获得批准，法庭专员即可设定保释金，并最终确定执行逮捕的警员提出的指控。这些指控随后会录入该州的计算机系统，以便在其中对案件进行追踪。," The commissioner sets bail, if granted, and formalizes the charges filed by the arresting officer. The charges are then entered into the state's computer system where the case is tracked.", 检察官对逮捕的判决，如果批准，并正式声明逮捕的案件，在计算机系统中进行跟踪。,0.8584209548039234,2.9779907929686917,0.0,10.956493306988524,zho_Hans,2.9779907929686913,10.956493306988524
+"Q: The International Olympic Committee voted to include the sports at its executive board meeting in Berlin today. Rugby, specifically rugby union, and golf were selected over five other sports to be considered to participate in the Olympics.
+A:", 今天，国际奥委会在柏林举行执行理事会会议，会上投票决定了要纳入的体育项目。橄榄球（更确切地说，联合会式橄榄球）以及高尔夫击败了其他五项运动，被选定为奥运会的参赛项目。," The International Olympic Committee voted to include the sports at its executive board meeting in Berlin today. Rugby, specifically rugby union, and golf were selected over five other sports to be considered to participate in the Olympics.", 奥运会是国际奥委会的决议，包括了足球、篮球、橄榄球、羽毛球、乒乓球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛球、羽毛,0.573247797901314,5.3844498531864735,0.0,6.13276989310096,zho_Hans,5.3844498531864735,6.13276989310096
+"Q: While immigration check is usually absent or a formality when you arrive in your homeland, customs control can be a hassle.
+A:", 在回到本国时通常不需要进行入境检查或者只是走走形式，但过海关可能会很麻烦。,, 移民检查通常是入境的，但通常是繁琐的。,0.0,4.202642549788515,0.0,6.040917404873017,zho_Hans,4.202642549788515,6.040917404873017
+"Q: At least 100 people had attended the party, in order to celebrate the first anniversary of a couple whose wedding was held last year.
+A:", 至少有 100 人参加此次聚会，庆祝一对夫妇的结婚一周年纪念日。,," 100 people attended the party, in order to celebrate the first anniversary of a couple whose wedding was held last year.",0.0,1.6530871992004423,0.0,3.663357806186384,eng_Latn,84.35923465277075,89.82770857935091
+"Q: The most important factor of this mindset is: there is only one correct answer. You only think of two answers, namely right or wrong.
+A:", 这种思维模式最重要的因素是：正确答案只有一个。你只需考虑两个答案，即对的或者是错的。,, 答案是：正确。你只认为正确答案，即正确答案。你只认为两个答案，即正确答案。,0.0,25.459845316736786,0.0,16.554541241140676,zho_Hans,25.459845316736786,16.554541241140676
+"Q: Roberts flatly refused to say about when he believes life begins, an important question when considering the ethics of abortion, saying that it would be unethical to comment on the specifics of likely cases.
+A:", 罗伯茨断然拒绝谈论生命从何时开始的问题。这是考虑堕胎伦理时的一个重要问题，他说，评论可能发生的案件细节是不道德的。,, 罗伯特毫不犹豫地拒绝说，关于是否会发生可能的案例，这是重要的问题，当考虑是否发生可能的案例时，罗伯特会毫不犹豫地说。,0.0,5.011419067606936,0.0,10.560935844330752,zho_Hans,5.011419067606936,10.560935844330752
+"Q: Its large glazed windows and thin walls would not have been able to resist a determined attack for long.
+A:", 它的大玻璃窗和薄墙不可能长时间抵抗得住一次坚决的攻击。,, 窗户的宽大窗户和薄壁，会无法抵抗强烈的攻击。,0.0,9.748124539759884,0.0,10.71279737697592,eng_Latn,0.0,0.0
+"Q: An official with the gas company was reporting to the scene after a neighbor called about a gas leak.
+A:", 在一位邻居打电话称发生煤气泄漏之后，煤气公司的一名高级职员在现场进行汇报。,, 气管泄漏的官员在现场报告到邻居，因为邻居在听到气管泄漏的声音后，打电话给气管泄漏的官员。,0.0,10.40610496084162,0.0,11.705193487247751,zho_Hans,10.406104960841619,11.705193487247751
+"Q: Its second claw was larger, giving rise to the name Hesperonychus which means ""western claw.""
+A:", 它的第二只爪子要大一些，因此得名“赫斯佩罗龙”，意思是“西方的爪”。," The second claw was larger, giving rise to the name Hesperonychus which means ""western claw."""," 它的第二爪是更大，使它产生命名Hesperonychus，意思是""西方爪子""。",1.2834898766816614,10.500547675498796,0.0,12.924611130448573,zho_Hans,10.500547675498797,12.924611130448573
+"Q: We know many Greek politicians, scientists, and artists. Possibly the most known person of this culture is Homer, the legendary blind poet, who composed two masterpieces of Greek literature: the poems Iliad and Odyssey.
+A:", 我们知道许多希腊政治家、科学家和艺术家。希腊文化中最有名的人可能是有着传奇色彩的盲人诗人荷马。他创作了希腊文学的两部杰作：《伊利亚特》和《奥德赛》。,, 历史学家、科学家、艺术家。最著名的人物之一是古希腊诗人霍尔，他的诗篇是古希腊文学中最著名的作品之一。,0.0,5.324864246888958,0.0,11.705409921435635,zho_Hans,5.324864246888958,11.705409921435635
+"Q: Some people believe that experiencing many artificially induced lucid dreams often enough can be very exhausting.
+A:", 有些人认为，经常做人工诱导、清晰的梦会让人精疲力竭。,, 许多人认为，通过长时间的无意识梦会很累。,0.0,5.820654604201647,0.0,8.917877709719146,zho_Hans,5.820654604201647,8.917877709719146
+"Q: A visit to the site can be conveniently combined with a boat trip to the lake.
+A:", 参观景点时，还可以顺便乘船游湖。,, 参观湖泊可以轻松结合，船游湖泊。,0.0,16.94357181593088,0.0,12.8656462585034,zho_Hans,16.94357181593088,12.8656462585034
+"Q: The presenter, who was arrested at the scene, denied the attack and claimed he used the pole to protect himself from bottles being thrown at him by up to thirty people.
+A:", 现场被捕的主持人否定了袭击，并声称有多达三十个人向他投掷瓶子，他用棍子是为了不让自己受到伤害。," The presenter, who was arrested at the scene, denied the attack and claimed he used the pole to protect himself from bottles being thrown at him by up to thirty people.", 警察官，他被逮捕，他承认使用电棒保护自己，并否认使用电棒保护他。,1.0648525923253458,2.532356875233276,0.0,4.892791970802919,zho_Hans,2.532356875233276,4.892791970802919
+"Q: Dark clouds unrelated to any volcanic activity were reported at the base of the mountain.
+A:", 据报道，山底出现了与火山活动无关的乌云。,, 红色云的异常可能与火山活动有关。,0.0,14.79257593879102,0.0,15.032156148356515,zho_Hans,14.79257593879102,15.032156148356515
+"Q: Within a few short years following the arrival of European explorers, the population of Tainos had significantly been reduced by the Spanish conquerors
+A:", 在欧洲探险者到来后的短短几年里，西班牙征服者就大大削减了泰诺斯的人口, The population of Tainos had significantly been reduced by the Spanish conquerors., 欧洲的殖民者在几十年后，人口数量的减少非常明显。,0.0,1.632497505118963,0.0,6.72524676799441,zho_Hans,1.632497505118963,6.72524676799441
+"Q: Besides carrying three important scientific instruments, the lunar probe also carried the image of the Indian national flag, painted on all sides.
+A:", 除了搭载三台重要的科学仪器，月球探测器的每一侧都印有印度国旗图案。," The lunar probe carried the image of the Indian national flag, painted on all sides.", 陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰，陆军军舰,1.195997332093428,0.4810806860021259,0.0,0.3467406380027739,slk_Latn,0.5721045746841181,0.0
+"Q: The study found that depression, fear and catastrophising mediated the relationship between pain and disability in lower back pain sufferers.
+A:", 研究发现，抑郁、恐惧以及把病情灾难化的情绪，在腰疼患者的疼痛和残疾中起到了中介作用。," The study found that depression, fear and catastrophising mediated the relationship between pain and disability in lower back pain sufferers."," 1. The study found that depression, fear and catastrophising mediated the relationship between pain and disability in lower back pain sufferers.",1.0399742782347785,1.046231256134215,0.0,0.0,eng_Latn,96.35749534339605,99.3087121671151
+"Q: In some federal countries, such as the United States and Canada, income tax is levied both at the federal level and at the local level, so the rates and brackets can vary from region to region.
+A:", 一些联邦国家，比如美国和加拿大，会征收联邦和地方所得税，因此税率和等级可能因地区而异。, Translate the following sentence from Chinese to English:, 联邦税法是联邦政府的税法，联邦税法是联邦政府的税法，联邦税法是联邦政府的税法。,0.0,1.7708887288838304,0.0,3.740198101527032,yue_Hant,1.189476226191875,1.7636684303350973
+"Q: “It will move over the west coast of northern California and will light the sky from California through central Oregon and on through Nevada and Idaho and into Utah,” Tom Duxbury, Stardust's project manager said.
+A:", 星尘号的项目经理汤姆·达克斯伯里 (Tom Duxbury) 说：“它将穿过北加州西海岸，从加州穿过俄勒冈州中部，然后穿过内华达州和爱达荷州，然后进入犹他州，照亮这些地方的天空。”, “It will move over the west coast of northern California and will light the sky from California through central Oregon and on through Nevada and Idaho and into Utah.”, 1999.,0.4567292029098122,0.0,1.1587446456994939,0.0,deu_Latn,0.0,0.6156512221816854
+"Q: Phnom Krom, 12 km southwest of Siem Reap. This hilltop temple was built at the end of the 9th century, during the reign of King Yasovarman.
+A:", 格罗姆寺位于暹粒市西南 12 公里处。这座山顶寺庙建于 9 世纪末耶输跋摩国王统治时期。, The Khmer Empire was the largest empire in Southeast Asia.," 12 km southwest of Siem Reap. This hilltop temple was built at the end of the 9th century, during the reign of King Yasovarman.",0.0,1.1860225816274883,0.0,2.355483579414528,eng_Latn,89.20030614530948,92.44296368469678
+"Q: Entering Southern Africa by car is an amazing way to see all the region's beauty as well as to get to places off the normal tourist routes.
+A:", 南部非洲非常适合开车旅行，游客既可以欣赏该地区的所有美景，又可以到达常规旅游路线之外的地方。,, 汽车进入南非是如此的奇妙的方式，可以从南非的旅游路线中看到整个南非的魅力，而且可以从南非的旅游路线中去到一些地方，而从南非的旅游路线中去到一些地方，可以看到整个南非的魅力。,0.0,4.380996156936177,0.0,8.531585904515413,zho_Hans,4.380996156936177,8.531585904515413
+"Q: Mysticism can be distinguished from other forms of religious belief and worship by its emphasis on the direct personal experience of a unique state of consciousness, particularly those of a peaceful, insightful, blissful, or even ecstatic character.
+A:", 神秘主义可以与其他形式的宗教信仰和崇拜区分开来，因为它强调对独特意识状态的个人直接体验，特别是那些和平的、有洞察力的、幸福的、甚至是狂喜的意识状态。,, 宗教信仰是宗教信仰的一种形式，它强调了个人的经历，特别是一种特定的状态，如平静、愉悦、或超凡的。它强调了对一种独特的觉醒状态，特别是在一种平和、有益、或超凡的觉醒状态中。,0.0,2.472073075043,0.0,10.949180593157358,zho_Hans,2.4720730750430002,10.949180593157358
+"Q: Compared to most of the other royal tombs, however, the tomb of Tutankhamun is barely worth visiting, being much smaller and with limited decoration.
+A:", 但与大多数其他皇家陵墓相比，图坦卡蒙陵墓几乎不值得参观，因为它的规模要小得多，装饰也平淡无奇。,, 遗址的遗物很少值得参观，因为遗址的遗物很少。,0.0,9.758298094683395,0.0,10.304705464765087,zho_Hans,9.758298094683395,10.304705464765087
+"Q: The band canceled the show at Maui's War Memorial Stadium, which was set to be attended by 9,000 people, and apologized to fans.
+A:", 乐队取消了演出活动，并向粉丝们表示了歉意。该场演出原本应在毛伊岛战争纪念体育场举行，预计将有 9000 人参与其中。," The band canceled the show at Maui's War Memorial Stadium, which was set to be attended by 9,000 people, and apologized to fans.", 乐队取消了Maui's War Memorial Stadium，是Maui's War Memorial Stadium的举办地，并道歉给观众。,0.8661645527621193,10.82001900317328,1.3375153061784943,4.8059977014377715,eng_Latn,16.64057423405594,20.214152914074845
+"Q: The Canal District (Dutch: Grachtengordel) is the famous 17th-century district surrounding the Binnenstad of Amsterdam.
+A:", 运河区（荷兰语：Grachtengordel）是阿姆斯特丹宾嫩斯塔 (Binnenstad) 周围著名的 17 世纪老城区。, The Canal District (Dutch: Grachtengordel) is the famous 17th-century district surrounding the Binnenstad of Amsterdam., 荷兰大西洋沿岸的 Canal District 是著名的 17 世紀的 1 條大西洋沿岸的地區。,6.405584096933152,4.180915607093977,24.360936115844865,10.679710034001722,zho_Hans,4.180915607093977,10.679710034001722
+"Q: Especially in your initial days, consider splurging on Western-style and -quality hotels, food, and services to help acclimatize.
+A:", 尤其是在刚开始的日子里，您可以考虑在西式和高质量的酒店、食物和服务上多花些钱，来帮助您适应环境。,," 1. If you are looking for a place to stay in the city, you can consider staying in the city center.",0.0,0.9153072425533536,0.0,0.0,eng_Latn,1.6857276756781423,19.13170129776377
+"Q: Many exotic animals are hard to find, and parks sometimes have rules about taking photographs for commercial purposes.
+A:", 许多珍稀动物很难找到，公园有时也有针对商业摄影的规定。,, 动物有很多，但是公园有时有规定，拍照要收费。,0.0,13.25491278512296,0.0,11.811703628154433,zho_Hans,13.254912785122961,11.811703628154433
+"Q: Towering above the north end of Machu Picchu is this steep mountain, often the backdrop to many photos of the ruins.
+A:", 高耸于马丘比丘北端的这座陡峭的山峰，常常会成为许多遗址照片的背景。,, 塔丘上，常被人们所拍的，在许多照片中，塔丘上，常常被人们所拍的。,0.0,6.4718242450883325,0.0,7.4872483358185224,zho_Hans,6.4718242450883325,7.4872483358185224
+"Q: Several places in Rotorua offer geothermal hangi, while other hangi can be sampled in Christchurch, Wellington and elsewhere.
+A:", 罗托鲁瓦有几个地方提供地热窑烤 (hangi)，而在克赖斯特彻奇、惠灵顿和其他地方也可以品尝到其他做法的毛利窑烤。,, 澳大利亚的许多地方提供热带气温，而其他地方可以采纳。,0.0,1.856470039300277,0.0,8.702514780728842,zho_Hans,1.8564700393002775,8.702514780728842
+"Q: General John Cadwalder would launch a diversionary attack against the British garrison at Bordentown, in order to block off any reinforcements.
+A:", 约翰·卡德瓦德将军将向波登镇的英国守军发动一场进攻，转移敌方注意力，以阻挡任何增援部队。," General John Cadwalder would launch a diversionary attack against the British garrison at Bordentown, in order to block off any reinforcements.", 约翰·卡德拉尔在布莱顿的布莱顿堡城内，他计划在英国军队的驻扎中，以阻止英国军队的援军。,0.9124071323890636,11.548891177213443,0.0,10.307404526893862,zho_Hans,11.548891177213443,10.307404526893862
+"Q: Since Pakistani independence from British rule in 1947, the Pakistani President has appointed ""Political Agents"" to govern FATA, who exercise near-complete autonomous control over the areas.
+A:", 自 1947 年巴基斯坦从英国麾下独立以来，巴基斯坦总统就任命“政治代理”来管理 FATA，而 FATA 则对该地区实行几乎完全的自治。,," 1947, the Pakistani President appointed ""Political Agents"" to govern FATA, who exercise near-complete autonomous control over the areas.",0.0,3.485627424503573,0.0,6.424063498464862,eng_Latn,70.18886890412055,74.86562716700308
+"Q: It was developed by John Smith in the 1970s to help inexperienced folders or those with limited motor skills.
+A:", 它是由约翰•史密斯 (John Smith) 在 20 世纪 70 年代研发的，用于帮助缺乏经验的折纸人或动手能力差的人。, It was developed by John Smith in the 1970s to help inexperienced folders or those with limited motor skills., 1970s was a time when the first computer was developed.,0.8779530570728136,0.0,12.070589371400617,2.6333285076701953,eng_Latn,3.8996373622972555,21.40037782981485
+"Q: They need to show the insurer's e-mail address and international phone numbers for advice/authorizations and making claims.
+A:", 为了咨询、授权和索赔，他们需要出示保险公司的邮箱地址和国际电话号码。,, 1. They need to show the insurer's e-mail address and international phone numbers for advice/authorizations and making claims.,0.0,0.0,0.0,0.0,eng_Latn,96.35749534339605,99.1789734621631
+"Q: Japanese judoka Hitoshi Saito, winner of two Olympic gold medals, has died at the age of 54.
+A:", 日本柔道选手、两枚奥运会金牌得主齐藤仁 (Hitoshi Saito) 逝世，享年 54 岁。,, 1970年11月26日,0.0,0.064608459416459,0.0,0.7980845969672787,eng_Latn,0.0,0.0
+"Q: Boomerang throwing is a popular skill that many tourists want to acquire.
+A:", 投掷回旋镖是很多游客都想学会的一项热门技能。,,  boomerang throwing is a popular skill that many tourists want to acquire.,0.0,0.0,0.0,0.0,eng_Latn,93.91044157537529,96.73525070867585
+"Q: Nowadays air travel is only rarely booked directly through the airline without first searching and comparing prices.
+A:", 现在已经很少有人不先搜索和比较价格，就直接通过航空公司订票了。,, 飞机票现在很少直接通过航空公司进行搜索和比较价格。,0.0,37.040715329937,0.0,34.714901583988386,zho_Hans,37.040715329937,34.714901583988386
+"Q: For most countries, you will need an offer letter from the institution you wish to study at, and also evidence of funds to support yourself for at least the first year of your course.
+A:", 在大多数国家，你需要一份你希望就读的学校的录取通知书，以及证明你有至少第一年课程所需资金的文件。,, 澳大利亚的大学通常需要提供学生申请的证明，以及资金支持证明。,0.0,3.132914280425143,0.0,6.809045292969216,zho_Hans,3.132914280425143,6.809045292969216
+"Q: However, the reduction of the threat level to severe does not mean the overall threat has gone away.""
+A:", “然而，把威胁等级降到严重级别并不意味着整体威胁已经消失。”,, 严重威胁程度的减少并不意味着整体威胁的严重程度已经消失了。,0.0,25.150653028585864,0.0,28.506300627274122,zho_Hans,25.150653028585864,28.506300627274122
+"Q: Computers today are used to manipulate pictures and videos.
+A:", 今天，我们使用计算机处理图片和视频。,, 计算机今天使用来操作图片和视频。,0.0,42.11813371894876,0.0,29.04676849419831,zho_Hans,42.11813371894876,29.04676849419831
+"Q: Mr. Rudd's decision to sign the Kyoto climate accord isolates the United States, which will now be the only developed nation not to ratify the agreement.
+A:", 陆克文先生决定签署《京都气候议定书》，这使得美国成为唯一没有签署该协议的发达国家。, The United States will now be the only developed nation not to ratify the Kyoto climate accord., 澳大利亚总理林肯在2005年签署的《巴黎协定》后，美国将不再成为该协定缔约国。,0.0,3.67833301861104,0.0,7.072839878502868,zho_Hans,3.67833301861104,7.072839878502868
+"Q: A contagious disease is a disease which is easily transmitted by being in the vicinity of an infected person.
+A:", 传染病是指在感染者附近极易传播的一类疾病。,, 病毒性疾病是容易传播的疾病，它很容易被感染。,0.0,3.595661140581813,0.0,13.928715460660074,zho_Hant,7.259388368490704,15.448849396217815
+"Q: 21-year-old Jesus joined Manchester City last year in January 2017 from Brazilian club Palmeiras for a reported fee of £27 million.
+A:", 21 岁的杰西（Jesus）于 2017 年 1 月从巴西的帕尔梅拉斯足球俱乐部加盟曼城，据报道其转会费为 2700 万英镑。,, 21-year-old Jesus joined Manchester City last year in January 2017 from Brazilian club Palmeiras for a reported fee of £27 million.,0.0,0.7530043820009026,0.0,7.055541857656525,eng_Latn,100.00000000000004,100.0
+"Q: With this arrangement in place, this freedom might end.
+A:", 在这样的安排下，这种自由可能就要结束了。," With this arrangement in place, this freedom might end.", 1. The freedom to choose your own food.,3.124719790499494,0.0,0.0,0.0,eng_Latn,4.540013809283726,13.772684824402786
+"Q: China's GDP could be larger than the United States within two decades.
+A:", 中国的 GDP 有可能在 20 年内反超美国。,, 经济的增长可能比美国大得多。,0.0,4.406306339938217,0.0,6.442642332606198,zho_Hans,4.406306339938217,6.442642332606198
+"Q: Tropical Storm Danielle, fourth named storm of the 2010 Atlantic hurricane season, has formed in the eastern Atlantic Ocean.
+A:", 热带风暴“丹妮尔”在大西洋东部形成，它是 2010 年大西洋飓风季第四个获得命名的风暴。, Tropical Storm Danielle is expected to become a hurricane., 飓风 Danielle，第四名飓风，在东部太平洋上形成。,0.0,3.3196306584984105,0.0,5.802991500575288,vie_Latn,3.16036576697921,4.594123749050075
+"Q: The world has over 5,000 different languages, including more than twenty with 50 million or more speakers.
+A:"," 世界上有超过 5,000 种不同的语言，其中有 20 多种语言的使用者超过了 5,000 万人。",," 世界上有5,000种不同的语言，包括更多了5,000种语言的50万或以上的人口。",0.0,18.249730333353234,0.0,37.33533007799812,zho_Hans,18.249730333353234,37.33533007799812
+"Q: Cold weather is perhaps the only real danger the unprepared will face.
+A:", 严寒也许是没有准备的人将面临的唯一真正的危险。,, 寒冷天气，可能最危险的。,0.0,4.576479813728277,0.0,4.155676268574861,zho_Hans,4.576479813728277,4.155676268574861
+"Q: General James Ewing would take 700 militia across the river at Trenton Ferry, seize the bridge over the Assunpink Creek and prevent any enemy troops from escaping.
+A:", 詹姆斯·尤因将军率 700 名民兵在特伦顿渡口渡河，占领了阿森皮克湾上的桥梁，阻断了敌军逃跑的路径。," General James Ewing would take 700 militia across the river at Trenton Ferry, seize the bridge over the Assunpink Creek and prevent any enemy troops from escaping.", 史密斯·埃文斯（史密斯·埃文斯）是美国历史上著名的军事家，他曾是美国海军陆战队司令，也是美国海军陆战队历史上最伟大的军事家之一。,0.9617448349861274,2.000245408596587,2.916046641433989,3.3537737849334155,zho_Hans,2.000245408596587,3.3537737849334155
+"Q: They are listed on the UNESCO World Heritage List.
+A:", 它们被列入了联合国教科文组织世界遗产名录。,, 历史学家，考古学家，学者，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，历史学家，考古学家，,0.0,0.3228966409699979,0.0,0.0,zho_Hans,0.32289664096999793,0.0
+"Q: How would Io's gravity pull on me? If you stood on the surface of Io, you would weigh less than you do on Earth.
+A:", 木卫一的重力会对我产生怎样的作用力？如果你站在木卫一表面，你的体重会比在地球上轻。, Io's gravity pulls on me., 宇宙的重力对我有什么影响？如果站在地球上，你将比地球重得多。,0.0,7.280210025705969,0.0,12.358618584642702,zho_Hans,7.280210025705969,12.358618584642702
+"Q: Tourist visits are costly, demand physical fitness, can only take place in summer Nov-Feb, and are largely limited to the Peninsula, Islands and Ross Sea.
+A:", 旅行费用高昂，对身体素质要求也很高，并且只能在十一月至次年二月的夏季前往，游览地点主要限于半岛、群岛和罗斯海。," Tourist visits are costly, demand physical fitness, can only take place in summer Nov-Feb, and are largely limited to the Peninsula, Islands and Ross Sea.", 旅游是旅游费高的，旅游需求有限，主要集中在海边，岛屿和罗斯海。,0.9802984866275384,5.554614706845906,0.0,8.662709767826643,zho_Hans,5.554614706845906,8.662709767826643
+"Q: Visa requirements and costs vary from nation to nation and are affected by the country you come from.
+A:", 签证要求和费用因国家/地区而异，并会受到你的国籍的影响。,, 签证要求和费用不同，国家不同，签证费用不同。,0.0,30.26423710759996,0.0,18.21187223783759,zho_Hans,30.26423710759996,18.21187223783759
+"Q: Residents from other areas often cite family-friendliness as a primary reason for moving there, and visitors often find the city easy to enjoy with children around.
+A:", 来自其他地区的住户常常评赞，家庭友好是他们移居那里的主要原因，而游客们也会发现带着孩子一起游览这座城市非常惬意。,, 城市居民通常认为家庭友谊是城市迁居的原因，而参观者通常会发现城市非常友好，孩子们在城市玩耍时很容易地感到快乐。,0.0,6.44591292352393,0.0,11.919012656839278,zho_Hans,6.44591292352393,11.919012656839278
+"Q: Maroochydore then defeated Caboolture in the Preliminary Final.
+A:", 马鲁基多尔 (Maroochydore) 随后在预决赛中击败了卡布尔彻 (Caboolture)。, Maroochydore then defeated Caboolture in the Preliminary Final.," 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994, 19",3.937982521829708,0.0,27.849969346560833,0.0,krc_Cyrl,,
+"Q: Basically, they fall into two categories: Either work while you travel or try and limit your expenses. This article is focused on the latter.
+A:", 基本上，它们可分为两类：要么边旅行边工作，要么尽量减少开支。这篇文章着重于后者。,, 1. Travel,0.0,0.0,0.0,0.0,eng_Latn,0.0,2.9204732554528468
+"Q: Sanskrit is an ancient language and is comparable to the Latin language spoken in Europe.
+A:", 梵语是一种古老的语言，能与欧洲的拉丁语相媲美。,, 印度是古老的语言，与拉丁语的语言相当。,0.0,26.391333996547115,0.0,22.53899229133691,zho_Hans,26.391333996547115,22.53899229133691
+"Q: In 1994, the ethnically Armenian Nagorno-Karabakh region of Azerbaijan waged war against the Azeris.
+A:", 1994 年，阿塞拜疆的亚美尼亚族纳戈尔诺—卡拉巴赫地区向阿塞拜疆人发动了战争。, The Azeris were defeated by the Armenian army.," 1994, the ethnically Armenian Nagorno-Karabakh region of Azerbaijan waged war against the Azeris.",0.0,0.0,0.0,5.882779916610293,eng_Latn,96.07894391523236,97.26911660125599
+"Q: Since moving to the Catalan-capital, Vidal had played 49 games for the club.
+A:", 自从转会到加泰罗尼亚的首府球队，维达尔已经为俱乐部踢了 49 场比赛。," Since moving to the Catalan-capital, Vidal had played 49 games for the club.", 49 games for the club.,1.3809851504530963,0.1486625074649996,3.4348745705831525,5.049098985791296,eng_Latn,9.697196786440509,33.0631095458839
+"Q: Turkey's area, including lakes, occupies 783,562 square kilometres (300,948 sq mi), of which 755,688 square kilometres (291,773 sq mi) are in south west Asia and 23,764 square kilometres (9,174 sq mi) in Europe.
+A:"," 土耳其的国土面积（包括湖泊）为 783,562 平方公里（300,948 平方英里），其中 755,688 平方公里（291,773 平方英里）位于西南亚，23,764 平方公里（9,174 平方英里）位于欧洲。"," The area of Turkey is 783,562 square kilometres (300,948 sq mi), of which 755,688 square kilometres (291,773 sq mi) are in south west Asia and 23,764 square kilometres (9,174 sq mi) in Europe"," 755,688 square kilometres (291,773 sq mi) of which 755,688 square kilometres (291,773 sq mi) are in south west Asia and 23,764 square kilometres (9,174 sq mi) in Europe.",9.586712962821732,6.157433269841463,18.59698239026195,12.929450975665791,eng_Latn,61.943028540405145,72.69026415456817
+"Q: Batten was ranked 190th on the 2008 400 Richest Americans list with an estimated fortune of $2.3 billion.
+A:", 巴滕位列 2008 年全美最富有 400 人榜单第 190 位，预计其财富达到约 23 亿美元。,, 190th on the 2008 400 Richest Americans list with an estimated fortune of $2.3 billion.,0.0,1.44285385607171,0.0,8.904405771622761,eng_Latn,79.67034698934619,85.91118085707006
+"Q: As the cars ahead of Alonso went in for fuel under the safety car, he moved up the pack to take victory.
+A:", 当位于阿隆索前面的赛车在安全车的引领下进行加油时，他趁机抢先，最终赢得了胜利。,, 汽车前车追逐，在安全车位上，奥兰多在追赶时，他以速度领先。,0.0,7.742440933331867,0.0,9.03427453311604,zho_Hans,7.742440933331867,9.03427453311604
+"Q: The Angkor Pass is needed to enter the temple so do not forget to bring your passport along when heading to Tonle Sap.
+A:", 需要购买吴哥门票才能进入圣殿，所以前往洞里萨湖（Tonle Sap）时别忘了带上护照。,,  Angkor Pass is needed to enter the temple so do not forget to bring your passport along when heading to Tonle Sap.,0.0,2.123942827669033,0.0,8.221900407476676,eng_Latn,96.22687143632577,97.2033571127628
+"Q: A hospitality exchange network is the organization that connects travelers with locals in the cities they are going to visit.
+A:", 食宿交换网络是一个让旅客和其目的地城市的本地居民连接的组织。,, 酒店交换网络是旅行者与当地人之间的组织，它通过在城市旅行的旅程中，提供当地人与当地人之间的交流。,0.0,5.007816165264321,0.0,13.095486122117075,zho_Hans,5.007816165264321,13.095486122117075
