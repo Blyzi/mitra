@@ -1,8 +1,6 @@
-import torch
 from sacrebleu.metrics import BLEU, CHRF
 import transformers
 from datasets import Dataset
-from src.utils.metricx_model import MT5ForRegression
 
 bleu = BLEU(tokenize="flores200", effective_order=True)
 chrf = CHRF(word_order=2)
@@ -19,9 +17,11 @@ def eval_chrf(reference: str, generation: str) -> float:
 def eval_metricx(
     source: list[str], reference: list[str], hypothesis: list[str], is_qe: bool
 ) -> dict:
+    from src.utils.metricx_model import MT5ForRegression
+
     metricx_tokenizer = transformers.AutoTokenizer.from_pretrained("google/mt5-xl")
     metricx_model = MT5ForRegression.from_pretrained(
-        "google/metricx-24-hybrid-xl-v2p6-bfloat16"
+        "google/metricx-24-hybrid-xxl-v2p6-bfloat16"
     )
 
     def _make_input(example, is_qe=is_qe):
@@ -99,7 +99,7 @@ def eval_comet(
         for src, mt, ref in zip(source, hypothesis, reference)
     ]
 
-    res = comet_model.predict(data, batch_size=8, gpus=1)
+    res = comet_model.predict(data, batch_size=1, gpus=1)
 
     del comet_model
 

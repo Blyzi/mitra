@@ -1,5 +1,4 @@
 from pathlib import Path
-import random
 import sys
 from typing import Literal
 import torch
@@ -9,11 +8,9 @@ from datasets import load_dataset
 sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.functions import get_top_k
-from src.utils.icl import ICLDataset
 from src.utils.evaluation import eval_bleu, eval_chrf, eval_metricx, eval_comet
 from src.utils.get_model import get_model
 from src.utils.fasttext import get_language, flores_langs
-from src.utils.add_vectors import add_vectors
 
 
 def get_noshot_prompt(prompt: str, source: str, target: str) -> str:
@@ -76,48 +73,6 @@ def main(
     perc_trad_heads,
     perc_lang_heads,
 ):
-    fake_langs = list(
-        {
-            "eng_Latn",
-            "fra_Latn",
-            "spa_Latn",
-            "por_Latn",
-            "jpn_Jpan",
-            "zho_Hans",
-            "hin_Deva",
-            "arb_Arab",
-            "rus_Cyrl",
-        }
-        - {lang_target, lang_source}
-    )
-
-    lang_pairs = load_dataset("facebook/flores", "all")["dev"].map(
-        lambda x: {
-            "pairs": (
-                " " + x["sentence_" + lang_source],
-                " " + x["sentence_" + lang_target],
-            )
-        }
-    )["pairs"]
-
-    lang_fake_pairs = load_dataset("facebook/flores", "all")["dev"].map(
-        lambda x: {
-            "pairs": (
-                " " + x["sentence_" + lang_source],
-                " " + x["sentence_" + random.choice(fake_langs)],
-            )
-        }
-    )["pairs"]
-
-    trad_pairs = load_dataset("facebook/flores", "all")["dev"].map(
-        lambda x: {
-            "pairs": (
-                " " + x["sentence_" + trad_source],
-                " " + x["sentence_" + trad_target],
-            )
-        }
-    )["pairs"]
-
     test_pairs = load_dataset("facebook/flores", "all")["devtest"].map(
         lambda x: {
             "pairs": (
@@ -126,6 +81,35 @@ def main(
             )
         }
     )["pairs"]
+
+    test_queries = [pair[0].strip() for pair in test_pairs][:25]
+    test_prompts = list(
+        map(
+            lambda x: get_noshot_prompt(x, lang_source, lang_target),
+            ["Q:{x}\nA:".format(x=pair[0]) for pair in test_pairs],
+        )
+    )[:25]
+    test_answers = [pair[1].strip() for pair in test_pairs][:25]
+
+    model = get_model(model_name)
+
+    num_lang_heads = perc_lang_heads * round(model.n_head * model.n_layers * 0.01)
+    num_trad_heads = perc_trad_heads * round(model.n_head * model.n_layers * 0.01)
+
+    # Logs
+    print("=" * 20, "Generation with ablation", "=" * 20)
+    print(f"Model: {model_name}")
+    print(f"Pair pair: {lang_source} -> {lang_target}")
+    print(f"Number of translation heads: {num_trad_heads} ({perc_trad_heads}%)")
+    print(f"Number of language heads: {num_lang_heads} ({perc_lang_heads}%)")
+    print("=" * 60)
+
+    # Check if the generation results already exist
+    if Path(
+        f"results/translation_task/ablation/{model_name.split('/')[-1]}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv"
+    ).exists():
+        print("Generation results already exist. Exiting.")
+        return
 
     langs = [
         "eng_Latn",
@@ -141,56 +125,6 @@ def main(
         "swh_Latn",
     ]
 
-    ds_lang = ICLDataset(lang_pairs, bidirectional=False)
-    ds_lang_fake = ICLDataset(lang_fake_pairs, bidirectional=False)
-    ds_trad = ICLDataset(trad_pairs, bidirectional=False)
-
-    df_lang = ds_lang.get_prompts(
-        n_shot=5,
-        n_shot_format="Q:{x}\nA:{y}\n\n",
-        question_format="Q:{x}\nA:",
-        local_corruption=False,
-    )
-
-    df_lang_fake = ds_lang_fake.get_prompts(
-        n_shot=5,
-        n_shot_format="Q:{x}\nA:{y}\n\n",
-        question_format="Q:{x}\nA:",
-        local_corruption=False,
-    )
-
-    df_trad = ds_trad.get_prompts(
-        n_shot=5,
-        n_shot_format="Q:{x}\nA:{y}\n\n",
-        question_format="Q:{x}\nA:",
-        local_corruption=False,
-    )
-
-    test_queries = [pair[0].strip() for pair in test_pairs]
-    test_prompts = ["Q:{x}\nA:".format(x=pair[0]) for pair in test_pairs]
-    test_answers = [pair[1].strip() for pair in test_pairs]
-
-    model = get_model(model_name)
-
-    num_lang_heads = perc_lang_heads * round(model.n_head * model.n_layers * 0.01)
-    num_trad_heads = perc_trad_heads * round(model.n_head * model.n_layers * 0.01)
-
-    # Logs
-    print("=" * 20, "Generation with function vectors", "=" * 20)
-    print(f"Model: {model_name}")
-    print(f"Language pair: {lang_source} -> {lang_target}")
-    print(f"Translation pair: {trad_source} -> {trad_target}")
-    print(f"Number of translation heads: {num_trad_heads} ({perc_trad_heads}%)")
-    print(f"Number of language heads: {num_lang_heads} ({perc_lang_heads}%)")
-    print("=" * 60)
-
-    # Check if the generation results already exist
-    if Path(
-        f"results/translation_task/generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv"
-    ).exists():
-        print("Generation results already exist. Exiting.")
-        return
-
     logprobs_diff_langs = get_logprobs_diff(model_name, langs, type="lang")
 
     logprobs_diff_trads = get_logprobs_diff(model_name, langs, type="trad")
@@ -205,59 +139,40 @@ def main(
     print("Selected heads (language):", selected_heads_lang)
     print("Selected heads (translation):", selected_heads_trad)
 
-    if len(selected_heads_lang) > 0:
-        h_lang = model.calculate_fn_vector(
-            df_lang["context"].tolist(),
-            df_lang_fake["context"].tolist(),
-            df_lang["context_answers"].tolist(),
-            selected_heads_lang,
-            batch_size=1,
-        )
-    else:
-        h_lang = {}
-
-    if len(selected_heads_trad) > 0:
-        h_trad = model.calculate_fn_vector(
-            df_trad["context"].tolist(),
-            df_trad["corrupted_context"].tolist(),
-            df_trad["context_answers"].tolist(),
-            selected_heads_trad,
-            batch_size=1,
-        )
-    else:
-        h_trad = {}
-
-    h = add_vectors(h_lang, h_trad, factor_v1=3.0, factor_v2=3.0)
-
-    generations_function_vector = model.generate_with_fn_vector(
-        test_prompts,
-        fn_vector=h,
-        max_new_tokens=100,
-        stops=["\n", "\n\n", "<eos>", "<|endoftext|>", "<|end_of_text|>"],
-    )
-
-    print("Generations with function vector done.")
-
-    # if baseline generations do not exist, compute and save them
-    if not Path(
-        f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv"
-    ).exists():
-        baseline_prompt = list(
+    generations_ablation = model.generate_with_ablation(
+        list(
             map(
                 lambda x: get_noshot_prompt(x, lang_source, lang_target),
                 test_prompts,
             )
-        )
+        ),
+        max_new_tokens=100,
+        stops=["\n", "\n\n", "<eos>", "<|endoftext|>", "<|end_of_text|>"],
+        heads_to_ablate=selected_heads_lang + selected_heads_trad,
+    )
 
-        generation_baseline_answer = model.generate(
-            baseline_prompt,
+    print("Generations with ablation done.")
+
+    # if baseline generations do not exist, compute and save them
+    if not Path(
+        f"results/translation_task/ablation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}:{num_trad_heads + num_lang_heads}.csv"
+    ).exists():
+        generation_baseline_answer = model.generate_with_ablation(
+            list(
+                map(
+                    lambda x: get_noshot_prompt(x, lang_source, lang_target),
+                    test_prompts,
+                )
+            ),
+            heads_to_ablate=selected_heads_lang + selected_heads_trad,
             max_new_tokens=100,
             stops=["\n", "\n\n", "<eos>", "<|endoftext|>", "<|end_of_text|>"],
+            random_ablation=True,
         )
 
         baseline_df = pd.DataFrame(
             {
-                "prompt": baseline_prompt,
+                "prompt": test_prompts,
                 "query": test_queries,
                 "reference": test_answers,
                 "generation_baseline": generation_baseline_answer,
@@ -281,28 +196,28 @@ def main(
         )
 
         # baseline_df["metricx_baseline"] = eval_metricx(
-        #     source=test_queries,
-        #     reference=test_answers,
+        #     source=baseline_df["query"].tolist(),
+        #     reference=baseline_df["reference"].tolist(),
         #     hypothesis=baseline_df["generation_baseline"].tolist(),
         #     is_qe=False,
         # )
 
         # baseline_df["metricx_qe_baseline"] = eval_metricx(
-        #     source=test_queries,
-        #     reference=test_answers,
+        #     source=baseline_df["query"].tolist(),
+        #     reference=baseline_df["reference"].tolist(),
         #     hypothesis=baseline_df["generation_baseline"].tolist(),
         #     is_qe=True,
         # )
 
         # baseline_df["comet_baseline"] = eval_comet(
-        #     source=[test_pair[0].strip() for test_pair in test_pairs],
-        #     reference=test_answers,
+        #     source=baseline_df["query"].tolist(),
+        #     reference=baseline_df["reference"].tolist(),
         #     hypothesis=baseline_df["generation_baseline"].tolist(),
         # )
 
-        Path("results/translation_task/generation").mkdir(parents=True, exist_ok=True)
+        Path("results/translation_task/ablation").mkdir(parents=True, exist_ok=True)
         with open(
-            f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv",
+            f"results/translation_task/ablation/baseline:{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads + num_lang_heads}.csv",
             "w",
         ) as f:
             baseline_df.to_csv(f, index=False)
@@ -312,77 +227,77 @@ def main(
             "prompt": test_prompts,
             "query": test_queries,
             "reference": test_answers,
-            "generation_function_vector": generations_function_vector,
+            "generation_ablation": generations_ablation,
         },
         dtype=str,
     )
 
     print("Evaluating generations...")
 
-    results_df["bleu_function_vector"] = results_df.apply(
+    results_df["bleu_ablation"] = results_df.apply(
         lambda row: eval_bleu(
             reference=row["reference"],
-            generation=row["generation_function_vector"],
+            generation=row["generation_ablation"],
         ),
         axis=1,
     )
 
-    results_df["chrf_function_vector"] = results_df.apply(
+    results_df["chrf_ablation"] = results_df.apply(
         lambda row: eval_chrf(
             reference=row["reference"],
-            generation=row["generation_function_vector"],
+            generation=row["generation_ablation"],
         ),
         axis=1,
     )
 
-    # results_df["metricx_function_vector"] = eval_metricx(
+    # results_df["metricx_ablation"] = eval_metricx(
     #     source=results_df["query"].tolist(),
     #     reference=results_df["reference"].tolist(),
-    #     hypothesis=results_df["generation_function_vector"].tolist(),
+    #     hypothesis=[x.strip() for x in results_df["generation_ablation"].tolist()],
     #     is_qe=False,
     # )
 
-    # results_df["metricx_qe_function_vector"] = eval_metricx(
+    # results_df["metricx_qe_ablation"] = eval_metricx(
     #     source=results_df["query"].tolist(),
     #     reference=results_df["reference"].tolist(),
-    #     hypothesis=results_df["generation_function_vector"].tolist(),
+    #     hypothesis=[x.strip() for x in results_df["generation_ablation"].tolist()],
     #     is_qe=True,
     # )
 
-    # results_df["comet_function_vector"] = eval_comet(
+    # results_df["comet_ablation"] = eval_comet(
     #     source=results_df["query"].tolist(),
     #     reference=results_df["reference"].tolist(),
-    #     hypothesis=results_df["generation_function_vector"].tolist(),
+    #     hypothesis=results_df["generation_ablation"].tolist(),
     # )
 
-    results_df["function_vector_lang"] = results_df["generation_function_vector"].apply(
+    results_df["ablation_lang"] = results_df["generation_ablation"].apply(
         lambda x: get_language(x),
     )
 
     all_answers = get_all_answers()
 
     for i, row in results_df.iterrows():
-        lang = row["function_vector_lang"]
+        lang = row["ablation_lang"]
         if lang in all_answers:
             results_df.at[i, "reference_lang"] = all_answers[lang][i]
-            results_df.at[i, "bleu_function_vector_lang"] = eval_bleu(
+            results_df.at[i, "bleu_ablation_lang"] = eval_bleu(
                 reference=all_answers[lang][i],
-                generation=row["generation_function_vector"],
+                generation=row["generation_ablation"],
             )
-            results_df.at[i, "chrf_function_vector_lang"] = eval_chrf(
+            results_df.at[i, "chrf_ablation_lang"] = eval_chrf(
                 reference=all_answers[lang][i],
-                generation=row["generation_function_vector"],
+                generation=row["generation_ablation"],
             )
         else:
             results_df.at[i, "reference_lang"] = ""
-            results_df.at[i, "bleu_function_vector_lang"] = None
-            results_df.at[i, "chrf_function_vector_lang"] = None
+            results_df.at[i, "bleu_ablation_lang"] = None
+            results_df.at[i, "chrf_ablation_lang"] = None
 
     print("Saving results...")
 
-    Path("results/translation_task/generation").mkdir(parents=True, exist_ok=True)
+    Path("results/translation_task/ablation").mkdir(parents=True, exist_ok=True)
     results_df.to_csv(
-        f"results/translation_task/generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv",
+        f"results/translation_task/ablation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv",
         index=False,
     )
 

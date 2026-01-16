@@ -5,9 +5,9 @@ from nnsight import LanguageModel
 import torch
 import torch.nn.functional as F
 from tqdm import tqdm
-import re
 from src.utils.functions import batch
 import gc
+import random
 
 
 class Model:
@@ -23,7 +23,7 @@ class Model:
     ):
         self.name = name
         self.llm = LanguageModel(
-            name, device_map="auto", torch_dtype=torch.bfloat16, dispatch=True, attn_implementation="flash_attention_2"
+            name, device_map="auto", torch_dtype=torch.bfloat16, dispatch=True
         )
 
         self.tokenizer = self.llm.tokenizer
@@ -625,14 +625,15 @@ class Model:
             self.tokenizer.encode(stop, add_special_tokens=False)[0] for stop in stops
         ] + [self.tokenizer.eos_token_id]
 
-        
-        for i, prompt in (pbar := tqdm(
-            enumerate(prompts),
-            desc="Generating with function vector",
-            total=len(prompts)
-        )):
+        for i, prompt in (
+            pbar := tqdm(
+                enumerate(prompts),
+                desc="Generating with function vector",
+                total=len(prompts),
+            )
+        ):
             prompt_len = len(self.llm.tokenizer.encode(prompt))
-            
+
             with torch.no_grad():
                 with self.llm.generate(
                     max_new_tokens=max_new_tokens,
@@ -655,6 +656,99 @@ class Model:
             generation = self.tokenizer.decode(tokens_intervention)
             completion_intervention.append(generation.strip().split("\n")[0])
 
+            if i % 10 == 0 and i > 0:
+                gc.collect()
+                torch.cuda.empty_cache()
+
+            # Monitor GPU memory usage
+            if torch.cuda.is_available():
+                used = torch.cuda.memory_reserved()
+                total = torch.cuda.get_device_properties(0).total_memory
+                pbar.set_postfix(cuda_mem=f"{100 * used / total:.1f}%")
+
+        return completion_intervention
+
+    def generate_with_ablation(
+        self,
+        prompts: list[str],
+        heads_to_ablate: list[tuple[int, int]],
+        max_new_tokens: int = 5,
+        stops: list[str] = [],
+        random_ablation: bool = False,
+    ) -> list[str]:
+        """
+        Generates completions while ablating specific attention heads at a given layer.
+
+        Inputs:
+            prompts: list[str]
+                The list of prompts to generate completions for.
+            heads_to_ablate: list[tuple[int, int]]
+                The list of attention head indices to ablate.
+            max_new_tokens: int
+                The number of additional tokens to generate.
+            stops: list[str]
+                List of stop tokens to end generation.
+            random_ablation: bool
+                If True, randomly selects heads to ablate instead of using provided list.
+
+        Returns:
+            completions: list[str]
+                The list of generated completions with ablation.
+        """
+
+        completions = []
+
+        stops_tokens = [
+            self.tokenizer.encode(stop, add_special_tokens=False)[0] for stop in stops
+        ] + [self.tokenizer.eos_token_id]
+
+        # Group heads to ablate by layer
+        ablation_dict = defaultdict(list)
+        for layer, head in heads_to_ablate:
+            ablation_dict[layer].append(head)
+
+        for i, prompt in (
+            pbar := tqdm(
+                enumerate(prompts),
+                desc="Generating with ablation",
+                total=len(prompts),
+            )
+        ):
+            prompt_len = len(self.llm.tokenizer.encode(prompt))
+
+            # If random ablation is enabled, replace heads_to_ablate with random heads at random layers
+            if random_ablation:
+                ablation_dict = defaultdict(list)
+                for _ in range(len(heads_to_ablate)):
+                    random_layer = random.randint(0, self.n_layers - 1)
+                    random_head = random.randint(0, self.n_head - 1)
+                    ablation_dict[random_layer].append(random_head)
+
+            with torch.no_grad():
+                with self.llm.generate(
+                    max_new_tokens=max_new_tokens,
+                    do_sample=False,
+                    eos_token_id=stops_tokens,
+                ) as tracer:
+                    with tracer.invoke(prompt):
+                        if len(heads_to_ablate) > 0:
+                            with tracer.all():
+                                for layer in sorted(ablation_dict.keys()):
+                                    out_proj = self.get_out_proj(
+                                        self.get_self_attn(self.layers[layer])
+                                    )
+                                    for head in ablation_dict[layer]:
+                                        out_proj.input[:, -1].reshape(
+                                            self.n_head, self.d_head
+                                        )[head] = 0.0
+
+                    with tracer.invoke():
+                        tokens_ablation = self.llm.generator.output[
+                            0, prompt_len:-1
+                        ].save()
+
+            generation = self.tokenizer.decode(tokens_ablation)
+            completions.append(generation.strip().split("\n")[0])
 
             if i % 10 == 0 and i > 0:
                 gc.collect()
@@ -665,9 +759,8 @@ class Model:
                 used = torch.cuda.memory_reserved()
                 total = torch.cuda.get_device_properties(0).total_memory
                 pbar.set_postfix(cuda_mem=f"{100 * used / total:.1f}%")
-                
 
-        return completion_intervention
+        return completions
 
     def generate(
         self,
@@ -677,7 +770,9 @@ class Model:
     ) -> list[str]:
         completion_baseline = []
 
-        for i, prompt in tqdm(enumerate(prompts), desc="Generating baseline", total=len(prompts)):
+        for i, prompt in tqdm(
+            enumerate(prompts), desc="Generating baseline", total=len(prompts)
+        ):
             prompt_len = len(self.llm.tokenizer.encode(prompt))
 
             with self.llm.generate(
@@ -685,8 +780,12 @@ class Model:
                 max_new_tokens=max_new_tokens,
                 do_sample=False,
                 eos_token_id=[
-                        self.tokenizer.eos_token_id,
-                    ] + [self.tokenizer.encode(stop, add_special_tokens=False)[0] for stop in stops]
+                    self.tokenizer.eos_token_id,
+                ]
+                + [
+                    self.tokenizer.encode(stop, add_special_tokens=False)[0]
+                    for stop in stops
+                ],
             ):
                 tokens_baseline = self.llm.generator.output[:, prompt_len:-1].save()
 
