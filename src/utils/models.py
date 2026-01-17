@@ -1,4 +1,5 @@
 from collections import defaultdict
+import math
 from typing import Any, Callable
 import einops
 from nnsight import LanguageModel
@@ -8,6 +9,7 @@ from tqdm import tqdm
 from src.utils.functions import batch
 import gc
 import random
+import re
 
 
 class Model:
@@ -27,7 +29,6 @@ class Model:
         )
 
         self.tokenizer = self.llm.tokenizer
-        self.space_token_id = self.tokenizer.encode(" ")[0]
 
         self.get_self_attn_func = get_self_attn_func
         self.get_out_proj_func = get_out_proj_func
@@ -588,8 +589,9 @@ class Model:
         self,
         prompts: list[str],
         fn_vector: torch.Tensor,
-        max_new_tokens: int = 5,
+        max_new_tokens: int = 100,
         stops: list[str] = [],
+        batch_size: int = 500,
     ) -> list[str]:
         """
         Intervenes with a function vector, by adding it at the last sequence position of a generated
@@ -621,50 +623,38 @@ class Model:
             layer: fn_vector[layer].to(self.llm.device) for layer in fn_vector.keys()
         }
 
-        stops_tokens = [
-            self.tokenizer.encode(stop, add_special_tokens=False)[0] for stop in stops
-        ] + [self.tokenizer.eos_token_id]
+        stop_pattern = re.compile("|".join(re.escape(w) for w in stops))
 
-        for i, prompt in (
-            pbar := tqdm(
-                enumerate(prompts),
-                desc="Generating with function vector",
-                total=len(prompts),
-            )
+        for _, batch_prompts, _ in tqdm(
+            batch(prompts, batch_size),
+            desc="Generating with function vector",
+            total=math.ceil(len(prompts) / batch_size),
         ):
-            prompt_len = len(self.llm.tokenizer.encode(prompt))
+            with self.llm.generate(
+                batch_prompts,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+            ) as tracer:
+                logits = list().save()
 
-            with torch.no_grad():
-                with self.llm.generate(
-                    max_new_tokens=max_new_tokens,
-                    do_sample=False,
-                    eos_token_id=stops_tokens,
-                ) as tracer:
-                    with tracer.invoke(prompt):
-                        if len(fn_vector_device.keys()) > 0:
-                            with tracer.all():
-                                for layer in fn_vector_device.keys():
-                                    self.get_out_proj(
-                                        self.get_self_attn(self.layers[layer])
-                                    ).output[:, -1] += fn_vector_device[layer]
+                with tracer.all():
+                    if len(fn_vector_device.keys()) > 0:
+                        for layer in fn_vector_device.keys():
+                            self.get_out_proj(
+                                self.get_self_attn(self.layers[layer])
+                            ).output[:, -1] += fn_vector_device[layer]
 
-                    with tracer.invoke():
-                        tokens_intervention = self.llm.generator.output[
-                            0, prompt_len:-1
-                        ].save()
+                    logits.append(self.llm.lm_head.output[:, -1].argmax(dim=-1))
 
-            generation = self.tokenizer.decode(tokens_intervention)
-            completion_intervention.append(generation.strip().split("\n")[0])
+            completion_intervention += [
+                stop_pattern.split(output)[0].strip()
+                for output in self.tokenizer.batch_decode(
+                    torch.stack(logits, dim=-1),
+                    skip_special_tokens=False,
+                )
+            ]
 
-            if i % 10 == 0 and i > 0:
-                gc.collect()
-                torch.cuda.empty_cache()
-
-            # Monitor GPU memory usage
-            if torch.cuda.is_available():
-                used = torch.cuda.memory_reserved()
-                total = torch.cuda.get_device_properties(0).total_memory
-                pbar.set_postfix(cuda_mem=f"{100 * used / total:.1f}%")
+            del logits
 
         return completion_intervention
 
@@ -672,9 +662,10 @@ class Model:
         self,
         prompts: list[str],
         heads_to_ablate: list[tuple[int, int]],
-        max_new_tokens: int = 5,
+        max_new_tokens: int = 100,
         stops: list[str] = [],
         random_ablation: bool = False,
+        batch_size: int = 500,
     ) -> list[str]:
         """
         Generates completions while ablating specific attention heads at a given layer.
@@ -697,105 +688,106 @@ class Model:
         """
 
         completions = []
-
-        stops_tokens = [
-            self.tokenizer.encode(stop, add_special_tokens=False)[0] for stop in stops
-        ] + [self.tokenizer.eos_token_id]
+        stop_pattern = re.compile("|".join(re.escape(w) for w in stops))
 
         # Group heads to ablate by layer
         ablation_dict = defaultdict(list)
         for layer, head in heads_to_ablate:
             ablation_dict[layer].append(head)
 
-        for i, prompt in (
-            pbar := tqdm(
-                enumerate(prompts),
-                desc="Generating with ablation",
-                total=len(prompts),
-            )
+        random_ablation_dict_arr = [defaultdict(list) for _ in range(len(prompts))]
+        for random_ablation_dict in random_ablation_dict_arr:
+            for layer, head in heads_to_ablate:
+                random_layer = random.randint(0, self.n_layers - 1)
+                random_head = random.randint(0, self.n_head - 1)
+                random_ablation_dict[random_layer].append(random_head)
+
+        for i, batch_prompts, _ in tqdm(
+            batch(prompts, batch_size),
+            desc="Generating with ablation",
+            total=math.ceil(len(prompts) / batch_size),
         ):
-            prompt_len = len(self.llm.tokenizer.encode(prompt))
+            with self.llm.generate(
+                batch_prompts,
+                max_new_tokens=max_new_tokens,
+                do_sample=False,
+            ) as tracer:
+                logits = list().save()
 
-            # If random ablation is enabled, replace heads_to_ablate with random heads at random layers
-            if random_ablation:
-                ablation_dict = defaultdict(list)
-                for _ in range(len(heads_to_ablate)):
-                    random_layer = random.randint(0, self.n_layers - 1)
-                    random_head = random.randint(0, self.n_head - 1)
-                    ablation_dict[random_layer].append(random_head)
-
-            with torch.no_grad():
-                with self.llm.generate(
-                    max_new_tokens=max_new_tokens,
-                    do_sample=False,
-                    eos_token_id=stops_tokens,
-                ) as tracer:
-                    with tracer.invoke(prompt):
-                        if len(heads_to_ablate) > 0:
-                            with tracer.all():
-                                for layer in sorted(ablation_dict.keys()):
+                with tracer.all():
+                    if len(heads_to_ablate) > 0:
+                        if random_ablation:
+                            for generation_idx in range(len(batch_prompts)):
+                                random_ablation_dict = random_ablation_dict_arr[
+                                    generation_idx
+                                ]
+                                for layer in sorted(random_ablation_dict.keys()):
                                     out_proj = self.get_out_proj(
                                         self.get_self_attn(self.layers[layer])
                                     )
-                                    for head in ablation_dict[layer]:
-                                        out_proj.input[:, -1].reshape(
+                                    for head in random_ablation_dict[layer]:
+                                        out_proj.input[generation_idx, -1].reshape(
                                             self.n_head, self.d_head
-                                        )[head] = 0.0
+                                        )[:, head] = 0.0
 
-                    with tracer.invoke():
-                        tokens_ablation = self.llm.generator.output[
-                            0, prompt_len:-1
-                        ].save()
+                        else:
+                            for layer in sorted(ablation_dict.keys()):
+                                out_proj = self.get_out_proj(
+                                    self.get_self_attn(self.layers[layer])
+                                )
+                                for head in ablation_dict[layer]:
+                                    out_proj.input[:, -1].reshape(
+                                        self.n_head, self.d_head
+                                    )[:, head] = 0.0
 
-            generation = self.tokenizer.decode(tokens_ablation)
-            completions.append(generation.strip().split("\n")[0])
+                    logits.append(self.llm.lm_head.output[:, -1].argmax(dim=-1))
 
-            if i % 10 == 0 and i > 0:
-                gc.collect()
-                torch.cuda.empty_cache()
+            completions += [
+                stop_pattern.split(output)[0].strip()
+                for output in self.tokenizer.batch_decode(
+                    torch.stack(logits, dim=-1),
+                    skip_special_tokens=False,
+                )
+            ]
 
-            # Monitor GPU memory usage
-            if torch.cuda.is_available():
-                used = torch.cuda.memory_reserved()
-                total = torch.cuda.get_device_properties(0).total_memory
-                pbar.set_postfix(cuda_mem=f"{100 * used / total:.1f}%")
+            del logits
 
         return completions
 
     def generate(
         self,
         prompts: list[str],
-        max_new_tokens: int = 5,
+        max_new_tokens: int = 100,
         stops: list[str] = [],
+        batch_size: int = 500,
     ) -> list[str]:
         completion_baseline = []
+        stop_pattern = re.compile("|".join(re.escape(w) for w in stops))
 
-        for i, prompt in tqdm(
-            enumerate(prompts), desc="Generating baseline", total=len(prompts)
+        for _, batch_prompts, _ in tqdm(
+            batch(prompts, batch_size),
+            desc="Generating baseline",
+            total=math.ceil(len(prompts) / batch_size),
         ):
-            prompt_len = len(self.llm.tokenizer.encode(prompt))
-
             with self.llm.generate(
-                prompt,
+                batch_prompts,
                 max_new_tokens=max_new_tokens,
                 do_sample=False,
-                eos_token_id=[
-                    self.tokenizer.eos_token_id,
-                ]
-                + [
-                    self.tokenizer.encode(stop, add_special_tokens=False)[0]
-                    for stop in stops
-                ],
-            ):
-                tokens_baseline = self.llm.generator.output[:, prompt_len:-1].save()
+            ) as tracer:
+                logits = list().save()
 
-            tokens = self.tokenizer.decode(tokens_baseline[0])
+                with tracer.all():
+                    logits.append(self.llm.lm_head.output[:, -1].argmax(dim=-1))
 
-            completion_baseline.append(tokens.strip().split("\n")[0])
+            completion_baseline += [
+                stop_pattern.split(output)[0].strip()
+                for output in self.tokenizer.batch_decode(
+                    torch.stack(logits, dim=-1),
+                    skip_special_tokens=False,
+                )
+            ]
 
-            if i % 10 == 0 and i > 0:
-                gc.collect()
-                torch.cuda.empty_cache()
+            del logits
 
         return completion_baseline
 

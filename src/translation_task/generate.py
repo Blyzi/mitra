@@ -10,7 +10,7 @@ sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.functions import get_top_k
 from src.utils.icl import ICLDataset
-from src.utils.evaluation import eval_bleu, eval_chrf, eval_metricx, eval_comet
+from src.utils.evaluation import eval_bleu, eval_chrf
 from src.utils.get_model import get_model
 from src.utils.fasttext import get_language, flores_langs
 from src.utils.add_vectors import add_vectors
@@ -280,26 +280,6 @@ def main(
             axis=1,
         )
 
-        # baseline_df["metricx_baseline"] = eval_metricx(
-        #     source=test_queries,
-        #     reference=test_answers,
-        #     hypothesis=baseline_df["generation_baseline"].tolist(),
-        #     is_qe=False,
-        # )
-
-        # baseline_df["metricx_qe_baseline"] = eval_metricx(
-        #     source=test_queries,
-        #     reference=test_answers,
-        #     hypothesis=baseline_df["generation_baseline"].tolist(),
-        #     is_qe=True,
-        # )
-
-        # baseline_df["comet_baseline"] = eval_comet(
-        #     source=[test_pair[0].strip() for test_pair in test_pairs],
-        #     reference=test_answers,
-        #     hypothesis=baseline_df["generation_baseline"].tolist(),
-        # )
-
         Path("results/translation_task/generation").mkdir(parents=True, exist_ok=True)
         with open(
             f"results/translation_task/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv",
@@ -334,26 +314,6 @@ def main(
         ),
         axis=1,
     )
-
-    # results_df["metricx_function_vector"] = eval_metricx(
-    #     source=results_df["query"].tolist(),
-    #     reference=results_df["reference"].tolist(),
-    #     hypothesis=results_df["generation_function_vector"].tolist(),
-    #     is_qe=False,
-    # )
-
-    # results_df["metricx_qe_function_vector"] = eval_metricx(
-    #     source=results_df["query"].tolist(),
-    #     reference=results_df["reference"].tolist(),
-    #     hypothesis=results_df["generation_function_vector"].tolist(),
-    #     is_qe=True,
-    # )
-
-    # results_df["comet_function_vector"] = eval_comet(
-    #     source=results_df["query"].tolist(),
-    #     reference=results_df["reference"].tolist(),
-    #     hypothesis=results_df["generation_function_vector"].tolist(),
-    # )
 
     results_df["function_vector_lang"] = results_df["generation_function_vector"].apply(
         lambda x: get_language(x),

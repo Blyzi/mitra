@@ -65,9 +65,9 @@ def main(model_name, lang_source, lang_target):
     )
 
     h = model.get_activation_patch_map(
-        df_target["context"].tolist()[:50],
-        df_fake["context"].tolist()[:50],
-        df_target["context_answers"].tolist()[:50],
+        df_target["context"].tolist(),
+        df_fake["context"].tolist(),
+        df_target["context_answers"].tolist(),
         batch_size=1,
     )
 

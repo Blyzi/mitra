@@ -8,7 +8,7 @@ from datasets import load_dataset
 sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.functions import get_top_k
-from src.utils.evaluation import eval_bleu, eval_chrf, eval_metricx, eval_comet
+from src.utils.evaluation import eval_bleu, eval_chrf
 from src.utils.get_model import get_model
 from src.utils.fasttext import get_language, flores_langs
 
@@ -82,14 +82,14 @@ def main(
         }
     )["pairs"]
 
-    test_queries = [pair[0].strip() for pair in test_pairs][:25]
+    test_queries = [pair[0].strip() for pair in test_pairs]
     test_prompts = list(
         map(
             lambda x: get_noshot_prompt(x, lang_source, lang_target),
             ["Q:{x}\nA:".format(x=pair[0]) for pair in test_pairs],
         )
-    )[:25]
-    test_answers = [pair[1].strip() for pair in test_pairs][:25]
+    )
+    test_answers = [pair[1].strip() for pair in test_pairs]
 
     model = get_model(model_name)
 
@@ -99,14 +99,15 @@ def main(
     # Logs
     print("=" * 20, "Generation with ablation", "=" * 20)
     print(f"Model: {model_name}")
-    print(f"Pair pair: {lang_source} -> {lang_target}")
+    print(f"Translation pair: {trad_source} -> {trad_target}")
+    print(f"Language pair: {lang_source} -> {lang_target}")
     print(f"Number of translation heads: {num_trad_heads} ({perc_trad_heads}%)")
     print(f"Number of language heads: {num_lang_heads} ({perc_lang_heads}%)")
     print("=" * 60)
 
     # Check if the generation results already exist
     if Path(
-        f"results/translation_task/ablation/{model_name.split('/')[-1]}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv"
+        f"results/translation_task/ablation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv"
     ).exists():
         print("Generation results already exist. Exiting.")
         return
@@ -140,12 +141,7 @@ def main(
     print("Selected heads (translation):", selected_heads_trad)
 
     generations_ablation = model.generate_with_ablation(
-        list(
-            map(
-                lambda x: get_noshot_prompt(x, lang_source, lang_target),
-                test_prompts,
-            )
-        ),
+        test_prompts,
         max_new_tokens=100,
         stops=["\n", "\n\n", "<eos>", "<|endoftext|>", "<|end_of_text|>"],
         heads_to_ablate=selected_heads_lang + selected_heads_trad,
@@ -155,15 +151,10 @@ def main(
 
     # if baseline generations do not exist, compute and save them
     if not Path(
-        f"results/translation_task/ablation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}:{num_trad_heads + num_lang_heads}.csv"
+        f"results/translation_task/ablation/baseline:{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads + num_lang_heads}.csv"
     ).exists():
         generation_baseline_answer = model.generate_with_ablation(
-            list(
-                map(
-                    lambda x: get_noshot_prompt(x, lang_source, lang_target),
-                    test_prompts,
-                )
-            ),
+            test_prompts,
             heads_to_ablate=selected_heads_lang + selected_heads_trad,
             max_new_tokens=100,
             stops=["\n", "\n\n", "<eos>", "<|endoftext|>", "<|end_of_text|>"],
@@ -194,26 +185,6 @@ def main(
             ),
             axis=1,
         )
-
-        # baseline_df["metricx_baseline"] = eval_metricx(
-        #     source=baseline_df["query"].tolist(),
-        #     reference=baseline_df["reference"].tolist(),
-        #     hypothesis=baseline_df["generation_baseline"].tolist(),
-        #     is_qe=False,
-        # )
-
-        # baseline_df["metricx_qe_baseline"] = eval_metricx(
-        #     source=baseline_df["query"].tolist(),
-        #     reference=baseline_df["reference"].tolist(),
-        #     hypothesis=baseline_df["generation_baseline"].tolist(),
-        #     is_qe=True,
-        # )
-
-        # baseline_df["comet_baseline"] = eval_comet(
-        #     source=baseline_df["query"].tolist(),
-        #     reference=baseline_df["reference"].tolist(),
-        #     hypothesis=baseline_df["generation_baseline"].tolist(),
-        # )
 
         Path("results/translation_task/ablation").mkdir(parents=True, exist_ok=True)
         with open(
@@ -249,26 +220,6 @@ def main(
         ),
         axis=1,
     )
-
-    # results_df["metricx_ablation"] = eval_metricx(
-    #     source=results_df["query"].tolist(),
-    #     reference=results_df["reference"].tolist(),
-    #     hypothesis=[x.strip() for x in results_df["generation_ablation"].tolist()],
-    #     is_qe=False,
-    # )
-
-    # results_df["metricx_qe_ablation"] = eval_metricx(
-    #     source=results_df["query"].tolist(),
-    #     reference=results_df["reference"].tolist(),
-    #     hypothesis=[x.strip() for x in results_df["generation_ablation"].tolist()],
-    #     is_qe=True,
-    # )
-
-    # results_df["comet_ablation"] = eval_comet(
-    #     source=results_df["query"].tolist(),
-    #     reference=results_df["reference"].tolist(),
-    #     hypothesis=results_df["generation_ablation"].tolist(),
-    # )
 
     results_df["ablation_lang"] = results_df["generation_ablation"].apply(
         lambda x: get_language(x),

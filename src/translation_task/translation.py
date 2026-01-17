@@ -34,9 +34,9 @@ def main(model_name: str, lang_source: str, lang_target: str):
     )
 
     h = model.get_activation_patch_map(
-        df["context"].tolist()[:50],
-        df["corrupted_context"].tolist()[:50],
-        df["context_answers"].tolist()[:50],
+        df["context"].tolist(),
+        df["corrupted_context"].tolist(),
+        df["context_answers"].tolist(),
         batch_size=1,
     )
 
