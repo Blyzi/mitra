@@ -1,9 +1,12 @@
 import sys
+
+import torch
 import transformers
 from datasets import Dataset
 from pathlib import Path
 from tqdm import tqdm
 import pandas as pd
+from datasets.utils.logging import disable_progress_bar
 
 sys.path.insert(0, Path.cwd().as_posix())
 
@@ -12,14 +15,19 @@ from src.utils.metricx_model import MT5ForRegression
 
 metricx_tokenizer = transformers.AutoTokenizer.from_pretrained("google/mt5-xl")
 metricx_model = MT5ForRegression.from_pretrained(
-    "google/metricx-24-hybrid-xxl-v2p6-bfloat16"
+    "google/metricx-24-hybrid-xxl-v2p6-bfloat16",
+    device_map="auto",
+    torch_dtype="bfloat16",
 )
+metricx_model.eval()
+
+disable_progress_bar()
 
 
 def eval_metricx(
     source: list[str], reference: list[str], hypothesis: list[str], is_qe: bool
 ) -> dict:
-    def _make_input(example, is_qe=is_qe):
+    def _make_input(example):
         if is_qe:
             example["input"] = (
                 "source: " + example["source"] + " candidate: " + example["hypothesis"]
@@ -62,17 +70,25 @@ def eval_metricx(
     ds.set_format(
         type="torch",
         columns=["input_ids", "attention_mask"],
-        # device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
+        device=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
         output_all_columns=True,
     )
 
     training_args = transformers.TrainingArguments(
-        per_device_eval_batch_size=1,
+        per_device_eval_batch_size=512,
         dataloader_pin_memory=False,
     )
+
+    data_collator = transformers.DataCollatorWithPadding(
+        tokenizer=metricx_tokenizer,
+        padding=True,
+        return_tensors="pt",
+    )
+
     trainer = transformers.Trainer(
         model=metricx_model,
         args=training_args,
+        data_collator=data_collator,
     )
     predictions, _, _ = trainer.predict(test_dataset=ds)
 
@@ -82,8 +98,12 @@ def eval_metricx(
 def generation(model: str, is_qe: bool):
     path = Path("results/translation_task/generation")
 
-    for file in tqdm(path.glob(f"baseline:{model.split('/')[-1]}*.csv")):
-        ds = pd.read_csv(file, dtype=str, keep_default_na=False)
+    for file in tqdm(
+        path.glob(f"baseline:{model.split('/')[-1]}*.csv"),
+        total=len(list(path.glob(f"baseline:{model.split('/')[-1]}*.csv"))),
+        desc="Baseline",
+    ):
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
 
         if is_qe:
             column_name = "metricx_qe_baseline"
@@ -93,20 +113,6 @@ def generation(model: str, is_qe: bool):
         if column_name in ds.columns.tolist():
             continue
 
-        for i in range(len(ds)):
-            if (
-                type(ds.loc[i, "query"]) is not str
-                or type(ds.loc[i, "reference"]) is not str
-                or type(ds.loc[i, "generation_baseline"]) is not str
-            ):
-                print(
-                    ds.loc[i, "query"],
-                    ds.loc[i, "reference"],
-                    ds.loc[i, "generation_baseline"],
-                )
-
-                raise ValueError("Non string value found.")
-
         scores = eval_metricx(
             source=[d for d in ds["query"]],
             reference=[d for d in ds["reference"]],
@@ -114,15 +120,16 @@ def generation(model: str, is_qe: bool):
             is_qe=is_qe,
         )
 
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
         ds[column_name] = scores
-
         ds.to_csv(file, index=False)
 
-    for file in tqdm(path.glob(f"{model.split('/')[-1]}*.csv")):
-        if "baseline:" in file.name:
-            continue
-
-        ds = pd.read_csv(file, dtype=str, keep_default_na=False)
+    for file in tqdm(
+        path.glob(f"{model.split('/')[-1]}*.csv"),
+        total=len(list(path.glob(f"{model.split('/')[-1]}*.csv"))),
+        desc="Generation",
+    ):
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
 
         if is_qe:
             column_name = "metricx_qe_function_vector"
@@ -139,15 +146,19 @@ def generation(model: str, is_qe: bool):
             is_qe=is_qe,
         )
 
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
         ds[column_name] = scores
-
         ds.to_csv(file, index=False)
 
 
 def ablation(model: str, is_qe: bool):
     path = Path("results/translation_task/ablation")
 
-    for file in tqdm(path.glob(f"{model.split('/')[-1]}*.csv")):
+    for file in tqdm(
+        path.glob(f"{model.split('/')[-1]}*.csv"),
+        desc="Ablation",
+        total=len(list(path.glob(f"{model.split('/')[-1]}*.csv"))),
+    ):
         if "baseline:" in file.name:
             continue
 
@@ -168,11 +179,15 @@ def ablation(model: str, is_qe: bool):
             is_qe=is_qe,
         )
 
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
         ds[column_name] = scores
-
         ds.to_csv(file, index=False)
 
-    for file in tqdm(path.glob(f"baseline:{model.split('/')[-1]}*.csv")):
+    for file in tqdm(
+        path.glob(f"baseline:{model.split('/')[-1]}*.csv"),
+        desc="Baseline",
+        total=len(list(path.glob(f"baseline:{model.split('/')[-1]}*.csv"))),
+    ):
         ds = pd.read_csv(file, dtype=str, na_filter=False)
 
         if is_qe:
@@ -190,8 +205,8 @@ def ablation(model: str, is_qe: bool):
             is_qe=is_qe,
         )
 
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
         ds[column_name] = scores
-
         ds.to_csv(file, index=False)
 
 
