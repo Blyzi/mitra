@@ -691,16 +691,16 @@ class Model:
         stop_pattern = re.compile("|".join(re.escape(w) for w in stops))
 
         # Group heads to ablate by layer
-        ablation_dict = defaultdict(list)
+        ablation_dict = defaultdict(set)
         for layer, head in heads_to_ablate:
-            ablation_dict[layer].append(head)
+            ablation_dict[layer].add(head)
 
-        random_ablation_dict_arr = [defaultdict(list) for _ in range(len(prompts))]
+        random_ablation_dict_arr = [defaultdict(set) for _ in range(len(prompts))]
         for random_ablation_dict in random_ablation_dict_arr:
             for layer, head in heads_to_ablate:
                 random_layer = random.randint(0, self.n_layers - 1)
                 random_head = random.randint(0, self.n_head - 1)
-                random_ablation_dict[random_layer].append(random_head)
+                random_ablation_dict[random_layer].add(random_head)
 
         for i, batch_prompts, _ in tqdm(
             batch(prompts, batch_size),
@@ -717,14 +717,15 @@ class Model:
                 with tracer.all():
                     if len(heads_to_ablate) > 0:
                         if random_ablation:
-                            for generation_idx in range(len(batch_prompts)):
-                                random_ablation_dict = random_ablation_dict_arr[
-                                    generation_idx
-                                ]
-                                for layer in sorted(random_ablation_dict.keys()):
-                                    out_proj = self.get_out_proj(
-                                        self.get_self_attn(self.layers[layer])
-                                    )
+                            
+                            for layer in sorted(random_ablation_dict.keys()):
+                                out_proj = self.get_out_proj(
+                                    self.get_self_attn(self.layers[layer])
+                                )
+                                for generation_idx in range(len(batch_prompts)):
+                                    random_ablation_dict = random_ablation_dict_arr[
+                                        generation_idx
+                                    ]
                                     for head in random_ablation_dict[layer]:
                                         out_proj.input[generation_idx, -1].reshape(
                                             self.n_head, self.d_head
@@ -737,7 +738,7 @@ class Model:
                                 )
                                 for head in ablation_dict[layer]:
                                     out_proj.input[:, -1].reshape(
-                                        self.n_head, self.d_head
+                                        len(batch_prompts), self.n_head, self.d_head
                                     )[:, head] = 0.0
 
                     logits.append(self.llm.lm_head.output[:, -1].argmax(dim=-1))
