@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#SBATCH --job-name=generation
-#SBATCH --output=logs/generation_%A_%a.out
-#SBATCH --error=logs/generation_%A_%a.out
+#SBATCH --job-name=ablation
+#SBATCH --output=logs/ablation%A_%a.out
+#SBATCH --error=logs/ablation%A_%a.out
 #SBATCH --array=0-19
 #SBATCH --partition=defq
 #SBATCH --cpus-per-task=36
 #SBATCH --mem=128G
 #SBATCH --hint=nomultithread
 #SBATCH --gres=gpu:1
-#SBATCH --time=04:00:00
+#SBATCH --time=03:00:00
 
 module purge
 module load cuda12.8/toolkit/12.8.1 cuda12.8/fft/12.8.1 cuda12.8/blas/12.8.1
@@ -49,7 +49,7 @@ export TOKENIZERS_PARALLELISM=false
 
 for lang_head in $(seq 0 5); do
     for trad_head in $(seq 0 5); do
-        apptainer exec --nv -B $XDG_CACHE_HOME mitra.sif python3.12 src/translation_task/generate.py $1 $source $target $source $target $trad_head $lang_head 
+        apptainer exec --nv -B $XDG_CACHE_HOME mitra.sif python3.12 src/translation_task/ablate.py $1 $source $target $source $target $trad_head $lang_head 
     done
 done
 

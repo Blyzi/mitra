@@ -1,30 +1,49 @@
 #!/bin/bash
 
-#SBATCH --job-name=generation
-#SBATCH --output=logs/generation_%A_%a.out
-#SBATCH --error=logs/generation_%A_%a.out
-#SBATCH --array=0-3
-#SBATCH --partition=gpu_p5
-#SBATCH --cpus-per-task=8
+#SBATCH --job-name=generation_nshot
+#SBATCH --output=logs/generation_nshot_%A_%a.out
+#SBATCH --error=logs/generation_nshot_%A_%a.out
+#SBATCH --array=0-13
+#SBATCH --partition=defq
+#SBATCH --cpus-per-task=36
+#SBATCH --mem=128G
 #SBATCH --hint=nomultithread
-#SBATCH --account=zln@a100
 #SBATCH --gres=gpu:1
-#SBATCH --constraint=a100
-#SBATCH --time=10:00:00
+#SBATCH --time=12:00:00
 
-nshot=$(($SLURM_ARRAY_TASK_ID + 1))
-source="eng_Latn"
-target="fra_Latn"
-model="google/gemma-3-4b-pt"
+module purge
+module load cuda12.8/toolkit/12.8.1 cuda12.8/fft/12.8.1 cuda12.8/blas/12.8.1
+
+# Define arrays
+en="eng_Latn"
+langs=(fra_Latn swh_Latn)
+nshots=(0 1 2 3 10 20 50)
+
+# Get number of elements
+num_langs=${#langs[@]}
+num_nshots=${#nshots[@]}
+total_tasks=$((num_langs * num_nshots))
+
+task_id=$SLURM_ARRAY_TASK_ID
+
+if [ $task_id -ge $total_tasks ]; then
+    echo "Error: task_id $task_id is out of range (max: $((total_tasks-1)))"
+    exit 1
+fi
+
+# Map task_id to (lang, index) pair
+lang_idx=$((task_id / num_nshots))
+nshot_idx=$((task_id % num_nshots))
+
+lang=${langs[$lang_idx]}
+nshot=${nshots[$nshot_idx]}
+source=$en
+target=$lang
 
 export HF_HUB_OFFLINE=1
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
-for lang_head in $(seq 0 4); do
-    for trad_head in $(seq 0 4); do
-        echo "Processing language pair: $source to $target with lang_head=$lang_head and trad_head=$trad_head"
-        uv run src/translation_nshot_task/generate.py $model $source $target $source $target $trad_head $lang_head $nshot
-    done
-done
+echo "Model: $1 - Language pair: $source -> $target - Nshot: $nshot"
+apptainer exec --nv -B $XDG_CACHE_HOME mitra.sif python3.12 src/translation_nshot_task/generate.py $1 $source $target $source $target 1 1 $nshot
 
 
