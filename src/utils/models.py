@@ -840,6 +840,154 @@ class Model:
 
         return head_output
 
+    def calculate_head_output_force(
+        self,
+        clean_context: list[str],
+        answers: list[str],
+        head: tuple[int, int],
+        batch_size: int = 1,
+        index: int | str = 0,
+    ) -> torch.Tensor:
+        n_samples = len(clean_context)
+        answer_tokens = self.tokenizer(
+            [f" {answers[i]}" for i in range(len(answers))],
+            add_special_tokens=False,
+        )["input_ids"]
+
+        if index == "random":
+            answer_indices = [
+                random.randint(0, len(answer_tokens[i]) - 1) for i in range(n_samples)
+            ]
+        else:
+            answer_indices = [index for _ in range(n_samples)]
+
+        # Build the prompts up to the max KL divergence token
+        patch_clean_prompts = [
+            clean_context[i]
+            + self.tokenizer.decode(answer_tokens[i][: answer_indices[i]])
+            for i in range(n_samples)
+        ]
+
+        head_output = torch.zeros((self.d_head,), device=self.llm.device)
+
+        with torch.no_grad():
+            for i, batch_prompts, current_batch_size in batch(
+                patch_clean_prompts, batch_size
+            ):
+                with self.llm.trace(batch_prompts):
+                    # Get the output projection layer
+                    # out_proj = self.llm.transformer.h[layer].attn.out_proj
+                    out_proj = self.get_out_proj(
+                        self.get_self_attn(self.layers[head[0]]),
+                    )
+
+                    # Get the mean output projection input (note, setting values of this tensor will not
+                    # have downstream effects on other tensors)
+                    batch_hidden_states = out_proj.input[:, -1].mean(dim=0).save()
+
+                # hidden_states += batch_hidden_states * current_batch_size / n_samples
+                head_output += (
+                    batch_hidden_states.reshape(self.n_head, self.d_head)[head[1]]
+                    * current_batch_size
+                    / n_samples
+                )
+
+        return head_output
+
+    def decode_task_vector(
+        self,
+        clean_context: list[str],
+        corrupted_context: list[str],
+        answers: list[str],
+        head: tuple[int, int],
+        batch_size: int = 1,
+    ) -> torch.Tensor:
+        n_samples = len(clean_context)
+        answer_tokens = self.tokenizer(
+            [f" {answers[i]}" for i in range(len(answers))],
+            add_special_tokens=False,
+        )["input_ids"]
+
+        full_prompts = [f"{clean_context[i]} {answers[i]}" for i in range(len(answers))]
+        full_corrupted_prompts = [
+            f"{corrupted_context[i]} {answers[i]}" for i in range(len(answers))
+        ]
+
+        kl_divergences = self.get_kl_divergence(
+            full_prompts,
+            full_corrupted_prompts,
+            # We start from -len(answer_tokens[i]) - 1 to -1 to only consider answer tokens starting from the last token of the question
+            windows=[(-len(answer_tokens[i]) - 1, -1) for i in range(n_samples)],
+            batch_size=batch_size,
+        )
+
+        max_kl_answer_indices = [
+            torch.argmax(kl_divergences[i]).item() for i in range(n_samples)
+        ]
+
+        # Build the prompts up to the max KL divergence token
+        patch_clean_prompts = [
+            clean_context[i]
+            + self.tokenizer.decode(answer_tokens[i][: max_kl_answer_indices[i]])
+            for i in range(n_samples)
+        ]
+
+        layer_idx, head_idx = head[0], head[1]
+
+        with torch.no_grad():
+            hidden_states = torch.zeros(
+                (self.n_head * self.d_head),
+                device=self.llm.device,
+                dtype=torch.bfloat16,
+            )
+
+            for i, batch_prompts, current_batch_size in batch(
+                patch_clean_prompts, batch_size
+            ):
+                with self.llm.trace(batch_prompts):
+                    # Get the output projection layer
+                    # out_proj = self.llm.transformer.h[layer].attn.out_proj
+                    out_proj = self.get_out_proj(
+                        self.get_self_attn(self.layers[layer_idx]),
+                    )
+
+                    # Get the mean output projection input (note, setting values of this tensor will not
+                    # have downstream effects on other tensors)
+                    batch_hidden_states = out_proj.input[:, -1].mean(dim=0).save()
+
+                hidden_states += batch_hidden_states * current_batch_size / n_samples
+
+            # Zero-ablate all heads which aren't in our list, then get the output (which
+            # will be the sum over the heads we actually do want!)
+            heads_to_ablate = set(range(self.n_head)) - {head_idx}
+
+            # Ablate the unimportant heads
+            for head in heads_to_ablate:
+                hidden_states.reshape(self.n_head, self.d_head)[head] = 0.0
+
+            with self.llm.trace(" ") as tracer:
+                out_proj = self.get_out_proj(
+                    self.get_self_attn(self.layers[layer_idx]),
+                )
+
+                # Now that we've zeroed all unimportant heads, get the output & add it to the list
+                # (we need a single batch dimension so we can use `out_proj`)
+                out_proj_output = out_proj(hidden_states.unsqueeze(0)).squeeze()
+                post_attn_norm = self.layers[layer_idx].post_attention_layernorm
+                normalized_attn_output = post_attn_norm(
+                    out_proj_output.unsqueeze(0)
+                ).squeeze()
+
+                final_norm = self.llm.model.norm
+                normalized_output = final_norm(
+                    normalized_attn_output.unsqueeze(0)
+                ).squeeze()
+
+                # Decode the function vector with the de-embedding matrix of the model
+                logits = self.llm.lm_head(normalized_output).save()
+
+        return logits
+
     def generate_with_fn_vector(
         self,
         prompts: list[str],
@@ -972,7 +1120,6 @@ class Model:
                 with tracer.all():
                     if len(heads_to_ablate) > 0:
                         if random_ablation:
-                            
                             for layer in sorted(random_ablation_dict.keys()):
                                 out_proj = self.get_out_proj(
                                     self.get_self_attn(self.layers[layer])
