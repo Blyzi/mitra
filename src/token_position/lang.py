@@ -75,7 +75,7 @@ def main(model_name, lang_source, lang_target, token_selection):
     Path("results/token_position/logprobs_diff_lang").mkdir(parents=True, exist_ok=True)
     torch.save(
         h,
-        f"results/token_position/logprobs_diff_lang/{model_name.split('/')[-1]}:{lang_source}:{lang_target}.pt",
+        f"results/token_position/logprobs_diff_lang/{model_name.split('/')[-1]}:{lang_source}:{lang_target}:{token_selection}.pt",
     )
 
 
