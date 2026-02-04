@@ -38,13 +38,14 @@ def main(
 
 
     h = model.get_activation_patch_map(
-        df["context"].tolist()[:142],
-        df["corrupted_context"].tolist()[:142],
-        df["context_answers"].tolist()[:142],
+        df["context"].tolist()[:200],
+        df["corrupted_context"].tolist()[:200],
+        df["context_answers"].tolist()[:200],
         batch_size=1,
         selected_heads=None,
     )
 
+    Path("results/translation_task_nshot/logprobs_diff_trad").mkdir(parents=True, exist_ok=True)
     torch.save(
         h,
         f"results/translation_task_nshot/logprobs_diff_trad/{model_name.split('/')[-1]}:{lang_source}:{lang_target}:{nshot}.pt",

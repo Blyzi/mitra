@@ -16,25 +16,8 @@ from src.utils.fasttext import get_language, flores_langs
 from src.utils.add_vectors import add_vectors
 
 
-def get_noshot_prompt(prompt: str, source: str, target: str) -> str:
-    map = {
-        "eng_Latn": "English",
-        "fra_Latn": "French",
-        "spa_Latn": "Spanish",
-        "por_Latn": "Portuguese",
-        "jpn_Jpan": "Japanese",
-        "zho_Hans": "Chinese",
-        "hin_Deva": "Hindi",
-        "arb_Arab": "Arabic",
-        "rus_Cyrl": "Russian",
-        "swh_Latn": "Swahili",
-        "wol_Latn": "Wolof",
-    }
-    return f"Translate the following sentence from {map[source]} to {map[target]}:\n{prompt}"
-
-
 def get_logprobs_diff(
-    model_name: str, langs: list[str], type: Literal["lang", "trad"]
+    model_name: str, langs: list[str], type: Literal["lang", "trad"], nshot: int
 ) -> dict[tuple[str, str], torch.Tensor]:
     logs_probs_diff = {}
 
@@ -44,10 +27,10 @@ def get_logprobs_diff(
                 continue
 
             if Path(
-                f"results/translation_task_nshot/logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}.pt"
+                f"results/translation_task_nshot/logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}:{nshot}.pt"
             ).exists():
                 log_probs_diff = torch.load(
-                    f"results/translation_task_nshot/logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}.pt",
+                    f"results/translation_task_nshot/logprobs_diff_{type}/{model_name.split('/')[-1]}:{source}:{target}:{nshot}.pt",
                     map_location="cpu",
                 )
                 logs_probs_diff[(source, target)] = log_probs_diff
@@ -55,30 +38,14 @@ def get_logprobs_diff(
     return logs_probs_diff
 
 
-def get_all_answers(nshot: int = 5) -> dict[str, list[str]]:
+def get_all_answers():
     answer_dict = {}
-    ds = load_dataset("facebook/flores", "all")["dev"]
+    ds = load_dataset("facebook/flores", "all")["devtest"]
 
     for lang in flores_langs:
-        pairs = ds.map(
-            lambda x: {
-                "pairs": (
-                    "",
-                    " " + x["sentence_" + lang],
-                )
-            }
-        )["pairs"]
-
-        icl = ICLDataset(pairs, bidirectional=False)
-
-        df = icl.get_prompts(
-            n_shot=nshot,
-            n_shot_format="Q:{x}\nA:{y}\n\n",
-            question_format="Q:{x}\nA:",
-            local_corruption=False,
-        )
-
-        answer_dict[lang] = df["noshot_answers"].tolist()[:142]
+        answer_dict[lang] = ds.map(lambda x: {"answer": " " + x["sentence_" + lang]})[
+            "answer"
+        ]
 
     return answer_dict
 
@@ -89,8 +56,8 @@ def main(
     trad_target,
     lang_source,
     lang_target,
-    num_trad_heads,
-    num_lang_heads,
+    perc_trad_heads,
+    perc_lang_heads,
     nshot,
 ):
     fake_langs = list(
@@ -135,6 +102,15 @@ def main(
         }
     )["pairs"]
 
+    test_pairs = load_dataset("facebook/flores", "all")["devtest"].map(
+        lambda x: {
+            "pairs": (
+                " " + x["sentence_" + lang_source],
+                " " + x["sentence_" + lang_target],
+            )
+        }
+    )["pairs"]
+
     langs = [
         "eng_Latn",
         "fra_Latn",
@@ -174,11 +150,35 @@ def main(
         local_corruption=False,
     )
 
+    test_queries = [pair[0].strip() for pair in test_pairs]
+    test_prompts = ["Q:{x}\nA:".format(x=pair[0]) for pair in test_pairs]
+    test_answers = [pair[1].strip() for pair in test_pairs]
+
     model = get_model(model_name)
 
-    logprobs_diff_langs = get_logprobs_diff(model_name, langs, type="lang")
+    num_lang_heads = perc_lang_heads * round(model.n_head * model.n_layers * 0.01)
+    num_trad_heads = perc_trad_heads * round(model.n_head * model.n_layers * 0.01)
 
-    logprobs_diff_trads = get_logprobs_diff(model_name, langs, type="trad")
+    # Logs
+    print("=" * 20, "Generation with function vectors and few-shot", "=" * 20)
+    print(f"Model: {model_name}")
+    print(f"Language pair: {lang_source} -> {lang_target}")
+    print(f"Translation pair: {trad_source} -> {trad_target}")
+    print(f"Number of translation heads: {num_trad_heads} ({perc_trad_heads}%)")
+    print(f"Number of language heads: {num_lang_heads} ({perc_lang_heads}%)")
+    print(f"N-shot: {nshot}")
+    print("=" * 60)
+
+    # Check if the generation results already exist
+    if Path(
+       f"results/translation_task_nshot/generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}:{nshot}.csv",
+    ).exists():
+        print("Generation results already exist. Exiting.")
+        return
+
+    logprobs_diff_langs = get_logprobs_diff(model_name, langs, type="lang", nshot=nshot)
+
+    logprobs_diff_trads = get_logprobs_diff(model_name, langs, type="trad", nshot=nshot)
 
     selected_heads_lang = get_top_k(
         logprobs_diff_langs[(lang_source, lang_target)].mean(dim=-1), num_lang_heads
@@ -192,9 +192,9 @@ def main(
 
     if len(selected_heads_lang) > 0:
         h_lang = model.calculate_fn_vector(
-            df_lang["context"].tolist()[:142],
-            df_lang_fake["context"].tolist()[:142],
-            df_lang["context_answers"].tolist()[:142],
+            df_lang["context"].tolist()[:200],
+            df_lang_fake["context"].tolist()[:200],
+            df_lang["context_answers"].tolist()[:200],
             selected_heads_lang,
             batch_size=1,
         )
@@ -203,9 +203,9 @@ def main(
 
     if len(selected_heads_trad) > 0:
         h_trad = model.calculate_fn_vector(
-            df_trad["context"].tolist()[:142],
-            df_trad["corrupted_context"].tolist()[:142],
-            df_trad["context_answers"].tolist()[:142],
+            df_trad["context"].tolist()[:200],
+            df_trad["corrupted_context"].tolist()[:200],
+            df_trad["context_answers"].tolist()[:200],
             selected_heads_trad,
             batch_size=1,
         )
@@ -215,45 +215,20 @@ def main(
     h = add_vectors(h_lang, h_trad, factor_v1=1.0, factor_v2=1.0)
 
     generations_function_vector = model.generate_with_fn_vector(
-        df_lang["noshot_prompt"].tolist(),
+        test_prompts,
         fn_vector=h,
-        max_new_tokens=75,
-        stops=["\n", "<eos>", "<|endoftext|>"],
+        max_new_tokens=100,
+        stops=["\n", "\n\n", "<eos>", "<|endoftext|>", "<|end_of_text|>"],
+        batch_size=2000
     )
 
     print("Generations with function vector done.")
 
-    # if baseline generations do not exist, compute and save them
-    if not Path(
-        f"results/translation_task_nshot/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv"
-    ).exists():
-        generation_baseline_answer = model.generate(
-            df_lang["noshot_prompt"]
-            .apply(lambda x: get_noshot_prompt(x, lang_source, lang_target))
-            .tolist(),
-            max_new_tokens=75,
-            stops=["\n", "<eos>", "<|endoftext|>"],
-        )
-
-        with open(
-            f"results/translation_task_nshot/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv",
-            "w",
-        ) as f:
-            pd.DataFrame({"generation_baseline": generation_baseline_answer}).to_csv(
-                f, index=False
-            )
-
-    generation_baseline = pd.read_csv(
-        f"results/translation_task_nshot/generation/baseline:{model_name.split('/')[-1]}:{lang_source}:{lang_target}.csv",
-        dtype=str,
-        na_filter=False,
-    )["generation_baseline"].tolist()
-
     results_df = pd.DataFrame(
         {
-            "prompt": df_lang["noshot_prompt"],
-            "reference": df_lang["noshot_answers"],
-            "generation_baseline": generation_baseline,
+            "prompt": test_prompts,
+            "query": test_queries,
+            "reference": test_answers,
             "generation_function_vector": generations_function_vector,
         },
         dtype=str,
@@ -261,34 +236,18 @@ def main(
 
     print("Evaluating generations...")
 
-    results_df["bleu_baseline"] = results_df.apply(
-        lambda row: eval_bleu(
-            reference=row["reference"].strip(),
-            generation=row["generation_baseline"].strip(),
-        ),
-        axis=1,
-    )
-
     results_df["bleu_function_vector"] = results_df.apply(
         lambda row: eval_bleu(
-            reference=row["reference"].strip(),
-            generation=row["generation_function_vector"].strip(),
-        ),
-        axis=1,
-    )
-
-    results_df["chrf_baseline"] = results_df.apply(
-        lambda row: eval_chrf(
-            reference=row["reference"].strip(),
-            generation=row["generation_baseline"].strip(),
+            reference=row["reference"],
+            generation=row["generation_function_vector"],
         ),
         axis=1,
     )
 
     results_df["chrf_function_vector"] = results_df.apply(
         lambda row: eval_chrf(
-            reference=row["reference"].strip(),
-            generation=row["generation_function_vector"].strip(),
+            reference=row["reference"],
+            generation=row["generation_function_vector"],
         ),
         axis=1,
     )
@@ -302,22 +261,25 @@ def main(
     for i, row in results_df.iterrows():
         lang = row["function_vector_lang"]
         if lang in all_answers:
+            results_df.at[i, "reference_lang"] = all_answers[lang][i]
             results_df.at[i, "bleu_function_vector_lang"] = eval_bleu(
-                reference=all_answers[lang][i].strip(),
-                generation=row["generation_function_vector"].strip(),
+                reference=all_answers[lang][i],
+                generation=row["generation_function_vector"],
             )
             results_df.at[i, "chrf_function_vector_lang"] = eval_chrf(
-                reference=all_answers[lang][i].strip(),
-                generation=row["generation_function_vector"].strip(),
+                reference=all_answers[lang][i],
+                generation=row["generation_function_vector"],
             )
         else:
+            results_df.at[i, "reference_lang"] = ""
             results_df.at[i, "bleu_function_vector_lang"] = None
             results_df.at[i, "chrf_function_vector_lang"] = None
 
     print("Saving results...")
 
+    Path("results/translation_task_nshot/generation/").mkdir(parents=True, exist_ok=True)
     results_df.to_csv(
-        f"results/translation_task_nshot/generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}.csv",
+        f"results/translation_task_nshot/generation/{model_name.split('/')[-1]}:{trad_source}:{trad_target}:{lang_source}:{lang_target}:{num_trad_heads}:{num_lang_heads}:{nshot}.csv",
         index=False,
     )
 
@@ -325,7 +287,7 @@ def main(
 if __name__ == "__main__":
     if len(sys.argv) != 9:
         print(
-            "Usage: python generate.py <model_name> <trad_source> <trad_target> <lang_source> <lang_target> <number of trad_heads> <number of lang_heads> <nshot>"
+            "Usage: python generate.py <model_name> <trad_source> <trad_target> <lang_source> <lang_target> <percentage of trad_heads> <percentage of lang_heads> <nshot>"
         )
         sys.exit(1)
 
@@ -335,8 +297,8 @@ if __name__ == "__main__":
         trad_target,
         lang_source,
         lang_target,
-        num_trad_heads,
-        num_lang_heads,
+        perc_trad_heads,
+        perc_lang_heads,
         nshot,
     ) = (
         sys.argv[1],
@@ -355,7 +317,7 @@ if __name__ == "__main__":
         trad_target,
         lang_source,
         lang_target,
-        num_trad_heads,
-        num_lang_heads,
+        perc_trad_heads,
+        perc_lang_heads,
         nshot,
     )

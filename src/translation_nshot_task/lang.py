@@ -65,13 +65,14 @@ def main(model_name, lang_source, lang_target, nshot: int):
     )
 
     h = model.get_activation_patch_map(
-        df_target["context"].tolist()[:142],
-        df_fake["context"].tolist()[:142],
-        df_target["context_answers"].tolist()[:142],
+        df_target["context"].tolist()[:200],
+        df_fake["context"].tolist()[:200],
+        df_target["context_answers"].tolist()[:200],
         batch_size=1,
         selected_heads=None,
     )
 
+    Path("results/translation_task_nshot/logprobs_diff_lang").mkdir(parents=True, exist_ok=True)
     torch.save(
         h,
         f"results/translation_task_nshot/logprobs_diff_lang/{model_name.split('/')[-1]}:{lang_source}:{lang_target}:{nshot}.pt",
