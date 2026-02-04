@@ -10,6 +10,7 @@ from src.utils.functions import batch
 import gc
 import random
 import re
+from typing import Literal
 
 
 class Model:
@@ -246,6 +247,144 @@ class Model:
                         )
 
             return logprobs_diff
+        
+    def get_activation_patch_map_force(
+        self,
+        prompts: list[str],
+        corrupted_prompts: list[str],
+        answers: list[str],
+        batch_size: int = 1,
+        token_selection: Literal["random"] | int = 0,
+    ) -> torch.Tensor:
+        heads = range(self.n_head)
+        n_samples = len(prompts)
+        answer_tokens = self.tokenizer(
+            answers,
+            add_special_tokens=False,
+        )["input_ids"]
+
+        if type(token_selection) == int:
+            answer_indices = [
+                token_selection for _ in range(n_samples)
+            ]
+        elif token_selection == "random":
+            answer_indices = [
+                random.randint(0, len(answer_tokens[i]) - 1) for i in range(n_samples)
+            ]
+
+        # Get the token IDs of the correct completions after the max KL divergence token
+        correct_completion_ids = [
+            # We don't add 1 because there is a shift of -1 because we start from the last token of the question
+            answer_tokens[i][answer_indices[i]]
+            for i in range(n_samples)
+        ]
+
+        # Build the prompts up to the max KL divergence token
+        patch_prompts = [
+            prompts[i]
+            + self.tokenizer.decode(answer_tokens[i][: answer_indices[i]])
+            for i in range(n_samples)
+        ]
+        patch_corrupted_prompts = [
+            corrupted_prompts[i]
+            + self.tokenizer.decode(answer_tokens[i][: answer_indices[i]])
+            for i in range(n_samples)
+        ]
+
+        with torch.no_grad():
+            z_dict = {}
+            head_tensor = torch.zeros(
+                (n_samples, self.n_layers, self.n_head, self.d_head),
+                device=self.llm.device,
+            )
+
+            # We compute the mean activations for each head over the patch prompts
+            for i, patch_prompt in enumerate(
+                tqdm(patch_prompts, desc="Regular Prompts")
+            ):
+                with self.llm.trace(patch_prompt):
+                    for layer in range(self.n_layers):
+                        z = self.get_out_proj(
+                            self.get_self_attn(self.layers[layer]),
+                        ).input[0, -1]
+
+                        z_reshaped = z.reshape(self.n_head, self.d_head)
+
+                        for head in heads:
+                            head_tensor[i, layer, head] = z_reshaped[head].save()
+
+            for layer in range(len(self.layers)):
+                for head in heads:
+                    z_dict[(layer, head)] = head_tensor[:, layer, head].mean(dim=0)
+
+            # We compute the correct logprobs for the corrupted prompts
+            correct_logprobs_corrupted = torch.zeros(
+                (n_samples,), device=self.llm.device
+            )
+
+            for i, patch_corrupted_prompt in enumerate(
+                tqdm(patch_corrupted_prompts, desc="Corrupted prompts")
+            ):
+                with self.llm.trace(patch_corrupted_prompt):
+                    logits = self.llm.lm_head.output[0, -1]
+
+                    correct_logprobs_corrupted[i] = logits.log_softmax(dim=-1)[
+                        correct_completion_ids[i]
+                    ].save()
+
+            # We now do the intervention by patching in the mean activations head by head
+            correct_logprobs_intervention = torch.zeros(
+                (self.n_layers, self.n_head, n_samples), device=self.llm.device
+            )
+
+            for layer in tqdm(range(len(self.layers)), desc="Layers", position=0):
+                for head in tqdm(heads, desc="Heads", position=1):
+                    correct_logprobs = torch.zeros((n_samples,), device=self.llm.device)
+
+                    for i, batch_patch_corrupted_prompts, current_batch_size in batch(
+                        patch_corrupted_prompts, batch_size
+                    ):
+                        with self.llm.trace(batch_patch_corrupted_prompts):
+                            # Get hidden states, reshape to get head dimension, then set it to the action vector
+                            z = self.get_out_proj(
+                                self.get_self_attn(self.layers[layer]),
+                            ).input[:, -1]
+
+                            z.reshape(current_batch_size, self.n_head, self.d_head)[
+                                :, head
+                            ] = z_dict[(layer, head)]
+
+                            # Get logprobs at the end, which we'll compare with our corrupted logprobs
+                            batch_correct_logprobs = (
+                                self.llm.lm_head.output[:, -1]
+                                .log_softmax(dim=-1)[
+                                    torch.arange(current_batch_size),
+                                    correct_completion_ids[i : i + current_batch_size],
+                                ]
+                                .save()
+                            )
+
+                        correct_logprobs[i : i + current_batch_size] = (
+                            batch_correct_logprobs
+                        )
+
+                    correct_logprobs_intervention[layer, head] = correct_logprobs
+
+                gc.collect()
+                torch.cuda.empty_cache()
+
+            logprobs_diff = torch.zeros(
+                (self.n_layers, self.n_head, n_samples), device=self.llm.device
+            )
+
+            for layer in range(len(self.layers)):
+                for head in heads:
+                    logprobs_diff[layer, head, :] = (
+                        correct_logprobs_intervention[layer, head, :]
+                        - correct_logprobs_corrupted
+                    )
+
+            return logprobs_diff
 
     def get_attribution_patch_map(
         self,
@@ -397,6 +536,122 @@ class Model:
 
             return patching_results
 
+    def calculate_fn_vector_force(
+        self,
+        clean_context: list[str],
+        answers: list[str],
+        head_list: list[tuple[int, int]],
+        token_position: Literal["random"] | int = 0,
+        batch_size: int = 1,
+    ) -> dict[int, torch.Tensor]:
+        """
+        Calculates a function vector for the given heads, by averaging the output projection inputs
+        over the given prompts.
+
+        Inputs:
+            model: LanguageModel
+                the transformer you're doing this computation with
+            dataset: ICLDataset
+                the dataset of clean prompts from which we'll extract the function vector (we'll also
+                create a corrupted version of this dataset for interventions)
+            head_list: list[tuple[int, int]]
+                list of attention heads we're calculating the function vector from
+        """
+        n_samples = len(clean_context)
+        answer_tokens = self.tokenizer(
+            [f" {answers[i]}" for i in range(len(answers))],
+            add_special_tokens=False,
+        )["input_ids"]        
+
+        if token_position == "random":
+            answer_indices = [
+                random.randint(0, len(answer_tokens[i]) - 1) for i in range(n_samples)
+            ]
+        elif type(token_position) == int:
+            answer_indices = [
+                token_position for _ in range(n_samples)
+            ]
+
+        # Build the prompts up to the max KL divergence token
+        patch_clean_prompts = [
+            clean_context[i]
+            + self.tokenizer.decode(answer_tokens[i][: answer_indices[i]])
+            for i in range(n_samples)
+        ]
+
+        # Turn head_list into a dict of {layer: heads we need in this layer}
+        head_dict = defaultdict(set)
+        for layer, head in head_list:
+            head_dict[layer].add(head)
+
+        fn_vector_dict = {}
+
+        with torch.no_grad():
+            for layer, head_list in head_dict.items():
+                hidden_states = torch.zeros(
+                    (self.n_head * self.d_head),
+                    device=self.llm.device,
+                    dtype=torch.bfloat16,
+                )
+
+                for i, batch_prompts, current_batch_size in batch(
+                    patch_clean_prompts, batch_size
+                ):
+                    batch_heads_norms = torch.zeros(
+                        (self.n_head,), device=self.llm.device
+                    )
+                    with self.llm.trace(batch_prompts):
+                        # Get the output projection layer
+                        # out_proj = self.llm.transformer.h[layer].attn.out_proj
+                        out_proj = self.get_out_proj(
+                            self.get_self_attn(self.layers[layer]),
+                        )
+
+                        # Get the mean output projection input (note, setting values of this tensor will not
+                        # have downstream effects on other tensors)
+                        batch_hidden_states = out_proj.input[:, -1].mean(dim=0).save()
+
+                        # Compute the mean norm for each head that is
+
+                        for head in head_list:
+                            batch_heads_norms[head] = (
+                                out_proj.input[:, -1]
+                                .reshape(current_batch_size, self.n_head, self.d_head)[
+                                    :, head, :
+                                ]
+                                .norm(dim=-1)
+                                .mean()
+                                .save()
+                            )
+
+                    hidden_states += (
+                        batch_hidden_states * current_batch_size / n_samples
+                    )
+
+                # Zero-ablate all heads which aren't in our list, then get the output (which
+                # will be the sum over the heads we actually do want!)
+                heads_to_ablate = set(range(self.n_head)) - head_dict[layer]
+                print(
+                    f"Layer {layer}, ablating heads: {heads_to_ablate}, keeping heads: {head_list}"
+                )
+
+                # Ablate the unimportant heads
+                for head in heads_to_ablate:
+                    hidden_states.reshape(self.n_head, self.d_head)[head] = 0.0
+
+                with self.llm.trace(" ") as tracer:
+                    out_proj = self.get_out_proj(
+                        self.get_self_attn(self.layers[layer]),
+                    )
+
+                    # Now that we've zeroed all unimportant heads, get the output & add it to the list
+                    # (we need a single batch dimension so we can use `out_proj`)
+                    out_proj_output = out_proj(hidden_states.unsqueeze(0)).squeeze()
+
+                    fn_vector_dict[layer] = out_proj_output.save()
+
+        return fn_vector_dict
+    
     def calculate_fn_vector(
         self,
         clean_context: list[str],
