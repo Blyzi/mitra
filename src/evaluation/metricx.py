@@ -12,6 +12,7 @@ sys.path.insert(0, Path.cwd().as_posix())
 
 from src.utils.metricx_model import MT5ForRegression
 
+disable_progress_bar()
 
 metricx_tokenizer = transformers.AutoTokenizer.from_pretrained("google/mt5-xl")
 metricx_model = MT5ForRegression.from_pretrained(
@@ -20,8 +21,6 @@ metricx_model = MT5ForRegression.from_pretrained(
     torch_dtype="bfloat16",
 )
 metricx_model.eval()
-
-disable_progress_bar()
 
 
 def eval_metricx(
@@ -95,9 +94,7 @@ def eval_metricx(
     return predictions
 
 
-def generation(model: str, is_qe: bool):
-    path = Path("results/translation_task/generation")
-
+def generation(path: Path, model: str, is_qe: bool):
     for file in tqdm(
         path.glob(f"baseline:{model.split('/')[-1]}*.csv"),
         total=len(list(path.glob(f"baseline:{model.split('/')[-1]}*.csv"))),
@@ -165,9 +162,9 @@ def ablation(model: str, is_qe: bool):
         ds = pd.read_csv(file, dtype=str, na_filter=False)
 
         if is_qe:
-            column_name = "metricx_qe_function_vector"
+            column_name = "metricx_qe_ablation"
         else:
-            column_name = "metricx_function_vector"
+            column_name = "metricx_ablation"
 
         if column_name in ds.columns.tolist():
             continue
@@ -175,7 +172,7 @@ def ablation(model: str, is_qe: bool):
         scores = eval_metricx(
             source=[d for d in ds["query"]],
             reference=[d for d in ds["reference"]],
-            hypothesis=[d for d in ds["generation_function_vector"]],
+            hypothesis=[d for d in ds["generation_ablation"]],
             is_qe=is_qe,
         )
 
@@ -209,10 +206,42 @@ def ablation(model: str, is_qe: bool):
         ds[column_name] = scores
         ds.to_csv(file, index=False)
 
+def baseline_few_shot(model_name: str, is_qe: bool):
+    path = Path("results/translation_task_nshot/baseline_few_shot")
+    
+    for file in tqdm(
+        path.glob(f"{model_name.split('/')[-1]}:*.csv"),
+        desc="Baseline Few-Shot",
+        total=len(
+            list(
+                path.glob(f"{model_name.split('/')[-1]}:*.csv")
+            )
+        ),
+    ):
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
+
+        if is_qe:
+            column_name = "metricx_qe_baseline"
+        else:
+            column_name = "metricx_baseline"
+
+        if column_name in ds.columns.tolist():
+            continue
+
+        scores = eval_metricx(
+            source=[d for d in ds["query"]],
+            reference=[d for d in ds["reference"]],
+            hypothesis=[d for d in ds["generation_baseline"]],
+            is_qe=is_qe,
+        )
+
+        ds = pd.read_csv(file, dtype=str, na_filter=False)
+        ds[column_name] = scores
+        ds.to_csv(file, index=False)
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("Usage: python metricx.py <model> <generation|ablation> <is_qe>")
+        print("Usage: python metricx.py <model> <generation|ablation|amplification_factor> <is_qe>")
         sys.exit(1)
 
     model = sys.argv[1]
@@ -220,6 +249,15 @@ if __name__ == "__main__":
     is_qe = sys.argv[3].lower() == "true"
 
     if folder == "generation":
-        generation(model, is_qe)
-    else:
+        path = Path("results/translation_task/generation")
+        generation(path, model, is_qe)
+    elif folder == "amplification_factor":
+        path = Path("results/amplification_factor")
+        generation(path, model, is_qe)
+    elif folder == "token_position":
+        path = Path("results/token_position/generation")
+        generation(path, model, is_qe)
+    elif folder == "baseline_few_shot":
+        baseline_few_shot(model, is_qe)
+    elif folder == "ablation":
         ablation(model, is_qe)
